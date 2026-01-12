@@ -8,7 +8,7 @@ services:
     volumes:
       - pgdata:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      test: [ "CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}" ]
       interval: 10s
       timeout: 5s
       retries: 10
@@ -18,7 +18,7 @@ services:
   pgadmin:
     image: dpage/pgadmin4:latest
     container_name: rag-pgadmin
-    profiles: ["tools"]
+    profiles: [ "tools" ]
     env_file: .env
     ports:
       - "${PGADMIN_PORT:-5050}:80"
@@ -30,22 +30,6 @@ services:
     networks:
       - rag
 
-  redis:
-    image: redis:7-alpine
-    container_name: rag-redis
-    profiles: ["tools"]
-    ports:
-      - "${REDIS_PORT:-6379}:6379"
-    volumes:
-      - redis-data:/data
-    healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
-      interval: 10s
-      timeout: 5s
-      retries: 10
-    networks:
-      - rag
-
 networks:
   rag:
     driver: bridge
@@ -53,4 +37,3 @@ networks:
 volumes:
   pgdata:
   pgadmin-data:
-  redis-data:
