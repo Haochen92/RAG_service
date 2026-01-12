@@ -27,17 +27,18 @@ poetry run pre-commit install
 ```bash
 cp .env.example .env
 docker compose up -d db
+# Run DB schema migrations
+poetry run alembic upgrade head
 ```
-
-Database initialization runs from `infra/postgres/init.sql` on first boot.
 
 Optional tools (pgAdmin + Redis):
 ```bash
 docker compose --profile tools up -d pgadmin redis
 ```
 
-Note: the demo schema uses `vector(768)` in `infra/postgres/init.sql`. If you change the embedding dimension,
-recreate the DB volume (`docker compose down -v`) or add a migration later.
+Note: the demo schema uses `vector(768)`. If you change the embedding dimension,
+add a migration (`poetry run alembic revision --autogenerate -m "resize embedding vector"`) and upgrade.
+The DB image is ParadeDB (Postgres 17) so `pg_bm25` is available out of the box (created in the initial migration).
 
 ## Run the API
 ```bash

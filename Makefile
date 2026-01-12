@@ -1,4 +1,4 @@
-.PHONY: infra-up infra-down infra-reset api notebook fmt lint test
+.PHONY: infra-up infra-down infra-reset api notebook fmt lint test migrate
 
 infra-up:
 	docker compose up -d db
@@ -25,3 +25,9 @@ lint:
 
 test:
 	poetry run pytest -q
+
+migrate:
+	poetry run alembic upgrade head
+
+
+
