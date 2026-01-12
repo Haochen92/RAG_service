@@ -4,7 +4,7 @@ services:
     container_name: rag-postgres
     env_file: .env
     ports:
-      - "${POSTGRES_PORT:-5432}:5432"
+      - "${POSTGRES_PORT:-6006}:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
     healthcheck:
@@ -18,10 +18,9 @@ services:
   pgadmin:
     image: dpage/pgadmin4:latest
     container_name: rag-pgadmin
-    profiles: [ "tools" ]
     env_file: .env
     ports:
-      - "${PGADMIN_PORT:-5050}:80"
+      - "${PGADMIN_PORT:-5051}:80"
     volumes:
       - pgadmin-data:/var/lib/pgadmin
     depends_on:
