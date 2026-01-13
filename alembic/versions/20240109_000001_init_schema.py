@@ -1,4 +1,5 @@
 """Initial schema for documents and chunks."""
+
 from __future__ import annotations
 
 import sqlalchemy as sa
@@ -18,7 +19,7 @@ EMBEDDING_DIM = 768
 def upgrade() -> None:
     op.execute("CREATE EXTENSION IF NOT EXISTS vector")
     op.execute("CREATE EXTENSION IF NOT EXISTS pgcrypto")
-    op.execute("CREATE EXTENSION IF NOT EXISTS pg_bm25")
+    op.execute("CREATE EXTENSION IF NOT EXISTS pg_search")
 
     op.create_table(
         "documents",
@@ -83,6 +84,6 @@ def downgrade() -> None:
     op.drop_index("chunks_document_id_idx", table_name="chunks")
     op.drop_table("chunks")
     op.drop_table("documents")
-    op.execute("DROP EXTENSION IF EXISTS pg_bm25")
+    op.execute("DROP EXTENSION IF EXISTS pg_search")
     op.execute("DROP EXTENSION IF EXISTS vector")
     op.execute("DROP EXTENSION IF EXISTS pgcrypto")
