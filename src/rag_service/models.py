@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 import uuid
 from datetime import datetime
 from typing import Any, Optional
@@ -11,7 +9,7 @@ from sqlalchemy.sql import func
 from sqlmodel import Field, Relationship, SQLModel
 
 
-EMBEDDING_DIM = 768
+EMBEDDING_DIM = 1536
 
 
 class Document(SQLModel, table=True):
@@ -26,7 +24,7 @@ class Document(SQLModel, table=True):
     source: Optional[str] = Field(default=None, index=True)
     title: Optional[str] = Field(default=None)
 
-    metadata: dict[str, Any] = Field(
+    doc_metadata: dict[str, Any] = Field(
         default_factory=dict,
         sa_column=Column(JSONB, nullable=False, server_default=text("'{}'::jsonb")),
     )
@@ -76,7 +74,7 @@ class Chunk(SQLModel, table=True):
         sa_column=Column(Vector(EMBEDDING_DIM), nullable=False),
     )
 
-    metadata: dict[str, Any] = Field(
+    chunk_metadata: dict[str, Any] = Field(
         default_factory=dict,
         sa_column=Column(JSONB, nullable=False, server_default=text("'{}'::jsonb")),
     )
