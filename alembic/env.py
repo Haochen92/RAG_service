@@ -10,11 +10,12 @@ from alembic import context
 from sqlalchemy import pool
 from sqlalchemy.engine import Connection
 from sqlalchemy.ext.asyncio import async_engine_from_config
+from rag_service.settings import settings
+from rag_service import models
 
 BASE_DIR = Path(__file__).resolve().parents[1]
 sys.path.append(str(BASE_DIR / "src"))
 
-from rag_service.settings import settings  # noqa: E402
 
 config = context.config
 config.set_main_option("sqlalchemy.url", settings.database_url)
@@ -23,6 +24,14 @@ if config.config_file_name is not None:
     fileConfig(config.config_file_name)
 
 target_metadata = SQLModel.metadata
+IGNORED_TABLES = {"spatial_ref_sys", "_typmod_cache"}
+
+
+def include_object(object, name, type_, reflected, compare_to):
+    # Ignore ParadeDB/PostGIS system tables during autogenerate so they aren't treated as drops.
+    if type_ == "table" and name in IGNORED_TABLES:
+        return False
+    return True
 
 
 def run_migrations_offline() -> None:
@@ -32,6 +41,7 @@ def run_migrations_offline() -> None:
         target_metadata=target_metadata,
         literal_binds=True,
         dialect_opts={"paramstyle": "named"},
+        include_object=include_object,
     )
 
     with context.begin_transaction():
@@ -39,7 +49,11 @@ def run_migrations_offline() -> None:
 
 
 def do_run_migrations(connection: Connection) -> None:
-    context.configure(connection=connection, target_metadata=target_metadata)
+    context.configure(
+        connection=connection,
+        target_metadata=target_metadata,
+        include_object=include_object,
+    )
 
     with context.begin_transaction():
         context.run_migrations()
