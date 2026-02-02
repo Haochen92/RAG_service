@@ -31,12 +31,12 @@ docker compose up -d db
 poetry run alembic upgrade head
 ```
 
-Optional tools (pgAdmin + Redis):
+Optional tools (pgAdmin):
 ```bash
-docker compose --profile tools up -d pgadmin redis
+docker compose up -d pgadmin
 ```
 
-Note: the demo schema uses `vector(768)`. If you change the embedding dimension,
+Note: the demo schema uses `vector(1536)`. If you change the embedding dimension,
 add a migration (`poetry run alembic revision --autogenerate -m "resize embedding vector"`) and upgrade.
 The DB image is ParadeDB (Postgres 17) so `pg_bm25` is available out of the box (created in the initial migration).
 
