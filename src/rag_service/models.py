@@ -52,6 +52,14 @@ class Chunk(SQLModel, table=True):
             postgresql_using="hnsw",
             postgresql_ops={"embedding": "vector_cosine_ops"},
         ),
+        # BM25 index for keyword search
+        Index(
+            "idx_chunks_bm25",
+            "id",  # First column
+            "content",  # Text to index
+            postgresql_using="bm25",
+            postgresql_with={"key_field": "id"},
+        ),
     )
 
     id: uuid.UUID | None = Field(
