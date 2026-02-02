@@ -4,6 +4,10 @@ import asyncio
 import sys
 from logging.config import fileConfig
 from pathlib import Path
+
+BASE_DIR = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(BASE_DIR / "src"))
+
 from sqlmodel import SQLModel
 
 from alembic import context
@@ -12,9 +16,6 @@ from sqlalchemy.engine import Connection
 from sqlalchemy.ext.asyncio import async_engine_from_config
 from rag_service.settings import settings
 from rag_service import models
-
-BASE_DIR = Path(__file__).resolve().parents[1]
-sys.path.append(str(BASE_DIR / "src"))
 
 
 config = context.config
