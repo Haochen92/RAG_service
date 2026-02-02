@@ -1,0 +1,2200 @@
+query_id,query_text,run_name,param_value,rank,dist,chunk_id,chunk_text,relevance
+eval2_q009,How do I set up MantineProvider in Next.js App Router (app/layout.tsx)?,hnsw_ef50_k15,50,1,0.21440666072582848,faddea91-657e-490b-925a-6eaef4edc8ed,"Topic: NextJs
+Section: Setup with app router
+
+Add [MantineProvider](https://mantine.dev/theming/mantine-provider), [ColorSchemeScript](https://mantine.dev/theming/color-schemes)
+and styles imports to the `app/layout.tsx` file:  
+```tsx
+// Import styles of packages that you've installed.
+// All packages except `@mantine/hooks` require styles imports
+import '@mantine/core/styles.css';
+
+import { ColorSchemeScript, MantineProvider, mantineHtmlProps } from '@mantine/core';
+
+export const metadata = {
+title: 'My Mantine app',
+description: 'I have followed setup instructions carefully',
+};
+
+export default function RootLayout({
+children,
+}: {
+children: React.ReactNode;
+}) {
+return (
+<html lang=""en"" {...mantineHtmlProps}>
+<head>
+<ColorSchemeScript />
+</head>
+<body>
+<MantineProvider>{children}</MantineProvider>
+</body>
+</html>
+);
+}
+```  
+All set! Start development server:  
+```bash
+npm run dev
+```",2
+eval2_q009,How do I set up MantineProvider in Next.js App Router (app/layout.tsx)?,hnsw_ef50_k15,50,2,0.22499433353509735,b864cd09-5dac-4b73-bb20-752863361e3e,"Topic: Emotion
+Section: Usage with Next.js app router
+
+useServerInsertedHTML(() => {
+const names = flush();
+if (names.length === 0) return null;
+let styles = '';
+for (const name of names) {
+styles += cache.inserted[name];
+}
+return (
+<style
+data-emotion={`${cache.key} ${names.join(' ')}`}
+dangerouslySetInnerHTML={{
+__html: styles,
+}}
+/>
+);
+});
+
+return <CacheProvider value={cache}>{children}</CacheProvider>;
+}
+```  
+Add `RootStyleRegistry`, `MantineEmotionProvider` and `emotionTransform` to `app/layout.tsx`.
+It should look something like this:  
+```tsx
+import '@mantine/core/styles.css';
+
+import { ColorSchemeScript, MantineProvider } from '@mantine/core';
+import {
+emotionTransform,
+MantineEmotionProvider,
+} from '@mantine/emotion';
+import { RootStyleRegistry } from './EmotionRootStyleRegistry';
+
+export const metadata = {
+title: 'Mantine Next.js template',
+description: 'I am using Mantine with Next.js!',
+};
+
+export default function RootLayout({ children }: { children: any }) {
+return (
+<html lang=""en"">
+<head>
+<ColorSchemeScript />
+<link rel=""shortcut icon"" href=""/favicon.svg"" />
+<meta
+name=""viewport""
+content=""minimum-scale=1, initial-scale=1, width=device-width, user-scalable=no""
+/>
+</head>
+<body>
+<RootStyleRegistry>
+<MantineEmotionProvider>
+<MantineProvider stylesTransform={emotionTransform}>
+{children}
+</MantineProvider>
+</MantineEmotionProvider>
+</RootStyleRegistry>
+</body>
+</html>
+);
+}
+```  
+Done! You can now use `sx`, `styles` props and `createStyles` in your application.
+Note that `'use client'` is required in most components that use `sx`, `styles` or `createStyles`:  
+```tsx
+'use client';
+
+import { Box } from '@mantine/core';
+
+export default function HomePage() {
+return (
+<Box
+sx={(theme, u) => ({
+padding: 40,
+
+[u.light]: {
+backgroundColor: theme.colors.blue[0],
+color: theme.colors.blue[9],
+
+'&:hover': {
+backgroundColor: theme.colors.blue[1],
+},
+},
+})}
+>
+Box with emotion sx prop
+</Box>
+);
+}
+```",0
+eval2_q009,How do I set up MantineProvider in Next.js App Router (app/layout.tsx)?,hnsw_ef50_k15,50,3,0.26135723275480516,7f9b0b31-21cd-4942-910a-30d4f92a1d05,"Topic: ReactRouter
+Section: Setup
+
+Add styles imports, [MantineProvider](https://mantine.dev/theming/mantine-provider/) and [ColorSchemeScript](https://mantine.dev/theming/color-schemes) to `app/root.tsx`:  
+```tsx
+// Import styles of packages that you've installed.
+// All packages except `@mantine/hooks` require styles imports
+import '@mantine/core/styles.css';
+
+import {
+Links,
+Meta,
+Outlet,
+Scripts,
+ScrollRestoration,
+} from ""react-router"";
+import { ColorSchemeScript, MantineProvider, mantineHtmlProps } from '@mantine/core';
+
+export function Layout({ children }: { children: React.ReactNode }) {
+return (
+<html lang=""en"" {...mantineHtmlProps}>
+<head>
+<meta charSet=""utf-8"" />
+<meta name=""viewport"" content=""width=device-width, initial-scale=1"" />
+<ColorSchemeScript />
+<Meta />
+<Links />
+</head>
+<body>
+<MantineProvider>{children}</MantineProvider>
+<ScrollRestoration />
+<Scripts />
+</body>
+</html>
+);
+}
+
+// ... other app/root.tsx content
+```  
+All set! Start development server:  
+```bash
+npm run dev
+```",0
+eval2_q009,How do I set up MantineProvider in Next.js App Router (app/layout.tsx)?,hnsw_ef50_k15,50,4,0.2616702959834659,7668f61e-a768-45f5-8d4d-5a475b507e6b,"Topic: Emotion
+Section: Usage with Next.js app router
+
+[View example repository with full setup](https://github.com/mantinedev/next-app-min-template/tree/emotion)  
+Install dependencies:  
+```bash
+yarn add @mantine/emotion @emotion/react @emotion/cache @emotion/serialize @emotion/utils @emotion/server
+```  
+```bash
+npm install @mantine/emotion @emotion/react @emotion/cache @emotion/serialize @emotion/utils @emotion/server
+```  
+Create `app/emotion.d.ts` file with the following content:  
+```tsx
+import '@mantine/core';
+
+import type { EmotionStyles, EmotionSx } from '@mantine/emotion';
+
+declare module '@mantine/core' {
+export interface BoxProps {
+sx?: EmotionSx;
+styles?: EmotionStyles;
+}
+}
+```  
+Create `app/EmotionRootStyleRegistry.tsx` file with the following content:  
+```tsx
+'use client';
+
+import { useState } from 'react';
+import { useServerInsertedHTML } from 'next/navigation';
+import createCache from '@emotion/cache';
+import { CacheProvider } from '@emotion/react';
+
+export function RootStyleRegistry({
+children,
+}: {
+children: React.ReactNode;
+}) {
+const [{ cache, flush }] = useState(() => {
+const cache = createCache({ key: 'my' });
+cache.compat = true;
+const prevInsert = cache.insert;
+let inserted: string[] = [];
+cache.insert = (...args) => {
+const serialized = args[1];
+if (cache.inserted[serialized.name] === undefined) {
+inserted.push(serialized.name);
+}
+return prevInsert(...args);
+};
+const flush = () => {
+const prevInserted = inserted;
+inserted = [];
+return prevInserted;
+};
+return { cache, flush };
+});
+
+useServerInsertedHTML(() => {
+const names = flush();
+if (names.length === 0) return null;
+let styles = '';
+for (const name of names) {
+styles += cache.inserted[name];
+}
+return (
+<style
+data-emotion={`${cache.key} ${names.join(' ')}`}
+dangerouslySetInnerHTML={{
+__html: styles,
+}}
+/>
+);
+});",0
+eval2_q009,How do I set up MantineProvider in Next.js App Router (app/layout.tsx)?,hnsw_ef50_k15,50,5,0.26245126996087387,dbc0e3de-97a3-4511-87b1-87316f20f1f4,"Topic: NextJs
+Section: Setup with pages router
+
+Add styles imports and [MantineProvider](https://mantine.dev/theming/mantine-provider) to the `pages/_app.tsx` file:  
+```tsx
+// Import styles of packages that you've installed.
+// All packages except `@mantine/hooks` require styles imports
+import '@mantine/core/styles.css';
+
+import type { AppProps } from 'next/app';
+import { createTheme, MantineProvider } from '@mantine/core';
+
+const theme = createTheme({
+/** Put your mantine theme override here */
+});
+
+export default function App({ Component, pageProps }: AppProps) {
+return (
+<MantineProvider theme={theme}>
+<Component {...pageProps} />
+</MantineProvider>
+);
+}
+```  
+Create `pages/_document.tsx` file with [ColorSchemeScript](https://mantine.dev/theming/color-schemes) component.
+Note that it is required even if you use only one color scheme in your application.  
+```tsx
+import { Head, Html, Main, NextScript } from 'next/document';
+import { ColorSchemeScript, mantineHtmlProps } from '@mantine/core';
+
+export default function Document() {
+return (
+<Html lang=""en"" {...mantineHtmlProps}>
+<Head>
+<ColorSchemeScript defaultColorScheme=""auto"" />
+</Head>
+<body>
+<Main />
+<NextScript />
+</body>
+</Html>
+);
+}
+```  
+All set! Start development server:  
+```bash
+npm run dev
+```",0
+eval2_q009,How do I set up MantineProvider in Next.js App Router (app/layout.tsx)?,hnsw_ef50_k15,50,6,0.26691514503726044,5e8f4d42-1b21-4a17-b4f5-1cbae5f61d28,"Topic: Emotion
+Section: Usage with Next.js pages router
+
+import Head from 'next/head';
+import { MantineProvider } from '@mantine/core';
+import {
+emotionTransform,
+MantineEmotionProvider,
+} from '@mantine/emotion';
+import { emotionCache } from '../emotion/cache';
+
+export default function App({ Component, pageProps }: any) {
+return (
+<MantineEmotionProvider cache={emotionCache}>
+<MantineProvider stylesTransform={emotionTransform}>
+<Head>
+<title>Mantine Template</title>
+<meta
+name=""viewport""
+content=""minimum-scale=1, initial-scale=1, width=device-width, user-scalable=no""
+/>
+<link rel=""shortcut icon"" href=""/favicon.svg"" />
+</Head>
+<Component {...pageProps} />
+</MantineProvider>
+</MantineEmotionProvider>
+);
+}
+```  
+Done! You can now use `sx`, `styles` props and `createStyles` in your application:  
+```tsx
+import { Box } from '@mantine/core';
+
+function Demo() {
+return (
+<Box
+sx={(theme, u) => ({
+padding: 40,
+
+[u.light]: {
+backgroundColor: theme.colors.blue[0],
+color: theme.colors.blue[9],
+
+'&:hover': {
+backgroundColor: theme.colors.blue[1],
+},
+},
+})}
+>
+Box with emotion sx prop
+</Box>
+);
+}
+```",0
+eval2_q009,How do I set up MantineProvider in Next.js App Router (app/layout.tsx)?,hnsw_ef50_k15,50,7,0.26986088284763454,cf893652-b60b-4819-80f8-4d8b9741f309,"Topic: MantineProvider
+Section: Usage
+
+```tsx
+import { createTheme, MantineProvider } from '@mantine/core';
+
+const theme = createTheme({
+/** Your theme override here */
+});
+
+function Demo() {
+return (
+<MantineProvider theme={theme}>
+{/* Your app here */}
+</MantineProvider>
+);
+}
+```",0
+eval2_q009,How do I set up MantineProvider in Next.js App Router (app/layout.tsx)?,hnsw_ef50_k15,50,8,0.27272378853337964,c85a4519-723a-4ce9-afeb-c2c1fbf269c7,"Topic: NextJs
+Section: app + pages router together
+
+If you use both app and pages router in one application, you need to setup both `pages/_app.tsx`
+and `app/layout.tsx` files as described above.",0
+eval2_q009,How do I set up MantineProvider in Next.js App Router (app/layout.tsx)?,hnsw_ef50_k15,50,9,0.27903579733108574,59461b79-298f-4109-87b6-f222a2edbc2b,"Topic: GettingStarted
+Section: Get started without framework
+
+const theme = createTheme({
+/** Put your mantine theme override here */
+});
+
+function Demo() {
+return (
+<MantineProvider theme={theme}>
+{/* Your app here */}
+</MantineProvider>
+);
+}
+```  
+If your application has server side rendering, add [ColorSchemeScript](https://mantine.dev/theming/color-schemes)
+to the `<head />` of your application and spread `mantineHtmlProps` on the `<html />` element
+to [avoid seeing a hydration warning](https://help.mantine.dev/q/color-scheme-hydration-warning):  
+```tsx
+import { ColorSchemeScript, mantineHtmlProps } from '@mantine/core';
+
+function Demo() {
+return (
+<html lang=""en"" {...mantineHtmlProps}>
+<head>
+<meta charSet=""UTF-8"" />
+<meta
+name=""viewport""
+content=""width=device-width, initial-scale=1.0""
+/>
+<title>My awesome app</title>
+
+<ColorSchemeScript />
+</head>
+<body>{/* Your app here */}</body>
+</html>
+);
+}
+```  
+All set! You can now use Mantine components in your application.",0
+eval2_q009,How do I set up MantineProvider in Next.js App Router (app/layout.tsx)?,hnsw_ef50_k15,50,10,0.27998630341377306,5b0dde77-a979-4e7a-9930-894cdd74db1a,"Topic: General
+Section: How to fix hydration warning?
+
+To fix the hydration warning, spread `mantineHtmlProps` on the `<html />` element:  
+```tsx
+// app/layout.tsx
+import { ColorSchemeScript, MantineProvider, mantineHtmlProps } from '@mantine/core';
+
+export default function RootLayout({ children }: { children: any }) {
+return (
+<html lang=""en"" {...mantineHtmlProps}>
+<head>
+<ColorSchemeScript />
+<link rel=""shortcut icon"" href=""/favicon.svg"" />
+<meta
+name=""viewport""
+content=""minimum-scale=1, initial-scale=1, width=device-width, user-scalable=no""
+/>
+</head>
+<body>
+<MantineProvider>{children}</MantineProvider>
+</body>
+</html>
+);
+}
+```",0
+eval2_q009,How do I set up MantineProvider in Next.js App Router (app/layout.tsx)?,hnsw_ef50_k15,50,11,0.2908195019588563,b79aa873-af61-49bd-b020-464ceb8cc4ff,"Topic: Modals manager
+Section: Setup ModalsProvider
+
+Wrap your app with `ModalsProvider` component:  
+```tsx
+import { MantineProvider } from '@mantine/core';
+import { ModalsProvider } from '@mantine/modals';
+
+function Demo() {
+return (
+<MantineProvider>
+<ModalsProvider>{/* Your app here */}</ModalsProvider>
+</MantineProvider>
+);
+}
+```",0
+eval2_q009,How do I set up MantineProvider in Next.js App Router (app/layout.tsx)?,hnsw_ef50_k15,50,12,0.29172914497749125,ddf687f1-ebf1-408d-bd5b-b38a466718ef,"Topic: MantineProvider
+Section: Overview
+
+# MantineProvider  
+`MantineProvider` provides a [theme object](https://mantine.dev/theming/theme-object) context value, manages color scheme
+changes and injects [CSS variables](https://mantine.dev/styles/css-variables/). It must be rendered at the root of your
+application and should be used only once.",
+eval2_q009,How do I set up MantineProvider in Next.js App Router (app/layout.tsx)?,hnsw_ef50_k15,50,13,0.2935313112620195,a1850dc9-9a86-45d3-a28b-e67f7884eb51,"Topic: Redwood
+Section: Setup
+
+Add styles imports, [MantineProvider](https://mantine.dev/theming/mantine-provider) and [ColorSchemeScript](https://mantine.dev/theming/color-schemes)
+to `web/src/App.tsx` file:  
+```tsx
+// Import styles of packages that you've installed.
+// All packages except `@mantine/hooks` require styles imports
+import '@mantine/core/styles.css';
+
+import { FatalErrorBoundary, RedwoodProvider } from '@redwoodjs/web';
+import { RedwoodApolloProvider } from '@redwoodjs/web/apollo';
+import FatalErrorPage from 'src/pages/FatalErrorPage';
+import Routes from 'src/Routes';
+import { ColorSchemeScript, MantineProvider } from '@mantine/core';
+
+const App = () => (
+<FatalErrorBoundary page={FatalErrorPage}>
+<RedwoodProvider titleTemplate=""%PageTitle | %AppTitle"">
+<ColorSchemeScript />
+<MantineProvider>
+<RedwoodApolloProvider>
+<Routes />
+</RedwoodApolloProvider>
+</MantineProvider>
+</RedwoodProvider>
+</FatalErrorBoundary>
+);
+
+export default App;
+```  
+All set! Start development server:  
+```bash
+yarn rw dev
+```",0
+eval2_q009,How do I set up MantineProvider in Next.js App Router (app/layout.tsx)?,hnsw_ef50_k15,50,14,0.2936322013880054,e26d514a-e530-4c0a-b3d4-6b8cff312d41,"Topic: Vite
+Section: Setup
+
+Add styles imports and [MantineProvider](https://mantine.dev/theming/mantine-provider/) to your application root component (usually `App.tsx`):  
+```tsx
+// Import styles of packages that you've installed.
+// All packages except `@mantine/hooks` require styles imports
+import '@mantine/core/styles.css';
+
+import { MantineProvider } from '@mantine/core';
+
+export default function App() {
+return <MantineProvider>{/* Your app here */}</MantineProvider>;
+}
+```  
+All set! Start development server:  
+```bash
+npm run dev
+```",0
+eval2_q009,How do I set up MantineProvider in Next.js App Router (app/layout.tsx)?,hnsw_ef50_k15,50,15,0.2941782199485974,afb14cb8-5e0c-407a-a5a1-bef5b99bc412,"Topic: NextJs
+Section: app router tree shaking
+
+To enable tree shaking with app router, enable experimental `optimizePackageImports` feature in
+your `next.config.mjs`:  
+```tsx
+export default {
+// ...other configuration
+experimental: {
+optimizePackageImports: ['@mantine/core', '@mantine/hooks'],
+},
+};
+```",0
+eval2_q010,"In Mantine, which styling approach is most performant at runtime, and why?",hnsw_ef50_k15,50,1,0.22460061563619216,92103f00-abff-4c22-84d3-15f283b09547,"Topic: StylesPerformance
+Section: CSS modules
+
+[CSS modules](https://mantine.dev/styles/css-modules) is the most performant way to apply styles –
+this approach generates static CSS that is never re-evaluated. 99% of Mantine components
+styles are generated with CSS modules – components are optimized out of the box.  
+In most cases, it is recommended to use [CSS modules](https://mantine.dev/styles/css-modules) to style your components as well.
+You can apply styles to HTML elements with `className` prop and to Mantine components with `className`,
+`classNames` props.  
+Applying styles with `className`:  
+#### Example: className  
+```tsx
+import { Box } from '@mantine/core';
+import classes from './Demo.module.css';
+
+function Demo() {
+return (
+<Box className={classes.box}>
+Box component with <span className={classes.highlight}>some styles</span>
+</Box>
+);
+}
+```  
+Applying styles with `classNames` (see [Styles API guide](https://mantine.dev/styles/styles-api) to learn more):  
+#### Example: classNames  
+```tsx
+import { useState } from 'react';
+import { TextInput } from '@mantine/core';
+import classes from './Demo.module.css';
+
+function Demo() {
+const [value, setValue] = useState('');
+const [focused, setFocused] = useState(false);
+const floating = focused || value.length > 0 || undefined;
+
+return (
+<TextInput
+label=""Floating label input""
+labelProps={{ 'data-floating': floating }}
+classNames={{
+root: classes.root,
+input: classes.input,
+label: classes.label,
+}}
+onFocus={() => setFocused(true)}
+onBlur={() => setFocused(false)}
+value={value}
+onChange={(event) => setValue(event.currentTarget.value)}
+/>
+);
+}
+```",2
+eval2_q010,"In Mantine, which styling approach is most performant at runtime, and why?",hnsw_ef50_k15,50,2,0.230446298516919,da53ec77-756f-4ff5-995b-7724d6246c78,"Topic: StylesPerformance
+Section: Responsive style props
+
+Responsive [style props](https://mantine.dev/styles/style-props) have worse performance than regular style props
+because they require injecting `<style />` tag next to the component. It is fine to use responsive
+style props to apply styles to several components, but it is not recommended to use
+them in large lists of components, for example, if you have 1000 inputs with responsive margins,
+it is better to refactor to use `classNames` prop:  
+```tsx
+import { TextInput } from '@mantine/core';
+
+// Ok, style props are used to apply margin-top property to several components
+function StyleProps() {
+return (
+<>
+<TextInput label=""Input 1"" />
+<TextInput label=""Input 2"" mt={{ base: 10, md: 20 }} />
+<TextInput label=""Input 3"" mt={{ base: 10, md: 20 }} />
+</>
+);
+}
+
+// Worse, 1000 separate `<style />` tags will be generated
+// Better to refactor to use className prop
+function StylePropsArray() {
+const inputs = Array(1000)
+.fill(0)
+.map((_, index) => (
+<TextInput
+key={index}
+label={`Input ${index}`}
+mt={{ base: 10, md: 20 }}
+/>
+));
+
+return <>{inputs}</>;
+}
+```",0
+eval2_q010,"In Mantine, which styling approach is most performant at runtime, and why?",hnsw_ef50_k15,50,3,0.23774147090755715,b1036083-7395-4b11-b5ed-f0b283ad1400,"Topic: StylesPerformance
+Section: Overview
+
+# Styles performance",0
+eval2_q010,"In Mantine, which styling approach is most performant at runtime, and why?",hnsw_ef50_k15,50,4,0.2397539813886288,1063db3a-1656-4992-8aa1-0160e885021f,"Topic: StylesPerformance
+Section: Style props
+
+[Style props](https://mantine.dev/styles/style-props) transform component props into inline styles. Style props have
+the same caveats as inline styles, it is not recommended to use them as the primary means of styling
+your components. Usually, style props are used to apply 1–3 styles to a component – using them
+this way does not impact performance.",0
+eval2_q010,"In Mantine, which styling approach is most performant at runtime, and why?",hnsw_ef50_k15,50,5,0.24133940836105183,765daffa-892e-42b6-b4b5-d62d396a12a3,"Topic: StylesPerformance
+Section: Inline styles
+
+Inline styles (`style` and `styles` props) are less performant than CSS modules, but still
+performant enough to be used in most cases if it is your preferred way of styling in your project.  
+Inline styles caveats:  
+* Styles are not reused between components, each component will generate its own styles, for example,
+if you have 100 buttons with the same styles, CSS modules will generate 1 class for all of them,
+inline styles will generate 100 `style` attributes
+* If inline styles are overused, it can increase bundle size and output HTML size
+* *Not performance related*: inline styles have higher specificity than CSS modules, so if you want
+to override inline styles you will have to use `!important` or use another inline styles  
+Example of inline styles:  
+#### Example: styles  
+```tsx
+import { Button } from '@mantine/core';
+
+function Demo() {
+const gradient =
+'linear-gradient(45deg, var(--mantine-color-pink-filled) 0%, var(--mantine-color-orange-filled) 50%, var(--mantine-color-yellow-filled) 100%)';
+
+return (
+<Button
+radius=""md""
+styles={{
+root: {
+padding: 2,
+border: 0,
+backgroundImage: gradient,
+},
+
+inner: {
+background: 'var(--mantine-color-body)',
+color: 'var(--mantine-color-text)',
+borderRadius: 'calc(var(--button-radius) - 2px)',
+paddingLeft: 'var(--mantine-spacing-md)',
+paddingRight: 'var(--mantine-spacing-md)',
+},
+
+label: {
+backgroundImage: gradient,
+WebkitBackgroundClip: 'text',
+WebkitTextFillColor: 'transparent',
+},
+}}
+>
+Gradient button
+</Button>
+);
+}
+```",1
+eval2_q010,"In Mantine, which styling approach is most performant at runtime, and why?",hnsw_ef50_k15,50,6,0.25236341852606003,628aaa38-aa39-414a-9762-dedbec675769,"Topic: StylesOverview
+Section: CSS modules
+
+[CSS modules](https://mantine.dev/styles/css-modules/) is the recommended way of applying most of the styles to Mantine components.
+CSS modules are the most performant and flexible way of styling components.  
+```scss
+// Demo.module.css
+
+.root {
+padding-right: 100px;
+
+&[data-collapsed] {
+padding-right: 40px;
+
+& .control {
+max-width: 200px;
+}
+}
+}
+
+.control {
+background-color: var(--mantine-color-blue-1);
+color: var(--mantine-color-blue-filled);
+padding: var(--mantine-spacing-xl);
+margin-left: 40px;
+
+@media (max-width: $mantine-breakpoint-sm) {
+margin-left: 0;
+margin-top: var(--mantine-spacing-md);
+}
+
+@mixin hover {
+background-color: light-dark(
+var(--mantine-color-blue-1),
+var(--mantine-color-blue-9)
+);
+}
+}
+```  
+```tsx
+// Demo.tsx
+import classes from './Demo.module.css';
+
+function Demo({ collapsed }: { collapsed: boolean }) {
+return (
+<div
+className={classes.root}
+data-collapsed={collapsed || undefined}
+>
+<button type=""button"" className={classes.control}>
+Control
+</button>
+</div>
+);
+}
+```",2
+eval2_q010,"In Mantine, which styling approach is most performant at runtime, and why?",hnsw_ef50_k15,50,7,0.2535028173614835,1320042c-57af-4049-b850-09c729953813,"Topic: General
+Section: Why nested inline styles are not supported?
+
+Mantine does not use CSS-in-JS library for styling – all styles are either in CSS files
+or inline in the `style` attribute which does not support nested styles. Mantine does not
+use CSS-in-JS to keep bundle size small, provide support for server-side rendering and
+improve performance. You can learn more about performance [in the styles performance guide](https://mantine.dev/styles/styles-performance/).",0
+eval2_q010,"In Mantine, which styling approach is most performant at runtime, and why?",hnsw_ef50_k15,50,8,0.26187370495528406,7ef91869-2924-444e-b525-47853a46eee3,"Topic: StylesPerformance
+Section: Components responsive props
+
+Some components, like [SimpleGrid](https://mantine.dev/core/simple-grid) and [Grid](https://mantine.dev/core/grid)
+rely on the same mechanism as responsive style props to apply styles. The limitations are the same
+– it is fine to use these several of these components on a page, but it is not recommended to use
+them in large lists of components.",0
+eval2_q010,"In Mantine, which styling approach is most performant at runtime, and why?",hnsw_ef50_k15,50,9,0.26379151909028886,67164b0b-4201-49d1-9089-e732ebd21531,"Topic: General
+Section: I prefer a third-party styles solution, can I use Mantine with it?
+
+All Mantine components are fully compatible with any third-party styling solution and native CSS.
+There are two main strategies to apply styles with a third-party library:  
+* `className`, `classNames`, `style` and `styles` props
+* with static selectors, for example `.mantine-Text-root`  
+Example of applying styles with a utility CSS library:  
+```tsx
+import { TextInput } from '@mantine/core';
+
+function Demo() {
+return (
+<TextInput
+classNames={{
+root: 'mt-4',
+input: 'bg-red-500 text-white',
+}}
+/>
+);
+}
+```  
+Example of applying styles with global CSS:  
+```css
+/* styles.css */
+
+/* Note that these styles are not scoped and
+will be applied to all TextInput components */
+.mantine-TextInput-root {
+margin-top: 0.8rem;
+}
+
+.mantine-TextInput-input {
+background-color: var(--mantine-color-red-filled);
+color: var(--mantine-color-white);
+}
+```  
+You can combine both approaches to achieve desired results, for example,
+`@emotion/styled` and `styled-components` packages will pass `className` prop to
+a given component, and you can use static selectors to style inner elements:  
+```tsx
+import styled from '@emotion/styled';
+import { Slider } from '@mantine/core';
+
+const StyledSlider = styled(Slider)`
+& .mantine-Slider-bar {
+background-color: var(--mantine-color-pink-5);
+}
+
+& .mantine-Slider-thumb {
+border-color: var(--mantine-color-pink-5);
+background-color: white;
+width: 1.5rem;
+height: 1.5rem;
+}
+`;
+
+function Demo() {
+return <StyledSlider defaultValue={40} />;
+}
+```",0
+eval2_q010,"In Mantine, which styling approach is most performant at runtime, and why?",hnsw_ef50_k15,50,10,0.2652033543060426,ad47a76f-01db-41a8-a4ec-ce9fce56939c,"Topic: CSSModules
+Section: Styling Mantine components without CSS modules
+
+All Mantine components are fully compatible with any third-party styling solution and native CSS.
+There are two main strategies to apply styles with a third-party library:  
+* `className`, `classNames`, `style` and `styles` props
+* with static selectors, for example `.mantine-Text-root`  
+Example of applying styles with a utility CSS library:  
+```tsx
+import { TextInput } from '@mantine/core';
+
+function Demo() {
+return (
+<TextInput
+classNames={{
+root: 'mt-4',
+input: 'bg-red-500 text-white',
+}}
+/>
+);
+}
+```  
+Example of applying styles with global CSS:  
+```css
+/* styles.css */
+
+/* Note that these styles are not scoped and
+will be applied to all TextInput components */
+.mantine-TextInput-root {
+margin-top: 0.8rem;
+}
+
+.mantine-TextInput-input {
+background-color: var(--mantine-color-red-filled);
+color: var(--mantine-color-white);
+}
+```  
+You can combine both approaches to achieve desired results, for example,
+`@emotion/styled` and `styled-components` packages will pass `className` prop to
+a given component, and you can use static selectors to style inner elements:  
+```tsx
+import styled from '@emotion/styled';
+import { Slider } from '@mantine/core';
+
+const StyledSlider = styled(Slider)`
+& .mantine-Slider-bar {
+background-color: var(--mantine-color-pink-5);
+}
+
+& .mantine-Slider-thumb {
+border-color: var(--mantine-color-pink-5);
+background-color: white;
+width: 1.5rem;
+height: 1.5rem;
+}
+`;",0
+eval2_q010,"In Mantine, which styling approach is most performant at runtime, and why?",hnsw_ef50_k15,50,11,0.2674175279457741,1af5831f-9460-427d-82a4-b7f4203530aa,"Topic: StylesOverview
+Section: Style prop
+
+[Style prop](https://mantine.dev/styles/style/) is supported by all Mantine components and allows setting
+CSS properties as well as CSS variables. It is useful in the following cases:  
+* You want to apply a single CSS property to a component:  
+```tsx
+import { Button, Flex } from '@mantine/core';
+
+function Demo() {
+return (
+<Flex>
+<Button style={{ flex: 1 }}>Large button</Button>
+<Button>Small button</Button>
+</Flex>
+);
+}
+```  
+* You want to set a CSS variable based on component prop:  
+```tsx
+import { Box } from '@mantine/core';
+
+function Demo({ color }: { color: string }) {
+// Later you will be able to use var(--my-color) in any nested element
+return <Box style={{ '--my-color': color }}>My box</Box>;
+}
+```  
+[Style prop](https://mantine.dev/styles/style/) works the same way as React `style` prop. It is not
+recommended to use it as a primary way of styling components. In most cases, it is
+better to create a separate file with styles – it will be easier to maintain and
+will be more [performant](https://mantine.dev/styles/styles-performance/).",0
+eval2_q010,"In Mantine, which styling approach is most performant at runtime, and why?",hnsw_ef50_k15,50,12,0.26950727267009966,72219216-86eb-4591-88db-91b5afae1d40,"Topic: General
+Section: Inline styles
+
+If the value that controls dynamic styles is not represented by a known union
+of values (for example, value can be any valid CSS color), then you can use
+inline styles or [style props](https://mantine.dev/styles/style-props/):  
+```tsx
+import { Box } from '@mantine/core';
+
+interface DemoProps {
+fontFamily: string;
+color: string;
+}
+
+function Demo({ fontFamily, color }: DemoProps) {
+return (
+<Box style={{ backgroundColor: color }} ff={fontFamily}>
+My demo
+</Box>
+);
+}
+```  
+If you need to customize a deeply nested element, use [styles](https://mantine.dev/styles/styles-api/#styles-prop)
+prop instead:  
+```tsx
+import { Button } from '@mantine/core';
+
+interface DemoProps {
+color: string;
+}
+
+function Demo({ color }: DemoProps) {
+return (
+<Button styles={{ label: { backgroundColor: color } }}>
+My demo
+</Button>
+);
+}
+```  
+Note that, it is not possible use pseudo-classes (for example, `:hover`, `:first-of-type`)
+and media queries inside the `styles` prop. For this purpose, use CSS variables
+with [classNames](https://mantine.dev/styles/styles-api/#classnames-prop) prop.",0
+eval2_q010,"In Mantine, which styling approach is most performant at runtime, and why?",hnsw_ef50_k15,50,13,0.2718082736696028,32b9fde9-aa69-404b-a5f1-66f0ae5ef1ee,"Topic: CSSModules
+Section: Overview
+
+# CSS modules  
+All Mantine components use CSS modules for styling.
+It is recommended to use CSS modules in your project as well, but it is not required –
+Mantine components are fully compatible with any third-party styling solution and native CSS.",0
+eval2_q010,"In Mantine, which styling approach is most performant at runtime, and why?",hnsw_ef50_k15,50,14,0.2730717099836323,3c20e0d5-01e9-4078-9b34-551ab33124fb,"Topic: General
+Section: How Mantine styles work
+
+All `@mantine/*` packages that include styles export `@mantine/*/styles.css`
+file which includes all the styles for the package.
+These files are handled by your framework/build tool (Next.js, Vite, React Router, etc.)
+and included in the final bundle.  
+Most of Mantine styles (99%+) have low specificity (class selectors) to allow
+easy customization and overrides.",0
+eval2_q010,"In Mantine, which styling approach is most performant at runtime, and why?",hnsw_ef50_k15,50,15,0.2754910400931505,9cf2af60-1ad9-49c9-95fa-497049b46875,"Topic: StylesApi
+Section: styles prop
+
+The `styles` prop works the same way as `classNames`, but applies inline styles. Note that inline
+styles have higher specificity than classes, so you will not be able to override them with classes
+without using `!important`. You cannot use pseudo-classes (for example, `:hover`, `:first-of-type`)
+and media queries inside the `styles` prop.  
+#### Example: styles  
+```tsx
+import { Button } from '@mantine/core';
+
+function Demo() {
+const gradient =
+'linear-gradient(45deg, var(--mantine-color-pink-filled) 0%, var(--mantine-color-orange-filled) 50%, var(--mantine-color-yellow-filled) 100%)';
+
+return (
+<Button
+radius=""md""
+styles={{
+root: {
+padding: 2,
+border: 0,
+backgroundImage: gradient,
+},
+
+inner: {
+background: 'var(--mantine-color-body)',
+color: 'var(--mantine-color-text)',
+borderRadius: 'calc(var(--button-radius) - 2px)',
+paddingLeft: 'var(--mantine-spacing-md)',
+paddingRight: 'var(--mantine-spacing-md)',
+},
+
+label: {
+backgroundImage: gradient,
+WebkitBackgroundClip: 'text',
+WebkitTextFillColor: 'transparent',
+},
+}}
+>
+Gradient button
+</Button>
+);
+}
+```  
+> **styles prop usage**
+>
+> Some examples and demos in the documentation use the `styles` prop for convenience, but it is not
+> recommended to use the `styles` prop as the primary means of styling components, as the `classNames`
+> prop is more flexible and has [better performance](https://mantine.dev/styles/styles-performance).",0
+eval2_q012,How do I render a stacked BarChart in Mantine Charts with multiple data series?,hnsw_ef50_k15,50,1,0.21316119661681143,60d81541-3f86-4382-92f5-9f559bab9c30,"Topic: BarChart
+Section: Stacked bar chart
+
+Set `type=""stacked""` to render a stacked bar chart. In this type of bar chart
+stacking is applied along the vertical axis, allowing you to see the overall trend
+as well as the contribution of each individual series to the total.  
+#### Example: stacked  
+```tsx
+// Demo.tsx
+import { BarChart } from '@mantine/charts';
+import { data } from './data';
+
+function Demo() {
+return (
+<BarChart
+h={300}
+data={data}
+dataKey=""month""
+type=""stacked""
+series={[
+{ name: 'Smartphones', color: 'violet.6' },
+{ name: 'Laptops', color: 'blue.6' },
+{ name: 'Tablets', color: 'teal.6' },
+]}
+/>
+);
+}
+
+// data.ts
+export const data = [
+{ month: 'January', Smartphones: 1200, Laptops: 900, Tablets: 200 },
+{ month: 'February', Smartphones: 1900, Laptops: 1200, Tablets: 400 },
+{ month: 'March', Smartphones: 400, Laptops: 1000, Tablets: 200 },
+{ month: 'April', Smartphones: 1000, Laptops: 200, Tablets: 800 },
+{ month: 'May', Smartphones: 800, Laptops: 1400, Tablets: 1200 },
+{ month: 'June', Smartphones: 750, Laptops: 600, Tablets: 1000 },
+];
+```",2
+eval2_q012,How do I render a stacked BarChart in Mantine Charts with multiple data series?,hnsw_ef50_k15,50,2,0.23405003501003463,25a5740f-1e70-4566-8699-fd069992bc21,"Topic: BarChart
+Section: Mixed stacked bar chart
+
+You can control how series are stacked by setting `stackId` property in series object:  
+#### Example: mixedStack  
+```tsx
+// Demo.tsx
+import { BarChart } from '@mantine/charts';
+import { data } from './data';
+
+function Demo() {
+return (
+<BarChart
+h={300}
+data={data}
+dataKey=""month""
+series={[
+{ name: 'Smartphones', color: 'violet.6', stackId: 'a' },
+{ name: 'Laptops', color: 'blue.6', stackId: 'b' },
+{ name: 'Tablets', color: 'teal.6', stackId: 'b' },
+]}
+/>
+);
+}
+
+// data.ts
+export const data = [
+{ month: 'January', Smartphones: 1200, Laptops: 500, Tablets: 800 },
+{ month: 'February', Smartphones: 1900, Laptops: 1200, Tablets: 400 },
+{ month: 'March', Smartphones: 1800, Laptops: 1000, Tablets: 200 },
+{ month: 'April', Smartphones: 1000, Laptops: 200, Tablets: 800 },
+{ month: 'May', Smartphones: 800, Laptops: 200, Tablets: 700 },
+{ month: 'June', Smartphones: 800, Laptops: 500, Tablets: 200 },
+];
+```",1
+eval2_q012,How do I render a stacked BarChart in Mantine Charts with multiple data series?,hnsw_ef50_k15,50,3,0.24758484331275488,b84e3f18-5aa9-4dfc-93d2-d6780855c536,"Topic: BarChart
+Section: Usage
+
+Use `BarChart` component without `type` prop to render a regular bar chart.
+In a regular bar chart, each data series is plotted on its own and does
+not interact with other series.  
+#### Example: usage  
+```tsx
+// Demo.tsx
+import { BarChart } from '@mantine/charts';
+import { data } from './data';
+
+
+function Demo() {
+return (
+<BarChart
+h={300}
+data={data}
+dataKey=""month""
+series={[
+{ name: 'Smartphones', color: 'violet.6' },
+{ name: 'Laptops', color: 'blue.6' },
+{ name: 'Tablets', color: 'teal.6' },
+]}
+
+/>
+);
+}
+
+// data.ts
+export const data = [
+{ month: 'January', Smartphones: 1200, Laptops: 900, Tablets: 200 },
+{ month: 'February', Smartphones: 1900, Laptops: 1200, Tablets: 400 },
+{ month: 'March', Smartphones: 400, Laptops: 1000, Tablets: 200 },
+{ month: 'April', Smartphones: 1000, Laptops: 200, Tablets: 800 },
+{ month: 'May', Smartphones: 800, Laptops: 1400, Tablets: 1200 },
+{ month: 'June', Smartphones: 750, Laptops: 600, Tablets: 1000 },
+];
+```",0
+eval2_q012,How do I render a stacked BarChart in Mantine Charts with multiple data series?,hnsw_ef50_k15,50,4,0.24964503031092733,b85003ea-6ecb-4d0e-a341-510ff6854253,"Topic: AreaChart
+Section: Stacked area chart
+
+Set `type=""stacked""` to render a stacked area chart. In this type of area chart
+stacking is applied along the vertical axis, allowing you to see the overall trend
+as well as the contribution of each individual series to the total.  
+#### Example: stacked  
+```tsx
+// Demo.tsx
+import { AreaChart } from '@mantine/charts';
+import { data } from './data';
+
+function Demo() {
+return (
+<AreaChart
+h={300}
+data={data}
+dataKey=""date""
+type=""stacked""
+series={[
+{ name: 'Apples', color: 'indigo.6' },
+{ name: 'Oranges', color: 'blue.6' },
+{ name: 'Tomatoes', color: 'teal.6' },
+]}
+/>
+);
+}
+
+// data.ts
+export const data = [
+{
+date: 'Mar 22',
+Apples: 2890,
+Oranges: 2338,
+Tomatoes: 2452,
+},
+{
+date: 'Mar 23',
+Apples: 2756,
+Oranges: 2103,
+Tomatoes: 2402,
+},
+{
+date: 'Mar 24',
+Apples: 3322,
+Oranges: 986,
+Tomatoes: 1821,
+},
+{
+date: 'Mar 25',
+Apples: 3470,
+Oranges: 2108,
+Tomatoes: 2809,
+},
+{
+date: 'Mar 26',
+Apples: 3129,
+Oranges: 1726,
+Tomatoes: 2290,
+},
+];
+```",0
+eval2_q012,How do I render a stacked BarChart in Mantine Charts with multiple data series?,hnsw_ef50_k15,50,5,0.2601225027374653,b30ed2e7-0aab-4b38-a080-295d60967518,"Topic: BarChart
+Section: Series labels
+
+By default, series `name` is used as a label. To change it, set `label`
+property in `series` object:  
+#### Example: seriesLabels  
+```tsx
+// Demo.tsx
+import { BarChart } from '@mantine/charts';
+import { data } from './data';
+
+function Demo() {
+return (
+<BarChart
+h={300}
+data={data}
+dataKey=""month""
+type=""stacked""
+withLegend
+legendProps={{ verticalAlign: 'bottom' }}
+series={[
+{ name: 'Smartphones', label: 'Smartphones sales', color: 'violet.6' },
+{ name: 'Laptops', label: 'Laptops sales', color: 'blue.6' },
+{ name: 'Tablets', label: 'Tablets sales', color: 'teal.6' },
+]}
+/>
+);
+}
+
+// data.ts
+export const data = [
+{ month: 'January', Smartphones: 1200, Laptops: 900, Tablets: 200 },
+{ month: 'February', Smartphones: 1900, Laptops: 1200, Tablets: 400 },
+{ month: 'March', Smartphones: 400, Laptops: 1000, Tablets: 200 },
+{ month: 'April', Smartphones: 1000, Laptops: 200, Tablets: 800 },
+{ month: 'May', Smartphones: 800, Laptops: 1400, Tablets: 1200 },
+{ month: 'June', Smartphones: 750, Laptops: 600, Tablets: 1000 },
+];
+```",2
+eval2_q012,How do I render a stacked BarChart in Mantine Charts with multiple data series?,hnsw_ef50_k15,50,6,0.26180347297907236,4dbf268d-228b-4a83-9443-fa2b28448936,"Topic: BarChart
+Section: Waterfall bar chart
+
+Set `type=""waterfall""` to render a waterfall bar chart. This chart type illustrates how an
+initial value is influenced by subsequent positive or negative values,
+with each bar starting where the previous one ended.
+Use the `color` prop inside data to color each bar individually. Note that the series color gets overwritten for this specific bar.
+Use the `standalone` prop inside data to decouple the bar from the flow.  
+#### Example: waterfall  
+```tsx
+// Demo.tsx
+import { BarChart } from '@mantine/charts';
+import { data } from './data';
+
+
+function Demo() {
+return (
+<BarChart
+h={300}
+data={data}
+dataKey=""item""
+type=""waterfall""
+series={[{ name: 'Effective tax rate in %', color: 'blue' }]}
+withLegend
+/>
+);
+}
+
+// data.ts
+export const data =
+[
+{ item: 'TaxRate', 'Effective tax rate in %': 21, color: 'blue' },
+{ item: 'Foreign inc.', 'Effective tax rate in %': -15.5, color: 'teal' },
+{ item: 'Perm. diff.', 'Effective tax rate in %': -3, color: 'teal' },
+{ item: 'Credits', 'Effective tax rate in %': -3, color: 'teal' },
+{ item: 'Loss carryf. ', 'Effective tax rate in %': -2, color: 'teal' },
+{ item: 'Law changes', 'Effective tax rate in %': 2, color: 'red' },
+{ item: 'Reven. adj.', 'Effective tax rate in %': 4, color: 'red' },
+{ item: 'ETR', 'Effective tax rate in %': 3.5, color: 'blue', standalone: true },
+];
+```",0
+eval2_q012,How do I render a stacked BarChart in Mantine Charts with multiple data series?,hnsw_ef50_k15,50,7,0.2639279334293375,792d10f5-5f4f-410b-b833-5b37124a9b8f,"Topic: BarChart
+Section: Bar overlays
+
+#### Example: overlay  
+```tsx
+// Demo.tsx
+import { BarChart } from '@mantine/charts';
+import classes from './Demo.module.css';
+import { data } from './data';
+
+function Demo() {
+const bigBarWidth = useMediaQuery('(min-width: 48em)') ? 42 : 26;
+const ratio = 0.5;
+const smallBarWidth = bigBarWidth * ratio;
+const barGap = (bigBarWidth + smallBarWidth) / -2;
+
+return (
+<BarChart
+h={300}
+data={overlayData}
+dataKey=""index""
+barChartProps={{ barGap }}
+barProps={(data) => ({ barSize: data.name === 'you' ? bigBarWidth : smallBarWidth })}
+classNames={classes}
+series={[
+{ name: 'you', color: 'var(--you-bar-color)' },
+{ name: 'average', color: 'var(--average-bar-color)' },
+]}
+/>
+);
+}
+
+// Demo.module.css
+.root {
+@mixin light {
+--average-bar-color: var(--mantine-color-dark-8);
+--you-bar-color: var(--mantine-color-blue-3);
+}
+
+@mixin dark {
+--you-bar-color: var(--mantine-color-blue-8);
+--average-bar-color: var(--mantine-color-gray-4);
+}
+}
+
+.bar {
+transform: translateX(-1.5px);
+}",0
+eval2_q012,How do I render a stacked BarChart in Mantine Charts with multiple data series?,hnsw_ef50_k15,50,8,0.26591605596582735,5f8912d6-ec41-452d-b161-e2b18c670cd3,"Topic: ScatterChart
+Section: Multiple series
+
+#### Example: multipleSeries  
+```tsx
+// Demo.tsx
+import { ScatterChart } from '@mantine/charts';
+import { data } from './data';
+
+function Demo() {
+return (
+<ScatterChart
+h={350}
+data={data}
+dataKey={{ x: 'age', y: 'BMI' }}
+xAxisLabel=""Age""
+yAxisLabel=""BMI""
+/>
+);
+}
+
+// data.ts
+export const data = [
+{
+color: 'blue.5',
+name: 'Group 1',
+data: [
+{ age: 25, BMI: 20 },
+{ age: 30, BMI: 22 },
+{ age: 35, BMI: 18 },
+{ age: 40, BMI: 25 },
+{ age: 45, BMI: 30 },
+{ age: 28, BMI: 15 },
+{ age: 22, BMI: 12 },
+{ age: 50, BMI: 28 },
+{ age: 32, BMI: 19 },
+{ age: 48, BMI: 31 },
+{ age: 26, BMI: 24 },
+{ age: 38, BMI: 27 },
+{ age: 42, BMI: 29 },
+{ age: 29, BMI: 16 },
+{ age: 34, BMI: 23 },
+{ age: 44, BMI: 33 },
+{ age: 23, BMI: 14 },
+{ age: 37, BMI: 26 },
+{ age: 49, BMI: 34 },
+{ age: 27, BMI: 17 },
+{ age: 41, BMI: 32 },
+{ age: 31, BMI: 21 },
+{ age: 46, BMI: 35 },
+{ age: 24, BMI: 13 },
+{ age: 33, BMI: 22 },
+{ age: 39, BMI: 28 },
+{ age: 47, BMI: 30 },
+{ age: 36, BMI: 25 },
+{ age: 43, BMI: 29 },
+{ age: 21, BMI: 11 },
+],
+},
+{
+color: 'red.5',
+name: 'Group 2',
+data: [
+{ age: 26, BMI: 21 },
+{ age: 31, BMI: 24 },
+{ age: 37, BMI: 19 },
+{ age: 42, BMI: 27 },
+{ age: 29, BMI: 32 },
+{ age: 35, BMI: 18 },
+{ age: 40, BMI: 23 },
+{ age: 45, BMI: 30 },
+{ age: 27, BMI: 15 },
+{ age: 33, BMI: 20 },
+{ age: 38, BMI: 25 },
+{ age: 43, BMI: 29 },
+{ age: 30, BMI: 16 },
+{ age: 36, BMI: 22 },
+{ age: 41, BMI: 28 },
+{ age: 46, BMI: 33 },
+{ age: 28, BMI: 17 },
+{ age: 34, BMI: 22 },
+{ age: 39, BMI: 26 },
+{ age: 44, BMI: 31 },
+{ age: 32, BMI: 18 },
+{ age: 38, BMI: 23 },
+{ age: 43, BMI: 28 },
+{ age: 48, BMI: 35 },
+{ age: 25, BMI: 14 },
+{ age: 31, BMI: 20 },
+{ age: 36, BMI: 25 },
+{ age: 41, BMI: 30 },
+{ age: 29, BMI: 16 },
+],
+},
+];
+```",0
+eval2_q012,How do I render a stacked BarChart in Mantine Charts with multiple data series?,hnsw_ef50_k15,50,9,0.2661970500312001,b745d311-808a-4cd3-a165-dffec784026d,"Topic: BarChart
+Section: Vertical orientation
+
+Set `orientation=""vertical""` to render a vertical bar chart:  
+#### Example: vertical  
+```tsx
+// Demo.tsx
+import { BarChart } from '@mantine/charts';
+import { data } from './data';
+
+function Demo() {
+return (
+<BarChart
+h={300}
+data={data}
+dataKey=""month""
+type=""stacked""
+orientation=""vertical""
+yAxisProps={{ width: 80 }}
+series={[
+{ name: 'Smartphones', color: 'violet.6' },
+{ name: 'Laptops', color: 'blue.6' },
+{ name: 'Tablets', color: 'teal.6' },
+]}
+/>
+);
+}
+
+// data.ts
+export const data = [
+{ month: 'January', Smartphones: 1200, Laptops: 900, Tablets: 200 },
+{ month: 'February', Smartphones: 1900, Laptops: 1200, Tablets: 400 },
+{ month: 'March', Smartphones: 400, Laptops: 1000, Tablets: 200 },
+{ month: 'April', Smartphones: 1000, Laptops: 200, Tablets: 800 },
+{ month: 'May', Smartphones: 800, Laptops: 1400, Tablets: 1200 },
+{ month: 'June', Smartphones: 750, Laptops: 600, Tablets: 1000 },
+];
+```",2
+eval2_q012,How do I render a stacked BarChart in Mantine Charts with multiple data series?,hnsw_ef50_k15,50,10,0.27207622514964513,84093d98-4f09-4a97-88c4-8b9ad8ac013a,"Topic: BarChart
+Section: Percent bar chart
+
+Set `type=""percent""` to render a percent bar chart. In this type of bar chart
+the y-axis scale is always normalized to 100%, making it easier to compare the
+contribution of each series in terms of percentages.  
+#### Example: percent  
+```tsx
+// Demo.tsx
+import { BarChart } from '@mantine/charts';
+import { data } from './data';
+
+function Demo() {
+return (
+<BarChart
+h={300}
+data={data}
+dataKey=""month""
+type=""percent""
+series={[
+{ name: 'Smartphones', color: 'violet.6' },
+{ name: 'Laptops', color: 'blue.6' },
+{ name: 'Tablets', color: 'teal.6' },
+]}
+/>
+);
+}
+
+// data.ts
+export const data = [
+{ month: 'January', Smartphones: 1200, Laptops: 900, Tablets: 200 },
+{ month: 'February', Smartphones: 1900, Laptops: 1200, Tablets: 400 },
+{ month: 'March', Smartphones: 400, Laptops: 1000, Tablets: 200 },
+{ month: 'April', Smartphones: 1000, Laptops: 200, Tablets: 800 },
+{ month: 'May', Smartphones: 800, Laptops: 1400, Tablets: 1200 },
+{ month: 'June', Smartphones: 750, Laptops: 600, Tablets: 1000 },
+];
+```",0
+eval2_q012,How do I render a stacked BarChart in Mantine Charts with multiple data series?,hnsw_ef50_k15,50,11,0.27341189132372723,2ec4ede0-f618-4d62-9a84-035dbc60f0fd,"Topic: BarChart
+Section: SVG pattern as bar fill
+
+You can use SVG patterns as bar fill. To do so, set `fill` property in series object to
+a url of the SVG pattern that is defined in the `defs` section of the chart `children`.  
+Example of using diagonal stripes and crosshatch patterns as bar fill:  
+#### Example: stripes  
+```tsx
+// Demo.tsx
+import { BarChart } from '@mantine/charts';
+import { data } from './data';
+
+function Demo() {
+return (
+<BarChart
+h={300}
+data={mixedStackData}
+dataKey=""month""
+series={[
+{ name: 'Smartphones', color: 'url(#crosshatch)', stackId: 'a' },
+{ name: 'Laptops', color: 'blue.6', stackId: 'b' },
+{ name: 'Tablets', color: 'url(#diagonalStripes)', stackId: 'b' },
+]}
+>
+<defs>
+<pattern
+id=""diagonalStripes""
+patternUnits=""userSpaceOnUse""
+width={6}
+height={8}
+patternTransform=""rotate(45)""
+>
+<rect
+width=""2""
+height=""8""
+transform=""translate(0,0)""
+fill=""color-mix(in lch, var(--mantine-color-teal-6) 70%, rgba(0,0,0,0))""
+/>
+</pattern>
+
+<pattern id=""crosshatch"" patternUnits=""userSpaceOnUse"" width={8} height={8}>
+<path
+d=""M 0 0 L 8 0 L 8 8 L 0 8 Z""
+fill=""none""
+stroke=""color-mix(in lch, var(--mantine-color-indigo-6) 70%, rgba(0,0,0,0))""
+strokeWidth=""1""
+/>
+<path
+d=""M 0 0 L 8 8""
+stroke=""color-mix(in lch, var(--mantine-color-indigo-6) 70%, rgba(0,0,0,0))""
+strokeWidth=""1""
+/>
+<path
+d=""M 8 0 L 0 8""
+stroke=""color-mix(in lch, var(--mantine-color-indigo-6) 70%, rgba(0,0,0,0))""
+strokeWidth=""1""
+/>
+</pattern>
+</defs>
+</BarChart>
+);
+}
+
+// data.ts
+export const data = [
+{ month: 'January', Smartphones: 1200, Laptops: 500, Tablets: 800 },
+{ month: 'February', Smartphones: 1900, Laptops: 1200, Tablets: 400 },
+{ month: 'March', Smartphones: 1800, Laptops: 1000, Tablets: 200 },
+{ month: 'April', Smartphones: 1000, Laptops: 200, Tablets: 800 },
+{ month: 'May', Smartphones: 800, Laptops: 200, Tablets: 700 },
+{ month: 'June', Smartphones: 800, Laptops: 500, Tablets: 200 },
+];
+```",0
+eval2_q012,How do I render a stacked BarChart in Mantine Charts with multiple data series?,hnsw_ef50_k15,50,12,0.2746908585405604,850729c9-2160-4edc-942e-abcbd746af21,"Topic: RadarChart
+Section: Multiple series
+
+You can display multiple series on the same radar chart:  
+#### Example: multiple  
+```tsx
+// Demo.tsx
+import { RadarChart } from '@mantine/charts';
+import { data } from './data';
+
+function Demo() {
+return (
+<RadarChart
+h={300}
+data={data}
+dataKey=""product""
+withPolarRadiusAxis
+series={[
+{ name: 'Sales January', color: 'lime.4', opacity: 0.1 },
+{ name: 'Sales February', color: 'cyan.4', opacity: 0.1 },
+]}
+/>
+);
+}
+
+// data.ts
+export const data = [
+{
+product: 'Apples',
+'Sales January': 120,
+'Sales February': 100,
+},
+{
+product: 'Oranges',
+'Sales January': 98,
+'Sales February': 90,
+},
+{
+product: 'Tomatoes',
+'Sales January': 86,
+'Sales February': 70,
+},
+{
+product: 'Grapes',
+'Sales January': 99,
+'Sales February': 80,
+},
+{
+product: 'Bananas',
+'Sales January': 85,
+'Sales February': 120,
+},
+{
+product: 'Lemons',
+'Sales January': 65,
+'Sales February': 150,
+},
+];
+```",0
+eval2_q012,How do I render a stacked BarChart in Mantine Charts with multiple data series?,hnsw_ef50_k15,50,13,0.27705995990036725,40bdbbda-d9d2-4304-99d7-84f17405a811,"Topic: CompositeChart
+Section: Usage
+
+`CompositeChart` allows using `Line`, `Area` and `Bar` charts together in a single
+chart:  
+#### Example: usage  
+```tsx
+// Demo.tsx
+import { CompositeChart } from '@mantine/charts';
+import { data } from './data';
+
+
+function Demo() {
+return (
+<CompositeChart
+h={300}
+data={data}
+dataKey=""date""
+maxBarWidth={30}
+series={[
+{ name: 'Tomatoes', color: 'rgba(18, 120, 255, 0.2)', type: 'bar' },
+{ name: 'Apples', color: 'red.8', type: 'line' },
+{ name: 'Oranges', color: 'yellow.8', type: 'area' },
+]}
+
+/>
+);
+}
+
+// data.ts
+export const data = [
+{
+date: 'Mar 22',
+Apples: 2890,
+Oranges: 2338,
+Tomatoes: 2452,
+},
+{
+date: 'Mar 23',
+Apples: 2756,
+Oranges: 2103,
+Tomatoes: 2402,
+},
+{
+date: 'Mar 24',
+Apples: 3322,
+Oranges: 986,
+Tomatoes: 1821,
+},
+{
+date: 'Mar 25',
+Apples: 3470,
+Oranges: 2108,
+Tomatoes: 2809,
+},
+{
+date: 'Mar 26',
+Apples: 3129,
+Oranges: 1726,
+Tomatoes: 2290,
+},
+];
+```",0
+eval2_q012,How do I render a stacked BarChart in Mantine Charts with multiple data series?,hnsw_ef50_k15,50,14,0.28399082907777506,87d80993-c23f-45c8-9b83-00eff6ebedf3,"Topic: BarChart
+Section: Legend
+
+To display chart legend, set `withLegend` prop. When one of the items in the legend
+is hovered, the corresponding data series is highlighted in the chart.  
+#### Example: legend  
+```tsx
+// Demo.tsx
+import { BarChart } from '@mantine/charts';
+import { data } from './data';
+
+function Demo() {
+return (
+<BarChart
+h={300}
+data={data}
+dataKey=""month""
+withLegend
+series={[
+{ name: 'Smartphones', color: 'violet.6' },
+{ name: 'Laptops', color: 'blue.6' },
+{ name: 'Tablets', color: 'teal.6' },
+]}
+/>
+);
+}
+
+// data.ts
+export const data = [
+{ month: 'January', Smartphones: 1200, Laptops: 900, Tablets: 200 },
+{ month: 'February', Smartphones: 1900, Laptops: 1200, Tablets: 400 },
+{ month: 'March', Smartphones: 400, Laptops: 1000, Tablets: 200 },
+{ month: 'April', Smartphones: 1000, Laptops: 200, Tablets: 800 },
+{ month: 'May', Smartphones: 800, Laptops: 1400, Tablets: 1200 },
+{ month: 'June', Smartphones: 750, Laptops: 600, Tablets: 1000 },
+];
+```",0
+eval2_q012,How do I render a stacked BarChart in Mantine Charts with multiple data series?,hnsw_ef50_k15,50,15,0.2874141345882638,988039c4-07e2-499d-b96c-834e6e2d70e6,"Topic: BarChart
+Section: Bar overlays
+
+// data.ts
+export const data = [
+{ you: 5, average: 3, index: '1' },
+{ you: 7, average: 9, index: '2' },
+{ you: 8, average: 5, index: '3' },
+{ you: 3, average: 6, index: '4' },
+{ you: 2, average: 4, index: '5' },
+{ you: 6, average: 8, index: '6' },
+{ you: 4, average: 7, index: '7' },
+{ you: 9, average: 2, index: '8' },
+];
+```  
+#### Props  
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| barChartProps | Omit<CategoricalChartProps & RefAttributes<{ readonly eventEmitterSymbol: Symbol; clipPathId: string; accessibilityManager: AccessibilityManager; ... 65 more ...; UNSAFE_componentWillUpdate?(nextProps: Readonly<...>, nextState: Readonly<...>, nextContext: any): void; }>, ""ref""> | - | Props passed down to recharts <code>BarChart</code> component |
+| barLabelColor | MantineColor | - | Controls color of the bar label, by default the value is determined by the chart orientation |
+| barProps | ((series: BarChartSeries) => Partial<Omit<Props, ""ref"">>) | Partial<Omit<Props, ""ref"">> | - | Props passed down to recharts <code>Bar</code> component |
+| children | React.ReactNode | - | Additional components that are rendered inside recharts <code>BarChart</code> component |
+| cursorFill | MantineColor | - | Fill of hovered bar section, by default value is based on color scheme |
+| data | Record<string, any>[] | required | Data used to display chart. |
+| dataKey | string | required | Key of the <code>data</code> object for x-axis values |
+| fillOpacity | number | - | Controls fill opacity of all bars |
+| getBarColor | (value: number, series: BarChartSeries) => DefaultMantineColor | - | A function to assign dynamic bar color based on its value |
+| gridAxis | ""none"" | ""x"" | ""y"" | ""xy"" | - | Specifies which lines should be displayed in the grid, <code>'x'</code> by default |
+| gridColor | MantineColor | - | Color of the grid and cursor lines, by default depends on color scheme |
+| gridProps | RechartsProps | - | Props passed down to the",0
+eval2_q014,"Does Mantine provide a built-in way to synchronize state across browser tabs (e.g., theme/color scheme), and how do I use it?",hnsw_ef50_k15,50,1,0.2046342870497485,4db4e952-7f1b-4e40-ae74-f7db9242265d,"Topic: useLocalStorage
+Section: Browser tabs synchronization
+
+`use-local-storage` subscribes to [storage event](https://developer.mozilla.org/en-US/docs/Web/API/Window/storage_event).
+When state changes in one tab, it automatically updates the value in all other opened browser tabs.
+You can test this feature by opening 2 tabs with Mantine docs side by side and changing the color scheme
+(button on the top right or `⌘ + J` on MacOS and `Ctrl + J` on Windows and Linux).",2
+eval2_q014,"Does Mantine provide a built-in way to synchronize state across browser tabs (e.g., theme/color scheme), and how do I use it?",hnsw_ef50_k15,50,2,0.28305255228724713,741197d5-808f-4951-a069-c6b4d9eed475,"Topic: ColorSchemes
+Section: Color scheme manager
+
+return {
+get: (defaultValue) => {
+if (typeof window === 'undefined') {
+return defaultValue;
+}
+
+try {
+return (
+(window.localStorage.getItem(key) as MantineColorScheme) ||
+defaultValue
+);
+} catch {
+return defaultValue;
+}
+},
+
+set: (value) => {
+try {
+window.localStorage.setItem(key, value);
+} catch (error) {
+// eslint-disable-next-line no-console
+console.warn(
+'[@mantine/core] Local storage color scheme manager was unable to save color scheme.',
+error
+);
+}
+},
+
+subscribe: (onUpdate) => {
+handleStorageEvent = (event) => {
+if (
+event.storageArea === window.localStorage &&
+event.key === key
+) {
+isMantineColorScheme(event.newValue) &&
+onUpdate(event.newValue);
+}
+};
+
+window.addEventListener('storage', handleStorageEvent);
+},
+
+unsubscribe: () => {
+window.removeEventListener('storage', handleStorageEvent);
+},
+
+clear: () => {
+window.localStorage.removeItem(key);
+},
+};
+}
+```  
+Then custom color scheme manager can be passed to [MantineProvider](https://mantine.dev/theming/mantine-provider):  
+```tsx
+import { MantineProvider } from '@mantine/core';
+import { localStorageColorSchemeManager } from './localStorageColorSchemeManager';
+
+const colorSchemeManager = localStorageColorSchemeManager({
+key: 'my-color-scheme',
+});
+
+function Demo() {
+return (
+<MantineProvider colorSchemeManager={colorSchemeManager}>
+{/* Your app here */}
+</MantineProvider>
+);
+}
+```",0
+eval2_q014,"Does Mantine provide a built-in way to synchronize state across browser tabs (e.g., theme/color scheme), and how do I use it?",hnsw_ef50_k15,50,3,0.2867586937169416,675d4cba-344d-40fb-80d3-59c60b349380,"Topic: ColorSchemes
+Section: Color scheme manager
+
+By default, color scheme value is stored in local storage, but you can implement your own
+color scheme manager to store the value in any other external storage.  
+Color scheme manager must have the following methods:  
+```tsx
+interface MantineColorSchemeManager {
+/** Function to retrieve color scheme value from external storage, for example window.localStorage */
+get: (defaultValue: MantineColorScheme) => MantineColorScheme;
+
+/** Function to set color scheme value in external storage, for example window.localStorage */
+set: (value: MantineColorScheme) => void;
+
+/** Function to subscribe to color scheme changes triggered by external events */
+subscribe: (
+onUpdate: (colorScheme: MantineColorScheme) => void
+) => void;
+
+/** Function to unsubscribe from color scheme changes triggered by external events */
+unsubscribe: () => void;
+
+/** Function to clear value from external storage */
+clear: () => void;
+}
+```  
+Usually, it is better to wrap color scheme manager in a creator function to provide a way to
+configure it. Default local storage based color scheme manager example:  
+```tsx
+import {
+isMantineColorScheme,
+MantineColorScheme,
+MantineColorSchemeManager,
+} from '@mantine/core';
+
+export interface LocalStorageColorSchemeManagerOptions {
+/** Local storage key used to retrieve value with `localStorage.getItem(key)`, `mantine-color-scheme` by default */
+key?: string;
+}
+
+export function localStorageColorSchemeManager({
+key = 'mantine-color-scheme',
+}: LocalStorageColorSchemeManagerOptions = {}): MantineColorSchemeManager {
+let handleStorageEvent: (event: StorageEvent) => void;
+
+return {
+get: (defaultValue) => {
+if (typeof window === 'undefined') {
+return defaultValue;
+}
+
+try {
+return (
+(window.localStorage.getItem(key) as MantineColorScheme) ||
+defaultValue
+);
+} catch {
+return defaultValue;
+}
+},",0
+eval2_q014,"Does Mantine provide a built-in way to synchronize state across browser tabs (e.g., theme/color scheme), and how do I use it?",hnsw_ef50_k15,50,4,0.29090021557529344,9de06d5c-d367-4e9a-86d6-8d607a2c84c4,"Topic: MantineProvider
+Section: colorSchemeManager
+
+`colorSchemeManager` is used to retrieve and set color scheme value in external storage. By default,
+`MantineProvider` uses `window.localStorage` to store color scheme value, but you can pass your own
+implementation to `colorSchemeManager` prop. You can learn more about color scheme management in the
+[color schemes guide](https://mantine.dev/theming/color-schemes).  
+```tsx
+import {
+localStorageColorSchemeManager,
+MantineProvider,
+} from '@mantine/core';
+
+const colorSchemeManager = localStorageColorSchemeManager({
+key: 'my-app-color-scheme',
+});
+
+function Demo() {
+return (
+<MantineProvider colorSchemeManager={colorSchemeManager}>
+{/* Your app here */}
+</MantineProvider>
+);
+}
+```",0
+eval2_q014,"Does Mantine provide a built-in way to synchronize state across browser tabs (e.g., theme/color scheme), and how do I use it?",hnsw_ef50_k15,50,5,0.291528031024907,e081e040-3381-40e1-a57a-ba3eef40f0c5,"Topic: ColorSchemes
+Section: Color scheme value caveats
+
+By default, the color scheme value is stored in local storage, and its value is saved in state
+before the component is mounted to avoid flash of inaccurate color scheme. This means that
+color scheme value can be different on client and server, as server does not have access
+to local storage and always uses the default value.  
+If you have server side rendering in your application (for example, if you use [Next.js](https://mantine.dev/guides/next) or [React Router](https://mantine.dev/guides/react-router)), then you cannot use `colorScheme`
+value in your application to avoid hydration issues. Instead, you can use `dark` and `light`
+mixins from [postcss-preset-mantine](https://mantine.dev/styles/postcss-preset) to generate styles that will
+hide elements based on color scheme value:  
+#### Example: colorSchemeControl  
+```tsx
+import { ActionIcon, useMantineColorScheme, useComputedColorScheme } from '@mantine/core';
+import { IconSun, IconMoon } from '@tabler/icons-react';
+import cx from 'clsx';
+import classes from './Demo.module.css';
+
+function Demo() {
+const { setColorScheme } = useMantineColorScheme();
+const computedColorScheme = useComputedColorScheme('light', { getInitialValueInEffect: true });
+
+return (
+<ActionIcon
+onClick={() => setColorScheme(computedColorScheme === 'light' ? 'dark' : 'light')}
+variant=""default""
+size=""xl""
+aria-label=""Toggle color scheme""
+>
+<IconSun className={cx(classes.icon, classes.light)} stroke={1.5} />
+<IconMoon className={cx(classes.icon, classes.dark)} stroke={1.5} />
+</ActionIcon>
+);
+}
+```  
+> **colorScheme for client only applications**
+>
+> You can safely use `colorScheme` value in client only applications (for example, Vite or create-react-app applications).
+> In this case, there is no hydration, and thus hydration error cannot occur.",0
+eval2_q014,"Does Mantine provide a built-in way to synchronize state across browser tabs (e.g., theme/color scheme), and how do I use it?",hnsw_ef50_k15,50,6,0.2956174316897002,633483d7-2117-4a20-9e30-296f2e12171c,"Topic: General
+Section: Get color scheme value in component
+
+To get color scheme value in component use `useMantineColorScheme` hook:  
+```tsx
+import { useMantineColorScheme } from '@mantine/core';
+
+function Demo() {
+// colorScheme is `'dark' | 'light' | 'auto'`
+const { colorScheme } = useMantineColorScheme();
+}
+```  
+If you want to get computed color scheme, use `useComputedColorScheme` hook instead.
+It will resolve `auto` value to `dark` or `light` based on user preferences:  
+```tsx
+import { useComputedColorScheme } from '@mantine/core';
+
+function Demo() {
+// colorScheme is `'dark' | 'light'`
+const colorScheme = useComputedColorScheme();
+}
+```  
+Note that both hooks are using `localStorage` to store color scheme value.
+It is not possible to get color scheme value on the server side – the value
+will always fallback to `light` during SSR.",0
+eval2_q014,"Does Mantine provide a built-in way to synchronize state across browser tabs (e.g., theme/color scheme), and how do I use it?",hnsw_ef50_k15,50,7,0.29591963578109837,d070dc0b-d315-47cb-915d-de5ef5f9eec1,"Topic: General
+Section: Can I get color scheme value in JavaScript?
+
+If your application does not have server-side rendering, you can get color scheme value
+with `useMantineColorScheme` hook:  
+```tsx
+import { useMantineColorScheme } from '@mantine/core';
+
+function MyComponent() {
+const { colorScheme } = useMantineColorScheme();
+
+// ✅ Works in Vite and other client-side bundlers/frameworks
+// ❌ Hydration mismatch in Next.js, React Router, and other server-side rendering frameworks
+return <div>Color scheme is {colorScheme}</div>;
+}
+```  
+If you have server-side rendering in your application (Next.js, React Router, etc.), you should
+not rely on JavaScript to get color scheme value – conditional rendering based on color
+scheme value will produce hydration mismatch. In this case, the only option is to use
+styles to hide/show elements based on the color scheme value.",0
+eval2_q014,"Does Mantine provide a built-in way to synchronize state across browser tabs (e.g., theme/color scheme), and how do I use it?",hnsw_ef50_k15,50,8,0.2971810582805381,e78c0722-8239-4301-8c30-8c5afa03303b,"Topic: useLocalStorage
+Section: Example
+
+Example of a color scheme toggle button that uses `use-local-storage` hook
+to store current color scheme in the `localStorage`:  
+```tsx
+import { IconMoonStars, IconSun } from '@tabler/icons-react';
+import { ActionIcon } from '@mantine/core';
+import { useLocalStorage } from '@mantine/hooks';
+
+function ColorSchemeToggle() {
+const [colorScheme, setColorScheme] = useLocalStorage<
+'light' | 'dark'
+>({
+key: 'color-scheme',
+defaultValue: 'light',
+});
+
+const toggleColorScheme = () =>
+setColorScheme((current) =>
+current === 'dark' ? 'light' : 'dark'
+);
+
+return (
+<ActionIcon onClick={toggleColorScheme}>
+{colorScheme === 'dark' ? <IconSun /> : <IconMoonStars />}
+</ActionIcon>
+);
+}
+```",0
+eval2_q014,"Does Mantine provide a built-in way to synchronize state across browser tabs (e.g., theme/color scheme), and how do I use it?",hnsw_ef50_k15,50,9,0.30113543210410554,cb6ca235-a88b-4fe3-9ea9-77082042b64d,"Topic: useLocalStorage
+Section: Usage
+
+`use-local-storage` allows using value from the `localStorage` as react state.
+The hook works the same way as `useState`, but also writes the value to the `localStorage`:  
+```tsx
+import { useLocalStorage } from '@mantine/hooks';
+
+// The hook will read value from localStorage.getItem('color-scheme')
+// If localStorage is not available or value at a given key does not exist
+// 'dark' will be assigned to value variable
+const [value, setValue] = useLocalStorage({
+key: 'color-scheme',
+defaultValue: 'dark',
+});
+
+// Value is set both to state and localStorage at 'color-scheme'
+setValue('light');
+
+// You can also use callback like in useState hook to set value
+setValue((current) => (current === 'dark' ? 'light' : 'dark'));
+```",0
+eval2_q014,"Does Mantine provide a built-in way to synchronize state across browser tabs (e.g., theme/color scheme), and how do I use it?",hnsw_ef50_k15,50,10,0.304537985440564,ddf687f1-ebf1-408d-bd5b-b38a466718ef,"Topic: MantineProvider
+Section: Overview
+
+# MantineProvider  
+`MantineProvider` provides a [theme object](https://mantine.dev/theming/theme-object) context value, manages color scheme
+changes and injects [CSS variables](https://mantine.dev/styles/css-variables/). It must be rendered at the root of your
+application and should be used only once.",0
+eval2_q014,"Does Mantine provide a built-in way to synchronize state across browser tabs (e.g., theme/color scheme), and how do I use it?",hnsw_ef50_k15,50,11,0.3052845646331047,e2c32976-a65f-4ca4-b283-eea848a95aec,"Topic: General
+Section: Get color scheme value outside of component
+
+To get color scheme value outside of component, create an utility function
+that will parse color scheme value from `data-mantine-color-scheme` attribute:  
+```tsx
+import { MantineColorScheme } from '@mantine/core';
+
+export function getColorScheme() {
+return document.documentElement.getAttribute(
+'data-mantine-color-scheme'
+) as MantineColorScheme;
+}
+```  
+Then use it in any place of your application:  
+```tsx
+import { getColorScheme } from './getColorScheme';
+
+const colorScheme = getColorScheme();
+```  
+Note that this approach will not work on the server side.",0
+eval2_q014,"Does Mantine provide a built-in way to synchronize state across browser tabs (e.g., theme/color scheme), and how do I use it?",hnsw_ef50_k15,50,12,0.30751687036136455,4b912ed6-5db9-46f6-ba39-340b04dc8cb4,"Topic: General
+Section: Overview
+
+# use-local-storage hook returns real value only after mounting, is it a bug?
+Learn how Mantine retrieves local storage value",0
+eval2_q014,"Does Mantine provide a built-in way to synchronize state across browser tabs (e.g., theme/color scheme), and how do I use it?",hnsw_ef50_k15,50,13,0.3106758048394316,e3e9768f-ebdb-44ab-8559-5b977c114fe8,"Topic: Tabs
+Section: Usage with Next.js router
+
+```tsx
+// For file /tabs/[activeTab].tsx
+import { useRouter } from 'next/router';
+import { Tabs } from '@mantine/core';
+
+function Demo() {
+const router = useRouter();
+
+return (
+<Tabs
+value={router.query.activeTab as string}
+onChange={(value) => router.push(`/tabs/${value}`)}
+>
+<Tabs.List>
+<Tabs.Tab value=""first"">First tab</Tabs.Tab>
+<Tabs.Tab value=""second"">Second tab</Tabs.Tab>
+</Tabs.List>
+</Tabs>
+);
+}
+```  
+#### Example: stylesApi  
+```tsx
+import { Tabs } from '@mantine/core';
+
+function Demo() {
+return (
+<Tabs defaultValue=""gallery"">
+<Tabs.List>
+<Tabs.Tab value=""gallery"" leftSection={<IconPhoto size={12} />}>
+Gallery
+</Tabs.Tab>
+<Tabs.Tab value=""messages"" leftSection={<IconMessageCircle size={12} />}>
+Messages
+</Tabs.Tab>
+<Tabs.Tab value=""settings"" rightSection={<IconSettings size={12} />}>
+Settings
+</Tabs.Tab>
+</Tabs.List>
+
+<Tabs.Panel value=""gallery"" pt=""xs"">
+Gallery tab content
+</Tabs.Panel>
+
+<Tabs.Panel value=""messages"" pt=""xs"">
+Messages tab content
+</Tabs.Panel>
+
+<Tabs.Panel value=""settings"" pt=""xs"">
+Settings tab content
+</Tabs.Panel>
+</Tabs>
+);
+}
+```  
+Example of Styles API usage to customize tab styles:  
+#### Example: customize  
+```tsx
+// Demo.module.css
+.tab {
+position: relative;
+border: 1px solid light-dark(var(--mantine-color-gray-2), var(--mantine-color-dark-4));
+background-color: light-dark(var(--mantine-color-white), var(--mantine-color-dark-6));
+
+&:first-of-type {
+border-radius: 4px 0 0 4px;
+
+@mixin rtl {
+border-radius: 0 4px 4px 0;
+}
+}
+
+&:last-of-type {
+border-radius: 0 4px 4px 0;
+
+@mixin rtl {
+border-radius: 4px 0 0 4px;
+}
+}
+
+& + & {
+border-left-width: 0;
+
+@mixin rtl {
+border-right-width: 0;
+border-left-width: 1px;
+}
+}
+
+@mixin hover {
+background-color: light-dark(var(--mantine-color-gray-0), var(--mantine-color-dark-5));
+}
+
+&[data-active] {
+z-index: 1;
+background-color: var(--mantine-color-blue-filled);
+border-color: var(--mantine-color-blue-filled);
+color: var(--mantine-color-white);",0
+eval2_q014,"Does Mantine provide a built-in way to synchronize state across browser tabs (e.g., theme/color scheme), and how do I use it?",hnsw_ef50_k15,50,14,0.3106785343596882,0d617a60-7a2f-443a-8757-5bba1557bc84,"Topic: ColorSchemes
+Section: Overview
+
+# Color schemes  
+[MantineProvider](https://mantine.dev/theming/mantine-provider/) manages color scheme context in your application.
+You can configure the default color scheme value with `defaultColorScheme` prop, possible values are `light`,
+`dark` and `auto` (system color scheme is used). The default value is `light`.  
+```tsx
+import { MantineProvider } from '@mantine/core';
+
+function Demo() {
+return (
+<MantineProvider defaultColorScheme=""dark"">
+{/* Your app here */}
+</MantineProvider>
+);
+}
+```",0
+eval2_q014,"Does Mantine provide a built-in way to synchronize state across browser tabs (e.g., theme/color scheme), and how do I use it?",hnsw_ef50_k15,50,15,0.3120802700521551,99d1d5a1-d250-4950-8c7b-0834488a484a,"Topic: General
+Section: Overview
+
+# How can I get current color scheme value in JavaScript?
+How to use useMantineColorScheme and useComputedColorScheme hooks to get current color scheme value in JavaScript",0
