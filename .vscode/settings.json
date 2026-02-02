@@ -6,6 +6,6 @@
   "[python]": {
     "editor.defaultFormatter": "ms-python.black-formatter"
   },
-  "ruff.enable": true
+  "ruff.enable": true,
+  "ruff.importStrategy": "useBundled"
 }
-
