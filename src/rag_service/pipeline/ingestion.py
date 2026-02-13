@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any, Callable, Dict, List, Sequence
 
-from sqlalchemy.dialects.postgresql import insert
+from sqlalchemy.dialects.postgresql import insert as pg_insert
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlmodel import delete
 
@@ -10,7 +10,9 @@ from llama_index.core.ingestion import IngestionPipeline
 from llama_index.core.schema import BaseNode, MetadataMode
 from llama_index.core import Document as LlamaDocument
 
-from rag_service.models import Document, Chunk
+from rag_service.models.embeddings import Document, Chunk
+import hashlib
+import re
 
 
 SessionFactory = Callable[[], AsyncSession]
@@ -89,11 +91,20 @@ class IngestPipeline:
                                 "chunk_index": i,
                                 "content": content,
                                 "embedding": emb,
+                                "content_hash": self.create_content_hash(content),
                                 "chunk_metadata": dict(node.metadata or {}),
                             }
                         )
 
-                    stmt = insert(Chunk.__table__)
+                    stmt = pg_insert(Chunk.__table__).on_conflict_do_nothing(
+                        index_elements=["document_id", "content_hash"]
+                    )
                     await session.execute(stmt, rows)
 
         return {"document_id": doc_id, "doc_row": doc_row, "n_chunks": len(nodes)}
+
+    def create_content_hash(self, content: str) -> str:
+        """Create a simple hash of the content for deduplication purposes."""
+
+        norm = re.sub(r"\s+", " ", str(content)).strip()
+        return hashlib.sha256(norm.encode("utf-8")).hexdigest()
