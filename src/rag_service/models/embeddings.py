@@ -44,6 +44,7 @@ class Chunk(SQLModel, table=True):
 
     __table_args__ = (
         UniqueConstraint("document_id", "chunk_index", name="uq_chunks_document_chunk_index"),
+        UniqueConstraint("document_id", "content_hash", name="uq_chunks_document_content_hash"),
         # Fast filter by document
         Index("idx_chunks_document_id", "document_id"),
         Index(
@@ -77,6 +78,7 @@ class Chunk(SQLModel, table=True):
 
     chunk_index: int
     content: str
+    content_hash: str
 
     embedding: list[float] = Field(
         sa_column=Column(Vector(EMBEDDING_DIM), nullable=False),
