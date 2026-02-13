@@ -1,0 +1,3879 @@
+query_id,query_text,chunk_id,chunk_text,score,rank,relevance,rerank_score,rank_reranked
+eval2_q001,How do I apply a global theme override so it affects Mantine components across my app?,968bb896-1574-4c10-90c4-cde0f0946fd0,"Topic: MantineProvider
+Section: theme
+
+Pass [theme object](https://mantine.dev/theming/theme-object) override to `theme` prop. It will be merged with the default
+theme and used in all components.  
+```tsx
+import { createTheme, MantineProvider } from '@mantine/core';
+
+const theme = createTheme({
+fontFamily: 'Open Sans, sans-serif',
+primaryColor: 'cyan',
+});
+
+function Demo() {
+return (
+<MantineProvider theme={theme}>
+{/* Your app here */}
+</MantineProvider>
+);
+}
+```",0.0155272026961964,1,2,0.9140625,1
+eval2_q001,How do I apply a global theme override so it affects Mantine components across my app?,caa2e8d2-fb07-4323-a5cd-75122832986a,"Topic: ThemeObject
+Section: Access theme outside of components
+
+To access theme outside of components, you need to create a full theme object
+(your theme override merged with the default theme).  
+```tsx
+// theme.ts
+import {
+createTheme,
+DEFAULT_THEME,
+mergeMantineTheme,
+} from '@mantine/core';
+
+const themeOverride = createTheme({
+primaryColor: 'orange',
+defaultRadius: 0,
+});
+
+export const theme = mergeMantineTheme(DEFAULT_THEME, themeOverride);
+```  
+Then you will be able to import it anywhere in your application:  
+```tsx
+import { theme } from './theme';
+```",0.0079365079365079,8,1,0.875,2
+eval2_q001,How do I apply a global theme override so it affects Mantine components across my app?,f6744b6a-c548-4adb-9e77-a5a5fcd7802e,"Topic: ThemeObject
+Section: Usage
+
+To customize theme, pass theme override object to [MantineProvider](https://mantine.dev/theming/mantine-provider/) `theme` prop.
+Theme override will be deeply merged with the default theme.  
+```tsx
+import { createTheme, MantineProvider } from '@mantine/core';
+
+const theme = createTheme({
+colors: {
+// Add your color
+deepBlue: [
+'#eef3ff',
+'#dce4f5',
+'#b9c7e2',
+'#94a8d0',
+'#748dc1',
+'#5f7cb8',
+'#5474b4',
+'#44639f',
+'#39588f',
+'#2d4b81',
+],
+// or replace default theme color
+blue: [
+'#eef3ff',
+'#dee2f2',
+'#bdc2de',
+'#98a0ca',
+'#7a84ba',
+'#6672b0',
+'#5c68ac',
+'#4c5897',
+'#424e88',
+'#364379',
+],
+},
+
+shadows: {
+md: '1px 1px 3px rgba(0, 0, 0, .25)',
+xl: '5px 5px 3px rgba(0, 0, 0, .25)',
+},
+
+headings: {
+fontFamily: 'Roboto, sans-serif',
+sizes: {
+h1: { fontSize: '36px' },
+},
+},
+});
+
+function Demo() {
+return (
+<MantineProvider theme={theme}>
+{/* Your app here */}
+</MantineProvider>
+);
+}
+```",0.0081967213114754,6,3,0.84765625,3
+eval2_q001,How do I apply a global theme override so it affects Mantine components across my app?,0675135d-5dc6-4456-890a-0e9e3de3d521,"Topic: MantineProvider
+Section: Usage
+
+```tsx
+import { createTheme, MantineProvider } from '@mantine/core';
+
+const theme = createTheme({
+/** Your theme override here */
+});
+
+function Demo() {
+return (
+<MantineProvider theme={theme}>
+{/* Your app here */}
+</MantineProvider>
+);
+}
+```",0.0078125,10,2,0.82421875,4
+eval2_q001,How do I apply a global theme override so it affects Mantine components across my app?,abe16395-6325-49d4-a307-132341bb45ab,"Topic: GlobalStyles
+Section: Add global styles in your application
+
+It is recommended to use [CSS modules](https://mantine.dev/styles/css-modules) to apply styles to Mantine components
+with `className` prop or with [Styles API](https://mantine.dev/styles/styles-api). CSS modules files names usually
+end with `.module.css`, if you want to add global styles to your application, create a file with
+`.css` extension but without `.module` part, for example `global.css`.  
+In global `.css` files you can reference all Mantine [CSS variables](https://mantine.dev/styles/css-variables) and
+change styles of `<body />`, `:root` and other elements. For example, to change body background-color:  
+```css
+body {
+background-color: var(--mantine-color-red-filled);
+}
+```",0.0076923076923076,12,0,0.8125,5
+eval2_q001,How do I apply a global theme override so it affects Mantine components across my app?,299c2690-956e-4dfb-87fe-266a7fc85ab2,"Topic: GettingStarted
+Section: Get started without framework
+
+const theme = createTheme({
+/** Put your mantine theme override here */
+});
+
+function Demo() {
+return (
+<MantineProvider theme={theme}>
+{/* Your app here */}
+</MantineProvider>
+);
+}
+```  
+If your application has server side rendering, add [ColorSchemeScript](https://mantine.dev/theming/color-schemes)
+to the `<head />` of your application and spread `mantineHtmlProps` on the `<html />` element
+to [avoid seeing a hydration warning](https://help.mantine.dev/q/color-scheme-hydration-warning):  
+```tsx
+import { ColorSchemeScript, mantineHtmlProps } from '@mantine/core';
+
+function Demo() {
+return (
+<html lang=""en"" {...mantineHtmlProps}>
+<head>
+<meta charSet=""UTF-8"" />
+<meta
+name=""viewport""
+content=""width=device-width, initial-scale=1.0""
+/>
+<title>My awesome app</title>
+
+<ColorSchemeScript />
+</head>
+<body>{/* Your app here */}</body>
+</html>
+);
+}
+```  
+All set! You can now use Mantine components in your application.",0.0150588768115942,2,2,0.80859375,6
+eval2_q001,How do I apply a global theme override so it affects Mantine components across my app?,4e400222-92be-4348-9bd4-4055cb0e7b3e,"Topic: Storybook
+Section: Theme object
+
+To shared [theme object](https://mantine.dev/theming/theme-object) between your application and Storybook, create
+`src/theme.ts` (or any other path in your application) file with your theme override:  
+```tsx
+// src/theme.ts
+import { createTheme } from '@mantine/core';
+
+export const theme = createTheme({
+fontFamily: 'serif',
+// ... other theme override properties
+});
+```  
+Then you will be able to use the same theme both in your application and Storybook:  
+```tsx
+// In your application
+
+import { MantineProvider } from '@mantine/core';
+import { theme } from './theme';
+
+function App() {
+return <MantineProvider theme={theme}>{/* ... */}</MantineProvider>;
+}
+```",0.0074626865671641,14,0,0.80078125,7
+eval2_q001,How do I apply a global theme override so it affects Mantine components across my app?,9305c813-be5e-489e-8138-c7051217c39e,"Topic: ThemeObject
+Section: Store theme override object in a variable
+
+To store theme override object in a variable, use `createTheme` function:  
+```tsx
+import { createTheme, MantineProvider } from '@mantine/core';
+
+const myTheme = createTheme({
+primaryColor: 'orange',
+defaultRadius: 0,
+});
+
+function Demo() {
+return (
+<MantineProvider theme={myTheme}>
+{/* Your app here */}
+</MantineProvider>
+);
+}
+```",0.0148221343873517,3,2,0.796875,8
+eval2_q001,How do I apply a global theme override so it affects Mantine components across my app?,41e08fef-e4fb-4ce1-b678-0337e7899a2c,"Topic: ThemeObject
+Section: Default theme
+
+You can import default theme object from `@mantine/core` package. It includes
+all theme properties with default values. When you pass theme override to
+[MantineProvider](https://mantine.dev/theming/mantine-provider), it will be deeply merged with
+the default theme.  
+```tsx
+import { DEFAULT_THEME } from '@mantine/core';
+```",0.0070422535211267,19,1,0.734375,9
+eval2_q001,How do I apply a global theme override so it affects Mantine components across my app?,850644d6-78d5-464f-bd04-efb1eb740c74,"Topic: MantineProvider
+Section: MantineProvider props
+
+`MantineProvider` supports the following props:  
+```tsx
+interface MantineProviderProps {
+/** Theme override object */
+theme?: MantineThemeOverride;
+
+/** Used to retrieve/set color scheme value in external storage, by default uses `window.localStorage` */
+colorSchemeManager?: MantineColorSchemeManager;
+
+/** Default color scheme value used when `colorSchemeManager` cannot retrieve value from external storage, `light` by default */
+defaultColorScheme?: MantineColorScheme;
+
+/** Forces color scheme value, if set, MantineProvider ignores `colorSchemeManager` and `defaultColorScheme` */
+forceColorScheme?: 'light' | 'dark';
+
+/** CSS selector to which CSS variables should be added, by default variables are applied to `:root` and `:host` */
+cssVariablesSelector?: string;
+
+/** Determines whether theme CSS variables should be added to given `cssVariablesSelector`, `true` by default */
+withCssVariables?: boolean;
+
+/** Determines whether CSS variables should be deduplicated: if CSS variable has the same value as in default theme, it is not added in the runtime. `true` by default. */
+deduplicateCssVariables?: boolean;
+
+/** Function to resolve root element to set `data-mantine-color-scheme` attribute, must return undefined on server, `() => document.documentElement` by default */
+getRootElement?: () => HTMLElement | undefined;
+
+/** A prefix for components static classes (for example {selector}-Text-root), `mantine` by default */
+classNamesPrefix?: string;
+
+/** Function to generate nonce attribute added to all generated `<style />` tags */
+getStyleNonce?: () => string;
+
+/** Function to generate CSS variables based on theme object */
+cssVariablesResolver?: CSSVariablesResolver;
+
+/** Determines whether components should have static classes, for example, `mantine-Button-root`. `true` by default */
+withStaticClasses?: boolean;",0.0073529411764705,16,1,0.73046875,10
+eval2_q002,How can I set a global default border radius so most components use it automatically?,48a77532-8dcb-4260-822d-daedc111c6ec,"Topic: ThemeObject
+Section: defaultRadius
+
+`theme.defaultRadius` controls the default `border-radius` property in most components, for example, [Button](https://mantine.dev/core/button) or [TextInput](https://mantine.dev/core/text-input).
+You can set to either one of the values from `theme.radius` or a number/string to use exact value. Note that numbers are treated as pixels, but
+converted to rem. For example, `theme.defaultRadius: 4` will be converted to `0.25rem`.
+You can learn more about rem conversion in the [rem units guide](https://mantine.dev/styles/rem).  
+#### Example: defaultRadiusConfigurator  
+```tsx
+import { MantineProvider, TextInput, Button } from '@mantine/core';
+
+function Demo() {
+return (
+<MantineProvider theme={{ defaultRadius: '' }}>
+<Button fullWidth>Button with defaultRadius</Button>
+<TextInput mt=""sm"" label=""TextInput with defaultRadius"" placeholder=""TextInput with default radius"" />
+</MantineProvider>
+);
+}
+```",0.0160092213114754,1,3,0.89453125,1
+eval2_q002,How can I set a global default border radius so most components use it automatically?,9f468227-4236-4bb9-aedb-a02dfada2b8c,"Topic: CssVariables
+Section: Border radius variables
+
+Mantine components that support `radius` prop use border radius variables to control border radius.
+The following CSS variables are defined based on `theme.radius`:  
+<CssVariablesGroup
+data={[
+{
+variable: '--mantine-radius-xs',
+defaultValue: '0.125rem (2px)',
+},
+{
+variable: '--mantine-radius-sm',
+defaultValue: '0.25rem (4px)',
+},
+{
+variable: '--mantine-radius-md',
+defaultValue: '0.5rem (8px)',
+},
+{
+variable: '--mantine-radius-lg',
+defaultValue: '1rem (16px)',
+},
+{
+variable: '--mantine-radius-xl',
+defaultValue: '2rem (32px)',
+},
+]}
+/>  
+Additionally, `--mantine-radius-default` variable is defined based on `theme.defaultRadius`
+value. If `radius` prop on components is not set explicitly, `--mantine-radius-default` is used instead.  
+To define custom border radius values, use `theme.radius` and `theme.defaultRadius` properties:  
+```tsx
+import { createTheme } from '@mantine/core';
+
+const theme = createTheme({
+defaultRadius: 'sm',
+radius: {
+xs: '0.25rem',
+sm: '0.5rem',
+md: '1rem',
+lg: '2rem',
+xl: '3rem',
+},
+});
+```",0.0154174573055028,2,2,0.83984375,2
+eval2_q002,How can I set a global default border radius so most components use it automatically?,617a8268-2f74-4d60-bafd-671de07d6720,"Topic: ThemeObject
+Section: Overview
+
+/** Function to resolve colors based on variant.
+*  Can be used to deeply customize how colors are applied to `Button`, `ActionIcon`, `ThemeIcon`
+*  and other components that use colors from theme.
+* */
+variantColorResolver: VariantColorsResolver;
+
+/** Determines whether text color must be changed based on the given `color` prop in filled variant
+*  For example, if you pass `color=""blue.1""` to Button component, text color will be changed to `var(--mantine-color-black)`
+*  Default value – `false`
+* */
+autoContrast: boolean;
+
+/** Determines which luminance value is used to determine if text color should be light or dark.
+*  Used only if `theme.autoContrast` is set to `true`.
+*  Default value is `0.3`
+* */
+luminanceThreshold: number;
+
+/** font-family used in all components, system fonts by default */
+fontFamily: string;
+
+/** Monospace font-family, used in code and other similar components, system fonts by default  */
+fontFamilyMonospace: string;
+
+/** Controls various styles of h1-h6 elements, used in Typography and Title components */
+headings: {
+fontFamily: string;
+fontWeight: string;
+textWrap: 'wrap' | 'nowrap' | 'balance' | 'pretty' | 'stable';
+sizes: {
+h1: HeadingStyle;
+h2: HeadingStyle;
+h3: HeadingStyle;
+h4: HeadingStyle;
+h5: HeadingStyle;
+h6: HeadingStyle;
+};
+};
+
+/** Object of values that are used to set `border-radius` in all components that support it */
+radius: MantineRadiusValues;
+
+/** Key of `theme.radius` or any valid CSS value. Default `border-radius` used by most components */
+defaultRadius: MantineRadius;
+
+/** Object of values that are used to set various CSS properties that control spacing between elements */
+spacing: MantineSpacingValues;
+
+/** Object of values that are used to control `font-size` property in all components */
+fontSizes: MantineFontSizesValues;
+
+/** Object of values that are used to control `line-height` property in `Text` component */
+lineHeights: MantineLineHeightValues;",0.0080645161290322,6,0,0.80859375,3
+eval2_q002,How can I set a global default border radius so most components use it automatically?,107cdcf9-62f2-4140-9600-99225ae69921,"Topic: StyleProp
+Section: Define CSS variables in style prop
+
+You can define CSS variables in the style prop. Note that it only works with Mantine components:  
+```tsx
+import { Box } from '@mantine/core';
+
+function Demo() {
+return (
+<Box
+style={{ '--radius': '0.5rem', borderRadius: 'var(--radius)' }}
+/>
+);
+}
+```",0.0073529411764705,14,0,0.6875,4
+eval2_q002,How can I set a global default border radius so most components use it automatically?,a6b5a798-94d7-4e79-bd7b-e674c5637c11,"Topic: Paper
+Section: Polymorphic component
+
+function Demo() {
+return <Paper component=""button"" />;
+}
+```  
+You can also use components in component prop, for example, Next.js Link:  
+```tsx
+import Link from 'next/link';
+import { Paper } from '@mantine/core';
+
+function Demo() {
+return <Paper component={Link} href=""/"" />;
+}
+```  
+**Polymorphic components with TypeScript**  
+Note that polymorphic components props types are different from regular components – they do not extend HTML element props of the default element. For example, PaperProps does not extend React.ComponentPropsWithoutRef<'div'> although div is the default element.  
+If you want to create a wrapper for a polymorphic component that is not polymorphic (does not support component prop), then your component props interface should extend HTML element props.  
+#### Props  
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| radius | MantineRadius | number | - | Key of <code>theme.radius</code> or any valid CSS value to set border-radius, numbers are converted to rem |
+| shadow | MantineShadow | - | Key of <code>theme.shadows</code> or any valid CSS value to set <code>box-shadow</code> |
+| withBorder | boolean | - | Adds border to the root element |  
+#### Styles API  
+Paper component supports Styles API. With Styles API, you can customize styles of any inner element. Follow the documentation to learn how to use CSS modules, CSS variables and inline styles to get full control over component styles.  
+**Paper selectors**  
+| Selector | Static selector | Description |
+|----------|----------------|-------------|
+| root | .mantine-Paper-root | Root element |  
+**Paper CSS variables**  
+| Selector | Variable | Description |
+|----------|----------|-------------|
+| root | --paper-radius | Controls `border-radius` |
+| root | --paper-shadow | Controls `box-shadow` |  
+**Paper data attributes**  
+| Selector | Attribute | Condition | Value |
+|----------|-----------|-----------|-------|
+| root | data-with-border | - | - |",0.0149386845039018,3,0,0.60546875,5
+eval2_q002,How can I set a global default border radius so most components use it automatically?,2548c6eb-968e-4602-88d0-becea7bf8b4b,"Topic: BackgroundImage
+Section: Polymorphic component
+
+BackgroundImage is a polymorphic component – its default root element is div, but it can be changed to any other element or component with component prop:  
+```tsx
+import { BackgroundImage } from '@mantine/core';
+
+function Demo() {
+return <BackgroundImage component=""button"" />;
+}
+```  
+**Polymorphic components with TypeScript**  
+Note that polymorphic components props types are different from regular components – they do not extend HTML element props of the default element. For example, BackgroundImageProps does not extend React.ComponentPropsWithoutRef<'div'> although div is the default element.  
+If you want to create a wrapper for a polymorphic component that is not polymorphic (does not support component prop), then your component props interface should extend HTML element props.  
+#### Props  
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| radius | MantineRadius | number | - | Key of <code>theme.radius</code> or any valid CSS value to set border-radius, numbers are converted to rem |
+| src | string | required | Image url |  
+#### Styles API  
+BackgroundImage component supports Styles API. With Styles API, you can customize styles of any inner element. Follow the documentation to learn how to use CSS modules, CSS variables and inline styles to get full control over component styles.  
+**BackgroundImage selectors**  
+| Selector | Static selector | Description |
+|----------|----------------|-------------|
+| root | .mantine-BackgroundImage-root | Root element |  
+**BackgroundImage CSS variables**  
+| Selector | Variable | Description |
+|----------|----------|-------------|
+| root | --bi-radius | Controls `border-radius` |",0.0081967213114754,5,0,0.58203125,6
+eval2_q002,How can I set a global default border radius so most components use it automatically?,cb145096-7da4-4f61-ab88-512ad848a30e,"Topic: Image
+Section: Usage with Next.js Image
+
+`Image` component is a [polymorphic component](https://mantine.dev/guides/polymorphic), its root element can be changed with `component` prop.
+You can use it with `next/image` and other similar components.  
+```tsx
+import NextImage from 'next/image';
+import { Image } from '@mantine/core';
+import myImage from './my-image.jpg';
+
+function Demo() {
+return <Image component={NextImage} src={myImage} alt=""My image"" />;
+}
+```  
+#### Props  
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| fallbackSrc | string | - | Image url used as a fallback if the image cannot be loaded |
+| fit | ObjectFit | - | Controls <code>object-fit</code> style |
+| onError | (event: SyntheticEvent<HTMLImageElement, Event>) => void | - | Called when image fails to load |
+| radius | MantineRadius | number | - | Key of <code>theme.radius</code> or any valid CSS value to set <code>border-radius</code> |
+| src | any | - | Image url |  
+#### Styles API  
+Image component supports Styles API. With Styles API, you can customize styles of any inner element. Follow the documentation to learn how to use CSS modules, CSS variables and inline styles to get full control over component styles.  
+**Image selectors**  
+| Selector | Static selector | Description |
+|----------|----------------|-------------|
+| root | .mantine-Image-root | Root element |  
+**Image CSS variables**  
+| Selector | Variable | Description |
+|----------|----------|-------------|
+| root | --image-object-fit | Controls `object-fit` property |
+| root | --image-radius | Controls `border-radius` property |  
+**Image data attributes**  
+| Selector | Attribute | Condition | Value |
+|----------|-----------|-----------|-------|
+| root | data-fallback | Image failed to load | - |",0.0071428571428571,16,0,0.5703125,7
+eval2_q002,How can I set a global default border radius so most components use it automatically?,27296001-21e0-4297-a2c0-1ccd2f9135c4,"Topic: DefaultProps
+Section: Overview
+
+# Default props  
+You can define default props for every Mantine component by setting `theme.components`.
+These props will be used by default by all components of your application unless they are overridden by component props:  
+#### Example: defaultProps  
+```tsx
+import { MantineProvider, Button, Group, createTheme } from '@mantine/core';
+
+const theme = createTheme({
+components: {
+Button: Button.extend({
+defaultProps: {
+color: 'cyan',
+variant: 'outline',
+},
+}),
+},
+});
+
+function Demo() {
+return (
+<MantineProvider theme={theme}>
+<Group>
+<Button>Default button</Button>
+<Button color=""red"" variant=""filled"">
+Button with props
+</Button>
+</Group>
+</MantineProvider>
+);
+}
+```",0.0079365079365079,7,0,0.5625,8
+eval2_q002,How can I set a global default border radius so most components use it automatically?,fc674ca7-1ad8-49fd-8515-1253ee3f5e72,"Topic: General
+Section: Overview
+
+# How can I apply styles to all Mantine components?
+Learn how to use attribute selector to apply styles to all Mantine components",0.0066666666666666,26,0,0.546875,9
+eval2_q002,How can I set a global default border radius so most components use it automatically?,abe16395-6325-49d4-a307-132341bb45ab,"Topic: GlobalStyles
+Section: Add global styles in your application
+
+It is recommended to use [CSS modules](https://mantine.dev/styles/css-modules) to apply styles to Mantine components
+with `className` prop or with [Styles API](https://mantine.dev/styles/styles-api). CSS modules files names usually
+end with `.module.css`, if you want to add global styles to your application, create a file with
+`.css` extension but without `.module` part, for example `global.css`.  
+In global `.css` files you can reference all Mantine [CSS variables](https://mantine.dev/styles/css-variables) and
+change styles of `<body />`, `:root` and other elements. For example, to change body background-color:  
+```css
+body {
+background-color: var(--mantine-color-red-filled);
+}
+```",0.0074626865671641,12,0,0.5390625,10
+eval2_q004,How can I define and use a new Button style variant via theming?,3aa175cc-28ca-480e-8f24-8b0c26b39c85,"Topic: Button
+Section: Custom variants
+
+To add new `Button` variants, use [data-variant](https://mantine.dev/styles/variants-sizes) attribute.
+Usually new variants are added on [theme](https://mantine.dev/theming/theme-object), this way they are
+available in all `Button` components in your application.  
+#### Example: customVariant  
+```tsx
+// Demo.tsx
+import { Group, Button, MantineProvider, createTheme } from '@mantine/core';
+import classes from './Demo.module.css';
+
+const theme = createTheme({
+components: {
+Button: Button.extend({
+classNames: classes,
+}),
+},
+});
+
+function Demo() {
+return (
+<MantineProvider theme={theme}>
+<Group>
+<Button variant=""danger"">Danger variant</Button>
+<Button variant=""primary"">Primary variant</Button>
+</Group>
+</MantineProvider>
+);
+}
+
+// Demo.module.css
+.root {
+&[data-variant='danger'] {
+background-color: var(--mantine-color-red-9);
+color: var(--mantine-color-red-0);
+}
+
+&[data-variant='primary'] {
+background: linear-gradient(45deg, #4b6cb7 10%, #253b67 90%);
+color: var(--mantine-color-white);
+border-width: 0;
+}
+}
+```",0.0160092213114754,1,3,0.9375,1
+eval2_q004,How can I define and use a new Button style variant via theming?,ca16b6ac-2802-44f1-9ca8-c859469d2212,"Topic: VariantsAndSizes
+Section: variantColorResolver
+
+[Button](https://mantine.dev/core/button), [Badge](https://mantine.dev/core/badge), [ActionIcon](https://mantine.dev/core/action-icon) and other
+components support custom variants with [variantColorResolver](https://mantine.dev/theming/colors#colors-variant-resolver)
+– it supports both changing colors and adding new variants. Note that `theme.variantColorResolver` is
+responsible only for colors, if you need to change other properties, use `data-variant` attribute.  
+#### Example: variantColorsResolver  
+```tsx
+import {
+Button,
+Group,
+MantineProvider,
+defaultVariantColorsResolver,
+VariantColorsResolver,
+parseThemeColor,
+rgba,
+darken,
+} from '@mantine/core';
+
+const variantColorResolver: VariantColorsResolver = (input) => {
+const defaultResolvedColors = defaultVariantColorsResolver(input);
+const parsedColor = parseThemeColor({
+color: input.color || input.theme.primaryColor,
+theme: input.theme,
+});
+
+// Override some properties for variant
+if (parsedColor.isThemeColor && parsedColor.color === 'lime' && input.variant === 'filled') {
+return {
+...defaultResolvedColors,
+color: 'var(--mantine-color-black)',
+hoverColor: 'var(--mantine-color-black)',
+};
+}
+
+// Completely override variant
+if (input.variant === 'light') {
+return {
+background: rgba(parsedColor.value, 0.1),
+hover: rgba(parsedColor.value, 0.15),
+border: `1px solid ${parsedColor.value}`,
+color: darken(parsedColor.value, 0.1),
+};
+}
+
+// Add new variants support
+if (input.variant === 'danger') {
+return {
+background: 'var(--mantine-color-red-9)',
+hover: 'var(--mantine-color-red-8)',
+color: 'var(--mantine-color-white)',
+border: 'none',
+};
+}
+
+return defaultResolvedColors;
+};
+
+function Demo() {
+return (
+<MantineProvider theme={{ variantColorResolver }}>
+<Group>
+<Button color=""lime.4"" variant=""filled"">
+Lime filled button
+</Button>
+
+<Button color=""orange"" variant=""light"">
+Orange light button
+</Button>
+
+<Button variant=""danger"">Danger button</Button>
+</Group>
+</MantineProvider>
+);
+}
+```",0.0152894491129785,3,1,0.83984375,2
+eval2_q004,How can I define and use a new Button style variant via theming?,82e8faf4-7ba0-4b26-b488-746fbf3d0f99,"Topic: VariantsAndSizes
+Section: Sizes with components CSS variables
+
+You can add custom sizes to any component that supports `size` prop by providing a custom
+CSS variables resolver, usually it is done in `theme.components`:  
+#### Example: vars  
+```tsx
+// MantineProvider.tsx
+import { Button, Group, MantineProvider, createTheme } from '@mantine/core';
+
+const theme = createTheme({
+components: {
+Button: Button.extend({
+vars: (theme, props) => {
+if (props.size === 'xxl') {
+return {
+root: {
+'--button-height': '60px',
+'--button-padding-x': '30px',
+'--button-fz': '24px',
+},
+};
+}
+
+if (props.size === 'xxs') {
+return {
+root: {
+'--button-height': '24px',
+'--button-padding-x': '10px',
+'--button-fz': '10px',
+},
+};
+}
+
+return { root: {} };
+},
+}),
+},
+});
+
+function Demo() {
+return (
+<MantineProvider theme={theme}>
+<Group>
+<Button size=""xxl"">XXL Button</Button>
+<Button size=""xxs"">XXS Button</Button>
+</Group>
+</MantineProvider>
+);
+}
+
+// Inline.tsx
+import { Button, PartialVarsResolver, ButtonFactory, Group } from '@mantine/core';
+
+const varsResolver: PartialVarsResolver<ButtonFactory> = (theme, props) => {
+if (props.size === 'xxl') {
+return {
+root: {
+'--button-height': '60px',
+'--button-padding-x': '30px',
+'--button-fz': '24px',
+},
+};
+}
+
+if (props.size === 'xxs') {
+return {
+root: {
+'--button-height': '24px',
+'--button-padding-x': '10px',
+'--button-fz': '10px',
+},
+};
+}
+
+return { root: {} };
+};
+
+function Demo() {
+return (
+<Group>
+<Button vars={varsResolver} size=""xxl"">
+XXL Button
+</Button>
+<Button vars={varsResolver} size=""xxs"">
+XXS Button
+</Button>
+</Group>
+);
+}
+```",0.0074626865671641,12,0,0.79296875,3
+eval2_q004,How can I define and use a new Button style variant via theming?,0c24360d-0d9d-422c-97b3-c29d21939251,"Topic: VariantsAndSizes
+Section: Custom variants types
+
+You can define types for custom variants by creating `mantine.d.ts` file
+in your project and extending `{x}Props` interface with the new variant type.  
+Example of adding custom variant type to [Button](https://mantine.dev/core/button) component:  
+```tsx
+import { ButtonVariant, MantineSize } from '@mantine/core';
+
+type ExtendedButtonVariant = ButtonVariant | 'contrast' | 'radial-gradient';
+
+declare module '@mantine/core' {
+export interface ButtonProps {
+variant?: ExtendedButtonVariant;
+}
+}
+```",0.0155496624879459,2,1,0.78515625,4
+eval2_q004,How can I define and use a new Button style variant via theming?,06fda8f9-5e3d-4582-be63-b53824a2e052,"Topic: StylesApi
+Section: Components CSS variables
+
+Most of Mantine components use CSS variables to define colors, sizes, paddings and other
+properties. You can override these values using a custom CSS variables resolver function
+in [theme.components](https://mantine.dev/theming/theme-object) or by passing it to the `vars` prop.  
+You can find CSS variables information under the `Styles API` tab in a component's documentation.
+Example of [Button](https://mantine.dev/core/button) component CSS variables:  
+<VariablesTable data={ButtonStylesApi} withTableBorder={false} fixedLayout={false} />  
+Example of a custom CSS variables resolver function used to add more sizes to the [Button](https://mantine.dev/core/button) component:  
+#### Example: vars  
+```tsx
+// MantineProvider.tsx
+import { Button, Group, MantineProvider, createTheme } from '@mantine/core';
+
+const theme = createTheme({
+components: {
+Button: Button.extend({
+vars: (theme, props) => {
+if (props.size === 'xxl') {
+return {
+root: {
+'--button-height': '60px',
+'--button-padding-x': '30px',
+'--button-fz': '24px',
+},
+};
+}
+
+if (props.size === 'xxs') {
+return {
+root: {
+'--button-height': '24px',
+'--button-padding-x': '10px',
+'--button-fz': '10px',
+},
+};
+}
+
+return { root: {} };
+},
+}),
+},
+});
+
+function Demo() {
+return (
+<MantineProvider theme={theme}>
+<Group>
+<Button size=""xxl"">XXL Button</Button>
+<Button size=""xxs"">XXS Button</Button>
+</Group>
+</MantineProvider>
+);
+}
+
+// Inline.tsx
+import { Button, PartialVarsResolver, ButtonFactory, Group } from '@mantine/core';
+
+const varsResolver: PartialVarsResolver<ButtonFactory> = (theme, props) => {
+if (props.size === 'xxl') {
+return {
+root: {
+'--button-height': '60px',
+'--button-padding-x': '30px',
+'--button-fz': '24px',
+},
+};
+}
+
+if (props.size === 'xxs') {
+return {
+root: {
+'--button-height': '24px',
+'--button-padding-x': '10px',
+'--button-fz': '10px',
+},
+};
+}
+
+return { root: {} };
+};",0.0071428571428571,16,0,0.7734375,5
+eval2_q004,How can I define and use a new Button style variant via theming?,c3446d1c-ad25-4efe-b8cd-4205bec49ca8,"Topic: TypeScript
+Section: Custom variants types
+
+You can define types for custom [variants](https://mantine.dev/styles/variants-sizes) by
+extending `{x}Props` interface with the new variant type in your `mantine.d.ts` file.  
+Example of adding custom variant type to [Button](https://mantine.dev/core/button) component:  
+```tsx
+import { ButtonVariant, MantineSize } from '@mantine/core';
+
+type ExtendedButtonVariant = ButtonVariant | 'contrast' | 'radial-gradient';
+
+declare module '@mantine/core' {
+export interface ButtonProps {
+variant?: ExtendedButtonVariant;
+}
+}
+```",0.0146031746031746,6,1,0.76953125,6
+eval2_q004,How can I define and use a new Button style variant via theming?,67ee1557-0c29-4da3-b591-e5976425f250,"Topic: Button
+Section: Customize variants colors
+
+You can customize colors for `Button` and other components variants by adding
+[variantColorResolver](https://mantine.dev/theming/colors#colors-variant-resolver) to your theme.  
+#### Example: variantColorsResolver  
+```tsx
+import {
+Button,
+Group,
+MantineProvider,
+defaultVariantColorsResolver,
+VariantColorsResolver,
+parseThemeColor,
+rgba,
+darken,
+} from '@mantine/core';
+
+const variantColorResolver: VariantColorsResolver = (input) => {
+const defaultResolvedColors = defaultVariantColorsResolver(input);
+const parsedColor = parseThemeColor({
+color: input.color || input.theme.primaryColor,
+theme: input.theme,
+});
+
+// Override some properties for variant
+if (parsedColor.isThemeColor && parsedColor.color === 'lime' && input.variant === 'filled') {
+return {
+...defaultResolvedColors,
+color: 'var(--mantine-color-black)',
+hoverColor: 'var(--mantine-color-black)',
+};
+}
+
+// Completely override variant
+if (input.variant === 'light') {
+return {
+background: rgba(parsedColor.value, 0.1),
+hover: rgba(parsedColor.value, 0.15),
+border: `1px solid ${parsedColor.value}`,
+color: darken(parsedColor.value, 0.1),
+};
+}
+
+// Add new variants support
+if (input.variant === 'danger') {
+return {
+background: 'var(--mantine-color-red-9)',
+hover: 'var(--mantine-color-red-8)',
+color: 'var(--mantine-color-white)',
+border: 'none',
+};
+}
+
+return defaultResolvedColors;
+};
+
+function Demo() {
+return (
+<MantineProvider theme={{ variantColorResolver }}>
+<Group>
+<Button color=""lime.4"" variant=""filled"">
+Lime filled button
+</Button>
+
+<Button color=""orange"" variant=""light"">
+Orange light button
+</Button>
+
+<Button variant=""danger"">Danger button</Button>
+</Group>
+</MantineProvider>
+);
+}
+```  
+<AutoContrast component=""Button"" />",0.0150089605734767,4,1,0.76953125,7
+eval2_q004,How can I define and use a new Button style variant via theming?,b27b3204-f734-478b-8ebc-485954c4c754,"Topic: Colors
+Section: Colors variant resolver
+
+// Override some properties for variant
+if (parsedColor.isThemeColor && parsedColor.color === 'lime' && input.variant === 'filled') {
+return {
+...defaultResolvedColors,
+color: 'var(--mantine-color-black)',
+hoverColor: 'var(--mantine-color-black)',
+};
+}
+
+// Completely override variant
+if (input.variant === 'light') {
+return {
+background: rgba(parsedColor.value, 0.1),
+hover: rgba(parsedColor.value, 0.15),
+border: `1px solid ${parsedColor.value}`,
+color: darken(parsedColor.value, 0.1),
+};
+}
+
+// Add new variants support
+if (input.variant === 'danger') {
+return {
+background: 'var(--mantine-color-red-9)',
+hover: 'var(--mantine-color-red-8)',
+color: 'var(--mantine-color-white)',
+border: 'none',
+};
+}
+
+return defaultResolvedColors;
+};
+
+function Demo() {
+return (
+<MantineProvider theme={{ variantColorResolver }}>
+<Group>
+<Button color=""lime.4"" variant=""filled"">
+Lime filled button
+</Button>
+
+<Button color=""orange"" variant=""light"">
+Orange light button
+</Button>
+
+<Button variant=""danger"">Danger button</Button>
+</Group>
+</MantineProvider>
+);
+}
+```",0.0068493150684931,20,0,0.73046875,8
+eval2_q004,How can I define and use a new Button style variant via theming?,48240b20-f413-4580-9772-d5bd4140c71b,"Topic: CssVariables
+Section: Variant colors
+
+function Demo() {
+return (
+<Button color=""pink"" variant=""filled"">
+Filled pink button
+</Button>
+);
+}
+```  
+The component will have the following styles:  
+* Background color will be `var(--mantine-color-pink-filled)`
+* Background color on hover will be `var(--mantine-color-pink-filled-hover)`
+* Text color will be `var(--mantine-color-white)`
+* Border color will be `transparent`  
+Note that the variables above are not static, they are generated based on the values of
+`theme.colors` and `theme.primaryShade`. Additionally, their values are different for
+dark and light color schemes.  
+Variant colors variables are used in all components that support `color` prop, for example,
+[Button](https://mantine.dev/core/button), [Badge](https://mantine.dev/core/badge), [Avatar](https://mantine.dev/core/avatar) and [Pagination](https://mantine.dev/core/pagination).
+Colors values that are used by these components are determined by `cssVariablesResolver` described below
+and [variantColorResolver](https://mantine.dev/styles/variants-sizes/#variantcolorresolver).",0.0069444444444444,19,0,0.71875,9
+eval2_q004,How can I define and use a new Button style variant via theming?,b2ad74dc-9338-4388-97d9-2f8235b59100,"Topic: VariantsAndSizes
+Section: Adding custom variants
+
+Most of Mantine components support `variant` prop, it can be used in CSS variables resolver,
+and it is also exposed as `data-variant=""{value}""` attribute on the root element of the component.
+The easiest way to add custom variants is to add styles that use `[data-variant=""{value}""]`.  
+Example of adding a new variant to the [Input](https://mantine.dev/core/input) component:  
+* `underline` variant styles are added
+* `filled` variant is a default variant – you do not need to define any additional styles for it  
+#### Example: customVariant  
+```tsx
+// Demo.tsx
+import { Input, MantineProvider, createTheme } from '@mantine/core';
+import classes from './Demo.module.css';
+
+// It is better to add new variants in theme.components
+// This way you will be able to use them in anywhere in the app
+const theme = createTheme({
+components: {
+Input: Input.extend({ classNames: classes }),
+}
+});
+
+function Demo() {
+return (
+<MantineProvider theme={theme}>
+<Input variant=""underline"" placeholder=""Underline input"" />
+<Input variant=""filled"" placeholder=""Filled input"" mt=""md"" />
+</MantineProvider>
+);
+}
+
+// Demo.module.css
+.input {
+&[data-variant='underline'] {
+border-bottom: 2px solid;
+border-radius: 0;
+padding-left: 0;
+padding-right: 0;
+
+@mixin light {
+border-color: var(--mantine-color-gray-3);
+}
+
+@mixin dark {
+border-color: var(--mantine-color-dark-3);
+}
+
+&:focus {
+border-color: var(--mantine-color-blue-filled);
+}
+}
+}
+```  
+Note that you can add custom variants to every Mantine component that supports [Styles API](https://mantine.dev/styles/styles-api)
+even if there are no variants defined on the library side.  
+> **Overriding existing variants styles**
+>
+> Apart from adding new variants, you can also override existing ones, for example, you can change the
+> `filled` variant of the [Input](https://mantine.dev/core/input) component with `.input[data-variant=""filled""]` selector.",0.0147345612134344,5,2,0.70703125,10
+eval2_q005,How can I add a persistent top header area as part of the main application layout?,753daa4d-a7ad-450d-9073-adc08690a547,"Topic: Table
+Section: Sticky header
+
+Set `stickyHeader` to make table header sticky. To customize top position of the header use `stickyHeaderOffset` prop:
+it is useful when you have a fixed header in your application. For example, Mantine documentation website has a fixed
+header with 60px height:  
+#### Example: stickyHeader  
+```tsx
+import { Table } from '@mantine/core';
+
+const elements = [
+{ position: 6, mass: 12.011, symbol: 'C', name: 'Carbon' },
+{ position: 7, mass: 14.007, symbol: 'N', name: 'Nitrogen' },
+{ position: 39, mass: 88.906, symbol: 'Y', name: 'Yttrium' },
+{ position: 56, mass: 137.33, symbol: 'Ba', name: 'Barium' },
+{ position: 58, mass: 140.12, symbol: 'Ce', name: 'Cerium' },
+];
+
+function Demo() {
+const rows = elements.map((element) => (
+<Table.Tr key={element.name}>
+<Table.Td>{element.position}</Table.Td>
+<Table.Td>{element.name}</Table.Td>
+<Table.Td>{element.symbol}</Table.Td>
+<Table.Td>{element.mass}</Table.Td>
+</Table.Tr>
+));
+
+return (
+<Table stickyHeader stickyHeaderOffset={60}>
+<Table.Thead>
+<Table.Tr>
+<Table.Th>Element position</Table.Th>
+<Table.Th>Element name</Table.Th>
+<Table.Th>Symbol</Table.Th>
+<Table.Th>Atomic mass</Table.Th>
+</Table.Tr>
+</Table.Thead>
+<Table.Tbody>{rows}</Table.Tbody>
+<Table.Caption>Scroll page to see sticky thead</Table.Caption>
+</Table>
+);
+}
+```",0.0148547535211267,3,0,0.70703125,1
+eval2_q005,How can I add a persistent top header area as part of the main application layout?,6ef54a87-6d10-4574-8d69-7c19675e083c,"Topic: AppShell
+Section: AppShell components
+
+* `AppShell` – root component that wraps all other sections and configures the overall layout.
+* `AppShell.Header` – fixed header at the top, controlled by the `header` prop.
+* `AppShell.Navbar` – fixed navbar on the left, controlled by the `navbar` prop.
+* `AppShell.Aside` – fixed aside on the right, controlled by the `aside` prop.
+* `AppShell.Footer` – fixed footer at the bottom, controlled by the `footer` prop.
+* `AppShell.Main` – main content area, statically positioned and offset by the other sections.
+* `AppShell.Section` – utility for grouping content inside `AppShell.Navbar` or `AppShell.Aside`, useful for scrollable areas.",0.0161332292479833,2,2,0.66015625,2
+eval2_q005,How can I add a persistent top header area as part of the main application layout?,462eca27-f91f-4aee-913a-947307855e0c,"Topic: AppShell
+Section: Usage
+
+`AppShell` is a layout component that can be used to implement a common Header / Navbar / Footer / Aside
+layout pattern. All `AppShell` components have `position: fixed` style, so they do not scroll with
+the page.  
+[Basic AppShell example](https://mantine.dev/app-shell?e=BasicAppShell) with header and navbar.
+The navbar is hidden on mobile by default and toggled with the burger button.  
+```tsx
+import { AppShell, Burger } from '@mantine/core';
+import { useDisclosure } from '@mantine/hooks';
+
+function Demo() {
+const [opened, { toggle }] = useDisclosure();
+
+return (
+<AppShell
+padding=""md""
+header={{ height: 60 }}
+navbar={{
+width: 300,
+breakpoint: 'sm',
+collapsed: { mobile: !opened },
+}}
+>
+<AppShell.Header>
+<Burger
+opened={opened}
+onClick={toggle}
+hiddenFrom=""sm""
+size=""sm""
+/>
+
+<div>Logo</div>
+</AppShell.Header>
+
+<AppShell.Navbar>Navbar</AppShell.Navbar>
+
+<AppShell.Main>Main</AppShell.Main>
+</AppShell>
+);
+}
+```",0.0162612374405076,1,3,0.64453125,3
+eval2_q005,How can I add a persistent top header area as part of the main application layout?,1f9f1c26-870c-4f7a-bc6e-5c7f1305fc11,"Topic: AppShell
+Section: Header offset configuration
+
+The `header` prop includes an `offset` property that allows you to control
+whether the `AppShell.Main` component is offset by the header's height.
+This is particularly useful when you want to collapse the `AppShell.Header`
+based on scroll position. For example, you can use the [use-headroom](https://mantine.dev/hooks/use-headroom)
+hook to hide the header when the user scrolls down and show it when
+scrolling up ([example](https://mantine.dev/app-shell?e=Headroom)).  
+```tsx
+import { AppShell, rem } from '@mantine/core';
+import { useHeadroom } from '@mantine/hooks';
+
+function Demo() {
+const pinned = useHeadroom({ fixedAt: 120 });
+
+return (
+<AppShell
+header={{ height: 60, collapsed: !pinned, offset: false }}
+padding=""md""
+>
+<AppShell.Header>Header</AppShell.Header>
+
+<AppShell.Main
+pt={`calc(${rem(60)} + var(--mantine-spacing-md))`}
+>
+{/* Content */}
+</AppShell.Main>
+</AppShell>
+);
+}
+```",0.0080645161290322,4,2,0.5703125,4
+eval2_q005,How can I add a persistent top header area as part of the main application layout?,7bc85b6a-c0eb-422f-8955-2ed49baa5b10,"Topic: Rich text editor
+Section: Sticky toolbar
+
+Set `sticky` prop on `RichTextEditor.Toolbar` component to make toolbar sticky,
+control `top` property with `stickyOffset`. For example, on mantine.dev documentation
+website there is a header with `var(--docs-header-height)` height, in this case we will need to
+set `stickyOffset=""var(--docs-header-height)""` to make sticky position correctly with fixed positioned element.",0.0066666666666666,27,0,0.546875,5
+eval2_q005,How can I add a persistent top header area as part of the main application layout?,7ea103d2-e561-4419-8305-aed0b4c9a010,"Topic: AppShell
+Section: AppShell.Section component
+
+`AppShell.Section` is used to create organized areas within `AppShell.Navbar` and `AppShell.Aside`.
+Since these components are flexbox containers with `flex-direction: column`, the `AppShell.Section`
+component with the `grow` prop will expand to fill available space and can be made scrollable by setting
+`component={ScrollArea}`.  
+In the following example:  
+* The first and last sections (header and footer) take only the space needed for their content
+* The middle section with `grow` takes all remaining space and becomes scrollable when content exceeds the available height  
+```tsx
+import { AppShell, ScrollArea } from '@mantine/core';
+
+function Demo() {
+return (
+<AppShell navbar={{ width: 300, breakpoint: 0 }}>
+<AppShell.Navbar>
+<AppShell.Section>Navbar header</AppShell.Section>
+<AppShell.Section grow component={ScrollArea}>
+Navbar main section, it will
+</AppShell.Section>
+<AppShell.Section>
+Navbar footer – always at the bottom
+</AppShell.Section>
+</AppShell.Navbar>
+<AppShell.Main>Main</AppShell.Main>
+</AppShell>
+);
+}
+```",0.0071428571428571,18,0,0.546875,6
+eval2_q005,How can I add a persistent top header area as part of the main application layout?,6fe2de53-91c0-4f10-8284-ee0caf4793a1,"Topic: AppShell
+Section: layout prop
+
+`layout` prop controls how `AppShell.Header`/`AppShell.Footer` and `AppShell.Navbar`/`AppShell.Aside`
+are positioned relative to each other. It accepts `alt` and `default` values:  
+* `alt` – `AppShell.Navbar`/`AppShell.Aside` extends the full viewport height, while `AppShell.Header`/`AppShell.Footer` width equals the viewport width minus the width of `AppShell.Navbar` and `AppShell.Aside` ([example](https://mantine.dev/app-shell?e=AltLayout))
+* `default` – `AppShell.Navbar`/`AppShell.Aside` height equals the viewport height minus `AppShell.Header`/`AppShell.Footer` height, and `AppShell.Header`/`AppShell.Footer` spans the full viewport width ([example](https://mantine.dev/app-shell?e=FullLayout))",0.0074626865671641,12,0,0.5390625,7
+eval2_q005,How can I add a persistent top header area as part of the main application layout?,b32ffa27-06b9-446a-9806-eef2aea49934,"Topic: AppShell
+Section: zIndex prop
+
+The `zIndex` prop is available on `AppShell` and its associated sections: `AppShell.Header`, `AppShell.Navbar`, `AppShell.Aside`, and `AppShell.Footer`.
+By default, all sections have a `z-index` of `100`.  
+To change the `z-index` of all sections, set the `zIndex` prop on the `AppShell` component:  
+```tsx
+import { AppShell } from '@mantine/core';
+
+// All sections will have z-index of 200
+function Demo() {
+return <AppShell zIndex={200}>{/* AppShell content */}</AppShell>;
+}
+```  
+To change `z-index` of a specific section, set `zIndex` prop on that section:  
+```tsx
+import { AppShell } from '@mantine/core';
+
+// AppShell.Header has z-index of 100
+// AppShell.Navbar and AppShell.Aside have z-index of 300
+function Demo() {
+return (
+<AppShell>
+<AppShell.Header zIndex={100}>Header</AppShell.Header>
+<AppShell.Navbar zIndex={300}>Navbar</AppShell.Navbar>
+<AppShell.Aside zIndex={300}>Aside</AppShell.Aside>
+</AppShell>
+);
+}
+```",0.0069444444444444,20,1,0.5390625,8
+eval2_q005,How can I add a persistent top header area as part of the main application layout?,99bf298e-cca7-4a0e-89e2-848be2dd8461,"Topic: AppShell
+Section: CSS variables
+
+Example of using CSS variables in styles:  
+```scss
+.main {
+min-height: calc(100dvh - var(--app-shell-header-height));
+}
+```  
+#### Props  
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| aside | AppShellAsideConfiguration | - | <code>Aside</code> configuration, controls width, breakpoints and collapsed state. Required if you use <code>Aside</code> component. |
+| disabled | boolean | - | If set, <code>Navbar</code>, <code>Aside</code>, <code>Header</code> and <code>Footer</code> components are hidden |
+| footer | AppShellFooterConfiguration | - | <code>Footer</code> configuration, controls height, offset and collapsed state. Required if you use <code>Footer</code> component. |
+| header | AppShellHeaderConfiguration | - | <code>Header</code> configuration, controls height, offset and collapsed state. Required if you use <code>Header</code> component. |
+| layout | ""default"" | ""alt"" | - | Determines how <code>Navbar</code>/<code>Aside</code> are arranged relative to <code>Header</code>/<code>Footer</code> |
+| mode | ""fixed"" | ""static"" | - | Determines positioning mode of all sections |
+| navbar | AppShellNavbarConfiguration | - | <code>Navbar</code> configuration, controls width, breakpoints and collapsed state. Required if you use <code>Navbar</code> component. |
+| offsetScrollbars | boolean | - | If set, <code>Header</code> and <code>Footer</code> components include styles to offset scrollbars. Based on <code>react-remove-scroll</code>. |
+| padding | MantineSpacing | AppShellResponsiveSize | - | Padding of the main section. Important: use <code>padding</code> prop instead of <code>p</code>. |
+| transitionDuration | number | - | Duration of all transitions in ms |
+| transitionTimingFunction | TransitionTimingFunction | - | Timing function of all transitions |
+| withBorder | boolean | - | If set, the associated components have a border |
+| zIndex | string | number | - | <code>z-index</code> of all associated elements |  
+#### Styles",0.0076923076923076,8,0,0.5078125,9
+eval2_q005,How can I add a persistent top header area as part of the main application layout?,769eedbb-a0ae-4965-ab9e-fb3bda5f71dc,"Topic: useHeadroom
+Section: Usage
+
+Use `use-headroom` hook to create headers that are hidden after user scrolls past the given distance in px.
+The hook returns a boolean value that determines whether the element should be pinned or hidden.
+Hook returns `true` when the current scroll position is less than the specified `fixedAt` value and
+after user scrolled up.",0.0070422535211267,19,0,0.5,10
+eval2_q007,How can I validate that two fields match in Mantine useForm while showing the error only on the second field?,35265d2f-8fbd-42d4-9ff5-6acc230b9cda,"Topic: formValidators
+Section: matchesField
+
+`matchesField` checks whether form value is the same as value in other form field.
+Note that `matchesField` can only work with primitive values (arrays and objects cannot be compared).  
+```tsx
+import { matchesField, useForm } from '@mantine/form';
+
+const form = useForm({
+mode: 'uncontrolled',
+initialValues: {
+password: '',
+confirmPassword: '',
+},
+
+validate: {
+confirmPassword: matchesField(
+'password',
+'Passwords are not the same'
+),
+},
+});
+```",0.0160010240655401,2,3,0.796875,1
+eval2_q007,How can I validate that two fields match in Mantine useForm while showing the error only on the second field?,62c77b3f-b70c-40e4-a816-34ca7cb54a7a,"Topic: formValidation
+Section: formRootRule
+
+{fields}
+
+{form.errors.employees && (
+<Text c=""red"" size=""sm"" mt=""sm"">
+{form.errors.employees}
+</Text>
+)}
+
+<Group justify=""space-between"" mt=""md"">
+<Button
+variant=""default""
+onClick={() => {
+form.insertListItem('employees', { name: '', active: false, key: randomId() });
+form.clearFieldError('employees');
+}}
+>
+Add employee
+</Button>
+<Button type=""submit"">Submit</Button>
+</Group>
+</form>
+);
+}
+```  
+Another example is to validate an object fields combination:  
+#### Example: rootRuleObject  
+```tsx
+import { Button, Text, TextInput } from '@mantine/core';
+import { formRootRule, isNotEmpty, useForm } from '@mantine/form';
+
+function Demo() {
+const form = useForm({
+mode: 'uncontrolled',
+initialValues: {
+user: {
+firstName: '',
+lastName: '',
+},
+},
+
+validate: {
+user: {
+[formRootRule]: (value) =>
+value.firstName.trim().length > 0 && value.firstName === value.lastName
+? 'First name and last name cannot be the same'
+: null,
+firstName: isNotEmpty('First name is required'),
+lastName: isNotEmpty('Last name is required'),
+},
+},
+});
+
+return (
+<form onSubmit={form.onSubmit(() => {})}>
+<TextInput
+label=""First name""
+placeholder=""First name""
+{...form.getInputProps('user.firstName')}
+/>
+<TextInput
+label=""Last name""
+placeholder=""Last name""
+mt=""md""
+{...form.getInputProps('user.lastName')}
+/>
+{form.errors.user && (
+<Text c=""red"" mt={5} fz=""sm"">
+{form.errors.user}
+</Text>
+)}
+<Button type=""submit"" mt=""lg"">
+Submit
+</Button>
+</form>
+);
+}
+```",0.0072463768115942,15,0,0.796875,2
+eval2_q007,How can I validate that two fields match in Mantine useForm while showing the error only on the second field?,5577cd1e-4ea5-40fe-a7a8-0970d40afd74,"Topic: formValidation
+Section: Validation based on other form values
+
+You can get all form values as a second rule function argument to perform field validation based on other
+form values. For example, you can validate that password confirmation is the same as password:  
+#### Example: password  
+```tsx
+import { useForm } from '@mantine/form';
+import { PasswordInput, Group, Button, Box } from '@mantine/core';
+
+function Demo() {
+const form = useForm({
+mode: 'uncontrolled',
+initialValues: {
+password: 'secret',
+confirmPassword: 'sevret',
+},
+
+validate: {
+confirmPassword: (value, values) =>
+value !== values.password ? 'Passwords did not match' : null,
+},
+});
+
+return (
+<Box maw={340} mx=""auto"">
+<form onSubmit={form.onSubmit((values) => console.log(values))}>
+<PasswordInput
+label=""Password""
+placeholder=""Password""
+key={form.key('password')}
+{...form.getInputProps('password')}
+/>
+
+<PasswordInput
+mt=""sm""
+label=""Confirm password""
+placeholder=""Confirm password""
+key={form.key('confirmPassword')}
+{...form.getInputProps('confirmPassword')}
+/>
+
+<Group justify=""flex-end"" mt=""md"">
+<Button type=""submit"">Submit</Button>
+</Group>
+</form>
+</Box>
+);
+}
+```",0.0162612374405076,1,3,0.7890625,3
+eval2_q007,How can I validate that two fields match in Mantine useForm while showing the error only on the second field?,c4e23ef0-77b3-43c4-95d6-4c270952a5ae,"Topic: use-form
+Section: Validation
+
+[Form validation guide](https://mantine.dev/form/validation/)  
+```tsx
+import { useForm } from '@mantine/form';
+
+const form = useForm({
+mode: 'uncontrolled',
+initialValues: {
+email: '',
+user: {
+firstName: '',
+lastName: '',
+},
+},
+validate: {
+email: (value) => (value.length < 2 ? 'Invalid email' : null),
+user: {
+firstName: (value) =>
+value.length < 2
+? 'First name must have at least 2 letters'
+: null,
+},
+},
+});
+
+// Validates all fields with specified `validate` function or schema, sets form.errors
+form.validate();
+
+// Validates single field at specified path, sets form.errors
+form.validateField('user.firstName');
+
+// Works the same way as form.validate but does not set form.errors
+form.isValid();
+form.isValid('user.firstName');
+```",0.0076923076923076,9,0,0.78125,4
+eval2_q007,How can I validate that two fields match in Mantine useForm while showing the error only on the second field?,bad2b183-ba7c-49cf-924e-14434e8c9f7d,"Topic: formValidation
+Section: Rule function arguments
+
+Each form rule receives the following arguments:  
+* `value` – value of field
+* `values` – all form values
+* `path` – field path, for example `user.email` or `cart.0.price`  
+`path` argument can be used to get information about field location relative to other fields,
+for example you can get index of array element:  
+```tsx
+import { useForm } from '@mantine/form';
+
+const form = useForm({
+mode: 'uncontrolled',
+initialValues: { a: [{ b: 1 }, { b: 2 }] },
+validate: {
+a: {
+b: (value, values, path) => (path === 'a.0.b' ? 'error' : null),
+},
+},
+});
+```",0.014863387978142,3,0,0.7734375,5
+eval2_q007,How can I validate that two fields match in Mantine useForm while showing the error only on the second field?,ada84152-5deb-4822-980f-f919ec356bb5,"Topic: formNested
+Section: Nested object values validation
+
+```tsx
+import { useForm } from '@mantine/form';
+
+const form = useForm({
+mode: 'uncontrolled',
+initialValues: {
+user: {
+name: '',
+occupation: '',
+},
+},
+
+validate: {
+user: {
+name: (value) =>
+value.length < 2 ? 'Name is too short' : null,
+occupation: (value) =>
+value.length < 2 ? 'Occupation is too short' : null,
+},
+},
+});
+
+form.validate();
+form.errors; // -> { 'user.name': 'Name is too short', 'user.occupation': 'Occupation is too short' }
+```",0.0073529411764705,14,0,0.75390625,6
+eval2_q007,How can I validate that two fields match in Mantine useForm while showing the error only on the second field?,7fa6efc3-aa08-4fe2-8f07-e356f822e3fc,"Topic: formValidation
+Section: Focus first invalid field
+
+The second argument of the `form.onSubmit` function is a callback function that is called
+with the [errors object](https://mantine.dev/form/errors) when form validation fails.
+You can use this callback to focus the first invalid field or perform any other action.  
+To get the DOM node of any input, use `form.getInputNode('path-to-field')`. Note that
+in order for this feature to work, you need to spread `form.getInputProps('path-to-field')` to
+the input element.  
+#### Example: focusError  
+```tsx
+import { Button, Group, TextInput } from '@mantine/core';
+import { isEmail, isNotEmpty, useForm } from '@mantine/form';
+
+function Demo() {
+const form = useForm({
+mode: 'uncontrolled',
+name: 'register-form',
+initialValues: {
+name: '',
+email: '',
+},
+
+validate: {
+name: isNotEmpty('Name is required'),
+email: isEmail('Invalid email'),
+},
+});
+
+return (
+<form
+onSubmit={form.onSubmit(
+(values) => console.log(values),
+(errors) => {
+const firstErrorPath = Object.keys(errors)[0];
+form.getInputNode(firstErrorPath)?.focus();
+}
+)}
+>
+<TextInput
+withAsterisk
+label=""Your name""
+placeholder=""Your name""
+key={form.key('name')}
+{...form.getInputProps('name')}
+/>
+
+<TextInput
+withAsterisk
+label=""Your email""
+placeholder=""your@email.com""
+mt=""md""
+key={form.key('email')}
+{...form.getInputProps('email')}
+/>
+
+<Group justify=""flex-end"" mt=""md"">
+<Button type=""submit"">Submit</Button>
+</Group>
+</form>
+);
+}
+```",0.0144071310116086,5,0,0.73046875,7
+eval2_q007,How can I validate that two fields match in Mantine useForm while showing the error only on the second field?,dbcfa01d-bf85-45f1-a696-38516043c0d1,"Topic: formValidation
+Section: Function based validation
+
+Another approach to handle validation is to provide a function to `validate`.
+Function takes form values as single argument and should return object that contains
+errors of corresponding fields. If field is valid or field validation is not required, you can either return null or simply omit it
+from the validation results.  
+#### Example: validateFunction  
+```tsx
+import { useForm } from '@mantine/form';
+import { Box, TextInput, NumberInput, Button, Group } from '@mantine/core';
+
+function Demo() {
+const form = useForm<{ name: string; age: number | undefined }>({
+mode: 'uncontrolled',
+initialValues: { name: '', age: undefined },
+validate: (values) => ({
+name: values.name.length < 2 ? 'Too short name' : null,
+age:
+values.age === undefined
+? 'Age is required'
+: values.age < 18
+? 'You must be at least 18'
+: null,
+}),
+});
+
+return (
+<Box maw={340} mx=""auto"">
+<form onSubmit={form.onSubmit((values) => console.log(values))}>
+<TextInput
+label=""Name""
+placeholder=""Name""
+key={form.key('name')}
+{...form.getInputProps('name')}
+/>
+<NumberInput
+mt=""sm""
+label=""Age""
+placeholder=""You age""
+key={form.key('age')}
+{...form.getInputProps('age')}
+/>
+
+<Group justify=""flex-end"" mt=""md"">
+<Button type=""submit"">Submit</Button>
+</Group>
+</form>
+</Box>
+);
+}
+```",0.0079365079365079,6,1,0.72265625,8
+eval2_q007,How can I validate that two fields match in Mantine useForm while showing the error only on the second field?,8ceff6dd-40f7-4794-8cfa-3b0fc8691992,"Topic: formValidation
+Section: Validate fields on change
+
+To validate all fields on change set `validateInputOnChange` option to `true`:  
+```tsx
+import { useForm } from '@mantine/form';
+
+const form = useForm({
+mode: 'uncontrolled',
+validateInputOnChange: true,
+});
+```  
+#### Example: liveValidation  
+```tsx
+import { useForm } from '@mantine/form';
+import { NumberInput, TextInput, Button, } from '@mantine/core';
+
+function Demo() {
+const form = useForm({
+mode: 'uncontrolled',
+validateInputOnChange: true,
+initialValues: { name: '', email: '', age: 0 },
+
+// functions will be used to validate values at corresponding key
+validate: {
+name: (value) => (value.length < 2 ? 'Name must have at least 2 letters' : null),
+email: (value) => (/^\\S+@\\S+$/.test(value) ? null : 'Invalid email'),
+age: (value) => (value < 18 ? 'You must be at least 18 to register' : null),
+},
+});
+
+return (
+<form onSubmit={form.onSubmit(console.log)}>
+<TextInput
+label=""Name""
+placeholder=""Name""
+key={form.key('name')}
+{...form.getInputProps('name')}
+/>
+<TextInput
+mt=""sm""
+label=""Email""
+placeholder=""Email""
+key={form.key('email')}
+{...form.getInputProps('email')}
+/>
+<NumberInput
+mt=""sm""
+label=""Age""
+placeholder=""Age""
+min={0}
+max={99}
+key={form.key('age')}
+{...form.getInputProps('age')}
+/>
+<Button type=""submit"" mt=""sm"">
+Submit
+</Button>
+</form>
+);
+}
+```  
+You can also provide an array of fields paths to validate only those values:  
+```tsx
+import { FORM_INDEX, useForm } from '@mantine/form';
+
+const form = useForm({
+mode: 'uncontrolled',
+validateInputOnChange: [
+'name',
+'email',
+`jobs.${FORM_INDEX}.title`,
+],
+});
+```  
+#### Example: liveFieldValidation  
+```tsx
+import { useForm, FORM_INDEX } from '@mantine/form';
+import { NumberInput, TextInput, Button } from '@mantine/core';
+
+function Demo() {
+const form = useForm({
+mode: 'uncontrolled',
+validateInputOnChange: [
+'email',
+'name',
+// use FORM_INDEX to reference fields indices
+`jobs.${FORM_INDEX}.title`,
+],
+initialValues: { name: '', email: '', age: 0, jobs: [{ title: '' }, { title: '' }] },",0.0070422535211267,20,0,0.72265625,9
+eval2_q007,How can I validate that two fields match in Mantine useForm while showing the error only on the second field?,34397b2e-8e33-4062-b376-57cfaf5b1d46,"Topic: formValidators
+Section: Optional error
+
+Last argument of all validator functions below is optional. If error is not set, then fields with failed validation will
+only have invalid styles without error message:  
+#### Example: validatorsEmpty  
+```tsx
+import { useForm, isNotEmpty, isEmail, isInRange, hasLength, matches } from '@mantine/form';
+import { Button, Group, TextInput, NumberInput } from '@mantine/core';
+
+function Demo() {
+const form = useForm({
+mode: 'uncontrolled',
+initialValues: {
+name: '',
+job: '',
+email: '',
+favoriteColor: '',
+age: 18,
+},
+
+validate: {
+name: hasLength({ min: 2, max: 10 }),
+job: isNotEmpty(),
+email: isEmail(),
+favoriteColor: matches(/^#([0-9a-f]{3}){1,2}$/),
+age: isInRange({ min: 18, max: 99 }),
+},
+});
+
+return (
+<form onSubmit={form.onSubmit(() => {})}>
+<TextInput
+label=""Name""
+placeholder=""Name""
+withAsterisk
+key={form.key('name')}
+{...form.getInputProps('name')}
+/>
+<TextInput
+label=""Your job""
+placeholder=""Your job""
+withAsterisk
+mt=""md""
+key={form.key('job')}
+{...form.getInputProps('job')}
+/>
+<TextInput
+label=""Your email""
+placeholder=""Your email""
+withAsterisk
+mt=""md""
+key={form.key('email')}
+{...form.getInputProps('email')}
+/>
+<TextInput
+label=""Your favorite color""
+placeholder=""Your favorite color""
+withAsterisk
+mt=""md""
+key={form.key('favoriteColor')}
+{...form.getInputProps('favoriteColor')}
+/>
+<NumberInput
+label=""Your age""
+placeholder=""Your age""
+withAsterisk
+mt=""md""
+key={form.key('age')}
+{...form.getInputProps('age')}
+/>
+
+<Group justify=""flex-end"" mt=""md"">
+<Button type=""submit"">Submit</Button>
+</Group>
+</form>
+);
+}
+```",0.0075757575757575,11,0,0.71484375,10
+eval2_q009,How do I set up MantineProvider in Next.js App Router (app/layout.tsx)?,0b3ccb37-a5b3-4812-9110-b180a2bf88ed,"Topic: NextJs
+Section: Setup with app router
+
+Add [MantineProvider](https://mantine.dev/theming/mantine-provider), [ColorSchemeScript](https://mantine.dev/theming/color-schemes)
+and styles imports to the `app/layout.tsx` file:  
+```tsx
+// Import styles of packages that you've installed.
+// All packages except `@mantine/hooks` require styles imports
+import '@mantine/core/styles.css';
+
+import { ColorSchemeScript, MantineProvider, mantineHtmlProps } from '@mantine/core';
+
+export const metadata = {
+title: 'My Mantine app',
+description: 'I have followed setup instructions carefully',
+};
+
+export default function RootLayout({
+children,
+}: {
+children: React.ReactNode;
+}) {
+return (
+<html lang=""en"" {...mantineHtmlProps}>
+<head>
+<ColorSchemeScript />
+</head>
+<body>
+<MantineProvider>{children}</MantineProvider>
+</body>
+</html>
+);
+}
+```  
+All set! Start development server:  
+```bash
+npm run dev
+```",0.0163934426229508,1,3,0.94921875,1
+eval2_q009,How do I set up MantineProvider in Next.js App Router (app/layout.tsx)?,43525368-8d04-4c5e-9dd6-178bc8467a73,"Topic: ReactRouter
+Section: Setup
+
+Add styles imports, [MantineProvider](https://mantine.dev/theming/mantine-provider/) and [ColorSchemeScript](https://mantine.dev/theming/color-schemes) to `app/root.tsx`:  
+```tsx
+// Import styles of packages that you've installed.
+// All packages except `@mantine/hooks` require styles imports
+import '@mantine/core/styles.css';
+
+import {
+Links,
+Meta,
+Outlet,
+Scripts,
+ScrollRestoration,
+} from ""react-router"";
+import { ColorSchemeScript, MantineProvider, mantineHtmlProps } from '@mantine/core';
+
+export function Layout({ children }: { children: React.ReactNode }) {
+return (
+<html lang=""en"" {...mantineHtmlProps}>
+<head>
+<meta charSet=""utf-8"" />
+<meta name=""viewport"" content=""width=device-width, initial-scale=1"" />
+<ColorSchemeScript />
+<Meta />
+<Links />
+</head>
+<body>
+<MantineProvider>{children}</MantineProvider>
+<ScrollRestoration />
+<Scripts />
+</body>
+</html>
+);
+}
+
+// ... other app/root.tsx content
+```  
+All set! Start development server:  
+```bash
+npm run dev
+```",0.0146031746031746,4,0,0.85546875,2
+eval2_q009,How do I set up MantineProvider in Next.js App Router (app/layout.tsx)?,7f857570-58da-4041-b4ec-6b610d11892b,"Topic: NextJs
+Section: Setup with pages router
+
+Add styles imports and [MantineProvider](https://mantine.dev/theming/mantine-provider) to the `pages/_app.tsx` file:  
+```tsx
+// Import styles of packages that you've installed.
+// All packages except `@mantine/hooks` require styles imports
+import '@mantine/core/styles.css';
+
+import type { AppProps } from 'next/app';
+import { createTheme, MantineProvider } from '@mantine/core';
+
+const theme = createTheme({
+/** Put your mantine theme override here */
+});
+
+export default function App({ Component, pageProps }: AppProps) {
+return (
+<MantineProvider theme={theme}>
+<Component {...pageProps} />
+</MantineProvider>
+);
+}
+```  
+Create `pages/_document.tsx` file with [ColorSchemeScript](https://mantine.dev/theming/color-schemes) component.
+Note that it is required even if you use only one color scheme in your application.  
+```tsx
+import { Head, Html, Main, NextScript } from 'next/document';
+import { ColorSchemeScript, mantineHtmlProps } from '@mantine/core';
+
+export default function Document() {
+return (
+<Html lang=""en"" {...mantineHtmlProps}>
+<Head>
+<ColorSchemeScript defaultColorScheme=""auto"" />
+</Head>
+<body>
+<Main />
+<NextScript />
+</body>
+</Html>
+);
+}
+```  
+All set! Start development server:  
+```bash
+npm run dev
+```",0.0076923076923076,10,0,0.84375,3
+eval2_q009,How do I set up MantineProvider in Next.js App Router (app/layout.tsx)?,4ea3f15c-81d1-4d57-8401-666532d7fd53,"Topic: Emotion
+Section: Usage with Next.js app router
+
+useServerInsertedHTML(() => {
+const names = flush();
+if (names.length === 0) return null;
+let styles = '';
+for (const name of names) {
+styles += cache.inserted[name];
+}
+return (
+<style
+data-emotion={`${cache.key} ${names.join(' ')}`}
+dangerouslySetInnerHTML={{
+__html: styles,
+}}
+/>
+);
+});
+
+return <CacheProvider value={cache}>{children}</CacheProvider>;
+}
+```  
+Add `RootStyleRegistry`, `MantineEmotionProvider` and `emotionTransform` to `app/layout.tsx`.
+It should look something like this:  
+```tsx
+import '@mantine/core/styles.css';
+
+import { ColorSchemeScript, MantineProvider } from '@mantine/core';
+import {
+emotionTransform,
+MantineEmotionProvider,
+} from '@mantine/emotion';
+import { RootStyleRegistry } from './EmotionRootStyleRegistry';
+
+export const metadata = {
+title: 'Mantine Next.js template',
+description: 'I am using Mantine with Next.js!',
+};
+
+export default function RootLayout({ children }: { children: any }) {
+return (
+<html lang=""en"">
+<head>
+<ColorSchemeScript />
+<link rel=""shortcut icon"" href=""/favicon.svg"" />
+<meta
+name=""viewport""
+content=""minimum-scale=1, initial-scale=1, width=device-width, user-scalable=no""
+/>
+</head>
+<body>
+<RootStyleRegistry>
+<MantineEmotionProvider>
+<MantineProvider stylesTransform={emotionTransform}>
+{children}
+</MantineProvider>
+</MantineEmotionProvider>
+</RootStyleRegistry>
+</body>
+</html>
+);
+}
+```  
+Done! You can now use `sx`, `styles` props and `createStyles` in your application.
+Note that `'use client'` is required in most components that use `sx`, `styles` or `createStyles`:  
+```tsx
+'use client';
+
+import { Box } from '@mantine/core';
+
+export default function HomePage() {
+return (
+<Box
+sx={(theme, u) => ({
+padding: 40,
+
+[u.light]: {
+backgroundColor: theme.colors.blue[0],
+color: theme.colors.blue[9],
+
+'&:hover': {
+backgroundColor: theme.colors.blue[1],
+},
+},
+})}
+>
+Box with emotion sx prop
+</Box>
+);
+}
+```",0.0158770161290322,2,2,0.84375,4
+eval2_q009,How do I set up MantineProvider in Next.js App Router (app/layout.tsx)?,deaaf237-2224-453d-8777-f16563b6beaa,"Topic: Emotion
+Section: Usage with Next.js pages router
+
+import Head from 'next/head';
+import { MantineProvider } from '@mantine/core';
+import {
+emotionTransform,
+MantineEmotionProvider,
+} from '@mantine/emotion';
+import { emotionCache } from '../emotion/cache';
+
+export default function App({ Component, pageProps }: any) {
+return (
+<MantineEmotionProvider cache={emotionCache}>
+<MantineProvider stylesTransform={emotionTransform}>
+<Head>
+<title>Mantine Template</title>
+<meta
+name=""viewport""
+content=""minimum-scale=1, initial-scale=1, width=device-width, user-scalable=no""
+/>
+<link rel=""shortcut icon"" href=""/favicon.svg"" />
+</Head>
+<Component {...pageProps} />
+</MantineProvider>
+</MantineEmotionProvider>
+);
+}
+```  
+Done! You can now use `sx`, `styles` props and `createStyles` in your application:  
+```tsx
+import { Box } from '@mantine/core';
+
+function Demo() {
+return (
+<Box
+sx={(theme, u) => ({
+padding: 40,
+
+[u.light]: {
+backgroundColor: theme.colors.blue[0],
+color: theme.colors.blue[9],
+
+'&:hover': {
+backgroundColor: theme.colors.blue[1],
+},
+},
+})}
+>
+Box with emotion sx prop
+</Box>
+);
+}
+```",0.0075757575757575,12,1,0.79296875,5
+eval2_q009,How do I set up MantineProvider in Next.js App Router (app/layout.tsx)?,5cdf75c6-2aa1-43c8-8d9e-f9027b0c7c62,"Topic: General
+Section: How to fix hydration warning?
+
+To fix the hydration warning, spread `mantineHtmlProps` on the `<html />` element:  
+```tsx
+// app/layout.tsx
+import { ColorSchemeScript, MantineProvider, mantineHtmlProps } from '@mantine/core';
+
+export default function RootLayout({ children }: { children: any }) {
+return (
+<html lang=""en"" {...mantineHtmlProps}>
+<head>
+<ColorSchemeScript />
+<link rel=""shortcut icon"" href=""/favicon.svg"" />
+<meta
+name=""viewport""
+content=""minimum-scale=1, initial-scale=1, width=device-width, user-scalable=no""
+/>
+</head>
+<body>
+<MantineProvider>{children}</MantineProvider>
+</body>
+</html>
+);
+}
+```",0.0144957983193277,5,0,0.7890625,6
+eval2_q009,How do I set up MantineProvider in Next.js App Router (app/layout.tsx)?,0675135d-5dc6-4456-890a-0e9e3de3d521,"Topic: MantineProvider
+Section: Usage
+
+```tsx
+import { createTheme, MantineProvider } from '@mantine/core';
+
+const theme = createTheme({
+/** Your theme override here */
+});
+
+function Demo() {
+return (
+<MantineProvider theme={theme}>
+{/* Your app here */}
+</MantineProvider>
+);
+}
+```",0.0074626865671641,13,1,0.76953125,7
+eval2_q009,How do I set up MantineProvider in Next.js App Router (app/layout.tsx)?,dabc39c6-97eb-481d-9019-513e05263071,"Topic: General
+Section: Example hydration warning
+
+<ErrorMessage error=""Hydration failed because the server rendered HTML didn't match the client. As a result this tree will be regenerated on the client. This can happen if a SSR-ed Client Component used. > -data-mantine-color-scheme='light'"" />  
+Minimal Next.js code that has this warning (Next.js used as an example, the same logic can be applied to any other framework with server-side rendering):  
+```tsx
+// app/layout.tsx
+import { ColorSchemeScript, MantineProvider } from '@mantine/core';
+
+export default function RootLayout({ children }: { children: any }) {
+return (
+<html lang=""en"">
+<head>
+<ColorSchemeScript />
+<link rel=""shortcut icon"" href=""/favicon.svg"" />
+<meta
+name=""viewport""
+content=""minimum-scale=1, initial-scale=1, width=device-width, user-scalable=no""
+/>
+</head>
+<body>
+<MantineProvider>{children}</MantineProvider>
+</body>
+</html>
+);
+}
+```",0.0071428571428571,17,0,0.76171875,8
+eval2_q009,How do I set up MantineProvider in Next.js App Router (app/layout.tsx)?,4fbdd9c8-39d2-4f08-8642-87ea3c08c774,"Topic: Redwood
+Section: Setup
+
+Add styles imports, [MantineProvider](https://mantine.dev/theming/mantine-provider) and [ColorSchemeScript](https://mantine.dev/theming/color-schemes)
+to `web/src/App.tsx` file:  
+```tsx
+// Import styles of packages that you've installed.
+// All packages except `@mantine/hooks` require styles imports
+import '@mantine/core/styles.css';
+
+import { FatalErrorBoundary, RedwoodProvider } from '@redwoodjs/web';
+import { RedwoodApolloProvider } from '@redwoodjs/web/apollo';
+import FatalErrorPage from 'src/pages/FatalErrorPage';
+import Routes from 'src/Routes';
+import { ColorSchemeScript, MantineProvider } from '@mantine/core';
+
+const App = () => (
+<FatalErrorBoundary page={FatalErrorPage}>
+<RedwoodProvider titleTemplate=""%PageTitle | %AppTitle"">
+<ColorSchemeScript />
+<MantineProvider>
+<RedwoodApolloProvider>
+<Routes />
+</RedwoodApolloProvider>
+</MantineProvider>
+</RedwoodProvider>
+</FatalErrorBoundary>
+);
+
+export default App;
+```  
+All set! Start development server:  
+```bash
+yarn rw dev
+```",0.0068493150684931,22,0,0.74609375,9
+eval2_q009,How do I set up MantineProvider in Next.js App Router (app/layout.tsx)?,a80e23cc-2239-4797-9c00-d68306b49b6f,"Topic: Modals manager
+Section: Setup ModalsProvider
+
+Wrap your app with `ModalsProvider` component:  
+```tsx
+import { MantineProvider } from '@mantine/core';
+import { ModalsProvider } from '@mantine/modals';
+
+function Demo() {
+return (
+<MantineProvider>
+<ModalsProvider>{/* Your app here */}</ModalsProvider>
+</MantineProvider>
+);
+}
+```",0.0070422535211267,18,0,0.7421875,10
+eval2_q010,"In Mantine, which styling approach is most performant at runtime, and why?",885a82e5-dfd3-42d4-af0b-f1040ec1881e,"Topic: StylesPerformance
+Section: CSS modules
+
+[CSS modules](https://mantine.dev/styles/css-modules) is the most performant way to apply styles –
+this approach generates static CSS that is never re-evaluated. 99% of Mantine components
+styles are generated with CSS modules – components are optimized out of the box.  
+In most cases, it is recommended to use [CSS modules](https://mantine.dev/styles/css-modules) to style your components as well.
+You can apply styles to HTML elements with `className` prop and to Mantine components with `className`,
+`classNames` props.  
+Applying styles with `className`:  
+#### Example: className  
+```tsx
+import { Box } from '@mantine/core';
+import classes from './Demo.module.css';
+
+function Demo() {
+return (
+<Box className={classes.box}>
+Box component with <span className={classes.highlight}>some styles</span>
+</Box>
+);
+}
+```  
+Applying styles with `classNames` (see [Styles API guide](https://mantine.dev/styles/styles-api) to learn more):  
+#### Example: classNames  
+```tsx
+import { useState } from 'react';
+import { TextInput } from '@mantine/core';
+import classes from './Demo.module.css';
+
+function Demo() {
+const [value, setValue] = useState('');
+const [focused, setFocused] = useState(false);
+const floating = focused || value.length > 0 || undefined;
+
+return (
+<TextInput
+label=""Floating label input""
+labelProps={{ 'data-floating': floating }}
+classNames={{
+root: classes.root,
+input: classes.input,
+label: classes.label,
+}}
+onFocus={() => setFocused(true)}
+onBlur={() => setFocused(false)}
+value={value}
+onChange={(event) => setValue(event.currentTarget.value)}
+/>
+);
+}
+```",0.0160092213114754,1,3,0.890625,1
+eval2_q010,"In Mantine, which styling approach is most performant at runtime, and why?",89f2d1ed-dc31-40ce-a078-cb5cc6a2108c,"Topic: StylesOverview
+Section: CSS modules
+
+[CSS modules](https://mantine.dev/styles/css-modules/) is the recommended way of applying most of the styles to Mantine components.
+CSS modules are the most performant and flexible way of styling components.  
+```scss
+// Demo.module.css
+
+.root {
+padding-right: 100px;
+
+&[data-collapsed] {
+padding-right: 40px;
+
+& .control {
+max-width: 200px;
+}
+}
+}
+
+.control {
+background-color: var(--mantine-color-blue-1);
+color: var(--mantine-color-blue-filled);
+padding: var(--mantine-spacing-xl);
+margin-left: 40px;
+
+@media (max-width: $mantine-breakpoint-sm) {
+margin-left: 0;
+margin-top: var(--mantine-spacing-md);
+}
+
+@mixin hover {
+background-color: light-dark(
+var(--mantine-color-blue-1),
+var(--mantine-color-blue-9)
+);
+}
+}
+```  
+```tsx
+// Demo.tsx
+import classes from './Demo.module.css';
+
+function Demo({ collapsed }: { collapsed: boolean }) {
+return (
+<div
+className={classes.root}
+data-collapsed={collapsed || undefined}
+>
+<button type=""button"" className={classes.control}>
+Control
+</button>
+</div>
+);
+}
+```",0.0155122655122655,3,3,0.7890625,2
+eval2_q010,"In Mantine, which styling approach is most performant at runtime, and why?",5f15a21f-9221-4611-8ee3-debcac680a45,"Topic: StylesPerformance
+Section: Inline styles
+
+Inline styles (`style` and `styles` props) are less performant than CSS modules, but still
+performant enough to be used in most cases if it is your preferred way of styling in your project.  
+Inline styles caveats:  
+* Styles are not reused between components, each component will generate its own styles, for example,
+if you have 100 buttons with the same styles, CSS modules will generate 1 class for all of them,
+inline styles will generate 100 `style` attributes
+* If inline styles are overused, it can increase bundle size and output HTML size
+* *Not performance related*: inline styles have higher specificity than CSS modules, so if you want
+to override inline styles you will have to use `!important` or use another inline styles  
+Example of inline styles:  
+#### Example: styles  
+```tsx
+import { Button } from '@mantine/core';
+
+function Demo() {
+const gradient =
+'linear-gradient(45deg, var(--mantine-color-pink-filled) 0%, var(--mantine-color-orange-filled) 50%, var(--mantine-color-yellow-filled) 100%)';
+
+return (
+<Button
+radius=""md""
+styles={{
+root: {
+padding: 2,
+border: 0,
+backgroundImage: gradient,
+},
+
+inner: {
+background: 'var(--mantine-color-body)',
+color: 'var(--mantine-color-text)',
+borderRadius: 'calc(var(--button-radius) - 2px)',
+paddingLeft: 'var(--mantine-spacing-md)',
+paddingRight: 'var(--mantine-spacing-md)',
+},
+
+label: {
+backgroundImage: gradient,
+WebkitBackgroundClip: 'text',
+WebkitTextFillColor: 'transparent',
+},
+}}
+>
+Gradient button
+</Button>
+);
+}
+```",0.0152680652680652,4,1,0.76171875,3
+eval2_q010,"In Mantine, which styling approach is most performant at runtime, and why?",216f4ddd-3eb2-4e31-a0e0-78d1511bf630,"Topic: General
+Section: Why nested inline styles are not supported?
+
+Mantine does not use CSS-in-JS library for styling – all styles are either in CSS files
+or inline in the `style` attribute which does not support nested styles. Mantine does not
+use CSS-in-JS to keep bundle size small, provide support for server-side rendering and
+improve performance. You can learn more about performance [in the styles performance guide](https://mantine.dev/styles/styles-performance/).",0.0155272026961964,2,0,0.70703125,4
+eval2_q010,"In Mantine, which styling approach is most performant at runtime, and why?",122d2af6-a201-4988-b561-ba9df67dba97,"Topic: StylesPerformance
+Section: Responsive style props
+
+Responsive [style props](https://mantine.dev/styles/style-props) have worse performance than regular style props
+because they require injecting `<style />` tag next to the component. It is fine to use responsive
+style props to apply styles to several components, but it is not recommended to use
+them in large lists of components, for example, if you have 1000 inputs with responsive margins,
+it is better to refactor to use `classNames` prop:  
+```tsx
+import { TextInput } from '@mantine/core';
+
+// Ok, style props are used to apply margin-top property to several components
+function StyleProps() {
+return (
+<>
+<TextInput label=""Input 1"" />
+<TextInput label=""Input 2"" mt={{ base: 10, md: 20 }} />
+<TextInput label=""Input 3"" mt={{ base: 10, md: 20 }} />
+</>
+);
+}
+
+// Worse, 1000 separate `<style />` tags will be generated
+// Better to refactor to use className prop
+function StylePropsArray() {
+const inputs = Array(1000)
+.fill(0)
+.map((_, index) => (
+<TextInput
+key={index}
+label={`Input ${index}`}
+mt={{ base: 10, md: 20 }}
+/>
+));
+
+return <>{inputs}</>;
+}
+```",0.0080645161290322,8,1,0.68359375,5
+eval2_q010,"In Mantine, which styling approach is most performant at runtime, and why?",8e5aca3f-fba9-4054-9a31-5a3e2832a6f2,"Topic: Emotion
+Section: Caveats and support
+
+[Emotion](https://emotion.sh/) is a runtime CSS-in-JS library – styles are generated
+and injected into the DOM at runtime. This approach has some limitations:  
+* **Limited server-side rendering support** – modern frameworks like Next.js with app router
+do not fully support emotion or require additional configuration.
+* **Runtime overhead** – styles are generated and injected at runtime, which can lead to
+performance issues on pages with a lot of components.
+* **Additional bundle size** – your bundle will include `@emotion/react` (21.2kB minified),
+`@mantine/emotion` (~2kb minified) and all styles that you use in your components.  
+`@mantine/emotion` package can be used with the following frameworks:  
+* **Vite** and **CRA** with basic setup
+* **Next.js with pages router** with additional setup for server side rendering provided by the package
+* **Next.js with app router** with additional setup for server side rendering provided by Emotion
+* Any other framework that does not require server-side rendering with basic setup  
+There is no official support (the package probably can be used but it's not tested and documentation is not provided) for:  
+* **React Router**
+* **Gatsby**
+* **Redwood**
+* Any other framework that has server-side rendering  
+Note that Emotion is not recommended for new projects, if you are starting a new project with Mantine,
+consider using [CSS modules](https://mantine.dev/styles/css-modules/) instead.",0.0081967213114754,7,0,0.68359375,6
+eval2_q010,"In Mantine, which styling approach is most performant at runtime, and why?",bed4dcb3-fb72-44c2-98c2-c6efe732c529,"Topic: StylesOverview
+Section: Style prop
+
+[Style prop](https://mantine.dev/styles/style/) is supported by all Mantine components and allows setting
+CSS properties as well as CSS variables. It is useful in the following cases:  
+* You want to apply a single CSS property to a component:  
+```tsx
+import { Button, Flex } from '@mantine/core';
+
+function Demo() {
+return (
+<Flex>
+<Button style={{ flex: 1 }}>Large button</Button>
+<Button>Small button</Button>
+</Flex>
+);
+}
+```  
+* You want to set a CSS variable based on component prop:  
+```tsx
+import { Box } from '@mantine/core';
+
+function Demo({ color }: { color: string }) {
+// Later you will be able to use var(--my-color) in any nested element
+return <Box style={{ '--my-color': color }}>My box</Box>;
+}
+```  
+[Style prop](https://mantine.dev/styles/style/) works the same way as React `style` prop. It is not
+recommended to use it as a primary way of styling components. In most cases, it is
+better to create a separate file with styles – it will be easier to maintain and
+will be more [performant](https://mantine.dev/styles/styles-performance/).",0.0147345612134344,5,0,0.6640625,7
+eval2_q010,"In Mantine, which styling approach is most performant at runtime, and why?",15823fe6-a0c6-4c02-bbb4-942b066a3857,"Topic: StylesApi
+Section: styles prop
+
+The `styles` prop works the same way as `classNames`, but applies inline styles. Note that inline
+styles have higher specificity than classes, so you will not be able to override them with classes
+without using `!important`. You cannot use pseudo-classes (for example, `:hover`, `:first-of-type`)
+and media queries inside the `styles` prop.  
+#### Example: styles  
+```tsx
+import { Button } from '@mantine/core';
+
+function Demo() {
+const gradient =
+'linear-gradient(45deg, var(--mantine-color-pink-filled) 0%, var(--mantine-color-orange-filled) 50%, var(--mantine-color-yellow-filled) 100%)';
+
+return (
+<Button
+radius=""md""
+styles={{
+root: {
+padding: 2,
+border: 0,
+backgroundImage: gradient,
+},
+
+inner: {
+background: 'var(--mantine-color-body)',
+color: 'var(--mantine-color-text)',
+borderRadius: 'calc(var(--button-radius) - 2px)',
+paddingLeft: 'var(--mantine-spacing-md)',
+paddingRight: 'var(--mantine-spacing-md)',
+},
+
+label: {
+backgroundImage: gradient,
+WebkitBackgroundClip: 'text',
+WebkitTextFillColor: 'transparent',
+},
+}}
+>
+Gradient button
+</Button>
+);
+}
+```  
+> **styles prop usage**
+>
+> Some examples and demos in the documentation use the `styles` prop for convenience, but it is not
+> recommended to use the `styles` prop as the primary means of styling components, as the `classNames`
+> prop is more flexible and has [better performance](https://mantine.dev/styles/styles-performance).",0.0066666666666666,23,0,0.66015625,8
+eval2_q010,"In Mantine, which styling approach is most performant at runtime, and why?",7f321abb-3271-4e76-8c59-0e1ec7fbe94b,"Topic: StylesPerformance
+Section: Style props
+
+[Style props](https://mantine.dev/styles/style-props) transform component props into inline styles. Style props have
+the same caveats as inline styles, it is not recommended to use them as the primary means of styling
+your components. Usually, style props are used to apply 1–3 styles to a component – using them
+this way does not impact performance.",0.0078125,10,0,0.62109375,9
+eval2_q010,"In Mantine, which styling approach is most performant at runtime, and why?",b8c8613c-7ea3-4597-ac04-43d19255e401,"Topic: StylesOverview
+Section: Style props
+
+[Style props](https://mantine.dev/styles/style-props/) work similar to component specific props, but with several differences:  
+* Style props are not component specific, they can be used with any component.
+* Style props always control a single CSS property. For example, `c` prop controls CSS `color` property, while `color` prop controls a set of properties: `color`, `background-color` and `border-color`.
+* Style props are set in `style` attribute. It is not possible to override them with CSS without using `!important`.  
+[Style props](https://mantine.dev/styles/style-props/) are useful when you need to change a single CSS property without creating a separate file for styles.
+Some of the most common use cases are:  
+* Changing text color and font-size  
+```tsx
+import { Text } from '@mantine/core';
+
+function Demo() {
+return (
+<div>
+<Text c=""blue.8"" fz=""lg"">
+Card title
+</Text>
+<Text c=""dimmed"" fz=""sm"">
+Card description
+</Text>
+</div>
+);
+}
+```  
+* Applying margins to inputs inside a form:  
+```tsx
+import { TextInput } from '@mantine/core';
+
+function Demo() {
+return (
+<form>
+<TextInput label=""First name"" />
+<TextInput label=""Last name"" mt=""md"" />
+<TextInput label=""Email"" mt=""md"" />
+</form>
+);
+}
+```  
+* Adding padding to various elements:  
+```tsx
+import { Paper } from '@mantine/core';
+
+function Demo() {
+return <Paper p=""xl"">My custom card</Paper>;
+}
+```  
+Note that [style props](https://mantine.dev/styles/style-props/) were never intended to be used
+as a primary way of styling components. In most cases, it is better to limit
+the number of style props used per component to 3-4. If you find yourself using
+more than 4 style props, consider creating a separate file with styles – it
+will be easier to maintain and will be more [performant](https://mantine.dev/styles/styles-performance/).",0.0070422535211267,17,0,0.57421875,10
+eval2_q012,How do I render a stacked BarChart in Mantine Charts with multiple data series?,b6b3c8b5-f5ad-4e74-ba3a-7770d42879f0,"Topic: BarChart
+Section: Stacked bar chart
+
+Set `type=""stacked""` to render a stacked bar chart. In this type of bar chart
+stacking is applied along the vertical axis, allowing you to see the overall trend
+as well as the contribution of each individual series to the total.  
+#### Example: stacked  
+```tsx
+// Demo.tsx
+import { BarChart } from '@mantine/charts';
+import { data } from './data';
+
+function Demo() {
+return (
+<BarChart
+h={300}
+data={data}
+dataKey=""month""
+type=""stacked""
+series={[
+{ name: 'Smartphones', color: 'violet.6' },
+{ name: 'Laptops', color: 'blue.6' },
+{ name: 'Tablets', color: 'teal.6' },
+]}
+/>
+);
+}
+
+// data.ts
+export const data = [
+{ month: 'January', Smartphones: 1200, Laptops: 900, Tablets: 200 },
+{ month: 'February', Smartphones: 1900, Laptops: 1200, Tablets: 400 },
+{ month: 'March', Smartphones: 400, Laptops: 1000, Tablets: 200 },
+{ month: 'April', Smartphones: 1000, Laptops: 200, Tablets: 800 },
+{ month: 'May', Smartphones: 800, Laptops: 1400, Tablets: 1200 },
+{ month: 'June', Smartphones: 750, Laptops: 600, Tablets: 1000 },
+];
+```",0.0163934426229508,1,3,0.95703125,1
+eval2_q012,How do I render a stacked BarChart in Mantine Charts with multiple data series?,5c7da916-acdc-47c6-8e6f-7181d95dda78,"Topic: BarChart
+Section: Mixed stacked bar chart
+
+You can control how series are stacked by setting `stackId` property in series object:  
+#### Example: mixedStack  
+```tsx
+// Demo.tsx
+import { BarChart } from '@mantine/charts';
+import { data } from './data';
+
+function Demo() {
+return (
+<BarChart
+h={300}
+data={data}
+dataKey=""month""
+series={[
+{ name: 'Smartphones', color: 'violet.6', stackId: 'a' },
+{ name: 'Laptops', color: 'blue.6', stackId: 'b' },
+{ name: 'Tablets', color: 'teal.6', stackId: 'b' },
+]}
+/>
+);
+}
+
+// data.ts
+export const data = [
+{ month: 'January', Smartphones: 1200, Laptops: 500, Tablets: 800 },
+{ month: 'February', Smartphones: 1900, Laptops: 1200, Tablets: 400 },
+{ month: 'March', Smartphones: 1800, Laptops: 1000, Tablets: 200 },
+{ month: 'April', Smartphones: 1000, Laptops: 200, Tablets: 800 },
+{ month: 'May', Smartphones: 800, Laptops: 200, Tablets: 700 },
+{ month: 'June', Smartphones: 800, Laptops: 500, Tablets: 200 },
+];
+```",0.0161290322580645,2,2,0.8984375,2
+eval2_q012,How do I render a stacked BarChart in Mantine Charts with multiple data series?,96c62719-0510-4312-bc0a-2dc3ec7b8ff2,"Topic: BarChart
+Section: Series labels
+
+By default, series `name` is used as a label. To change it, set `label`
+property in `series` object:  
+#### Example: seriesLabels  
+```tsx
+// Demo.tsx
+import { BarChart } from '@mantine/charts';
+import { data } from './data';
+
+function Demo() {
+return (
+<BarChart
+h={300}
+data={data}
+dataKey=""month""
+type=""stacked""
+withLegend
+legendProps={{ verticalAlign: 'bottom' }}
+series={[
+{ name: 'Smartphones', label: 'Smartphones sales', color: 'violet.6' },
+{ name: 'Laptops', label: 'Laptops sales', color: 'blue.6' },
+{ name: 'Tablets', label: 'Tablets sales', color: 'teal.6' },
+]}
+/>
+);
+}
+
+// data.ts
+export const data = [
+{ month: 'January', Smartphones: 1200, Laptops: 900, Tablets: 200 },
+{ month: 'February', Smartphones: 1900, Laptops: 1200, Tablets: 400 },
+{ month: 'March', Smartphones: 400, Laptops: 1000, Tablets: 200 },
+{ month: 'April', Smartphones: 1000, Laptops: 200, Tablets: 800 },
+{ month: 'May', Smartphones: 800, Laptops: 1400, Tablets: 1200 },
+{ month: 'June', Smartphones: 750, Laptops: 600, Tablets: 1000 },
+];
+```",0.0153846153846153,4,1,0.83984375,3
+eval2_q012,How do I render a stacked BarChart in Mantine Charts with multiple data series?,aaaa2652-88e4-491d-9687-a7ffc12bb30b,"Topic: BarChart
+Section: Grid and text colors
+
+Use `--chart-grid-color` and `--chart-text-color` to change colors of
+grid lines and text within the chart. With [CSS modules](https://mantine.dev/styles/css-modules/), you can change colors
+depending on color scheme:  
+#### Example: gridColor  
+```tsx
+// Demo.module.css
+.root {
+@mixin light {
+--chart-grid-color: alpha(var(--mantine-color-black), 0.15);
+--chart-text-color: var(--mantine-color-gray-7);
+}
+
+@mixin dark {
+--chart-grid-color: alpha(var(--mantine-color-white), 0.15);
+--chart-text-color: var(--mantine-color-dark-0);
+}
+}
+
+// Demo.tsx
+import { BarChart } from '@mantine/charts';
+import { data } from './data';
+import classes from './Demo.module.css';
+
+function Demo() {
+return (
+<BarChart
+h={300}
+data={data}
+dataKey=""date""
+type=""stacked""
+className={classes.root}
+series={[
+{ name: 'Smartphones', color: 'violet.6' },
+{ name: 'Laptops', color: 'blue.6' },
+{ name: 'Tablets', color: 'teal.6' },
+]}
+/>
+);
+}
+
+// data.ts
+export const data = [
+{ month: 'January', Smartphones: 1200, Laptops: 900, Tablets: 200 },
+{ month: 'February', Smartphones: 1900, Laptops: 1200, Tablets: 400 },
+{ month: 'March', Smartphones: 400, Laptops: 1000, Tablets: 200 },
+{ month: 'April', Smartphones: 1000, Laptops: 200, Tablets: 800 },
+{ month: 'May', Smartphones: 800, Laptops: 1400, Tablets: 1200 },
+{ month: 'June', Smartphones: 750, Laptops: 600, Tablets: 1000 },
+];
+```  
+If your application has only one color scheme, you can use `gridColor` and `textColor`
+props instead of CSS variables:  
+```tsx
+import { BarChart } from '@mantine/charts';
+import { data } from './data';
+
+function Demo() {
+return (
+<BarChart
+h={300}
+data={data}
+dataKey=""date""
+type=""stacked""
+gridColor=""gray.5""
+textColor=""gray.9""
+series={[
+{ name: 'Smartphones', color: 'violet.6' },
+{ name: 'Laptops', color: 'blue.6' },
+{ name: 'Tablets', color: 'teal.6' },
+]}
+/>
+);
+}
+```",0.0070422535211267,14,0,0.8203125,4
+eval2_q012,How do I render a stacked BarChart in Mantine Charts with multiple data series?,a0816700-09c0-46c8-bd2f-9db23c0c6990,"Topic: BarChart
+Section: Usage
+
+Use `BarChart` component without `type` prop to render a regular bar chart.
+In a regular bar chart, each data series is plotted on its own and does
+not interact with other series.  
+#### Example: usage  
+```tsx
+// Demo.tsx
+import { BarChart } from '@mantine/charts';
+import { data } from './data';
+
+
+function Demo() {
+return (
+<BarChart
+h={300}
+data={data}
+dataKey=""month""
+series={[
+{ name: 'Smartphones', color: 'violet.6' },
+{ name: 'Laptops', color: 'blue.6' },
+{ name: 'Tablets', color: 'teal.6' },
+]}
+
+/>
+);
+}
+
+// data.ts
+export const data = [
+{ month: 'January', Smartphones: 1200, Laptops: 900, Tablets: 200 },
+{ month: 'February', Smartphones: 1900, Laptops: 1200, Tablets: 400 },
+{ month: 'March', Smartphones: 400, Laptops: 1000, Tablets: 200 },
+{ month: 'April', Smartphones: 1000, Laptops: 200, Tablets: 800 },
+{ month: 'May', Smartphones: 800, Laptops: 1400, Tablets: 1200 },
+{ month: 'June', Smartphones: 750, Laptops: 600, Tablets: 1000 },
+];
+```",0.0158730158730158,3,0,0.81640625,5
+eval2_q012,How do I render a stacked BarChart in Mantine Charts with multiple data series?,c19878a1-13df-4fd9-b8f5-109cb7575494,"Topic: BarChart
+Section: Vertical orientation
+
+Set `orientation=""vertical""` to render a vertical bar chart:  
+#### Example: vertical  
+```tsx
+// Demo.tsx
+import { BarChart } from '@mantine/charts';
+import { data } from './data';
+
+function Demo() {
+return (
+<BarChart
+h={300}
+data={data}
+dataKey=""month""
+type=""stacked""
+orientation=""vertical""
+yAxisProps={{ width: 80 }}
+series={[
+{ name: 'Smartphones', color: 'violet.6' },
+{ name: 'Laptops', color: 'blue.6' },
+{ name: 'Tablets', color: 'teal.6' },
+]}
+/>
+);
+}
+
+// data.ts
+export const data = [
+{ month: 'January', Smartphones: 1200, Laptops: 900, Tablets: 200 },
+{ month: 'February', Smartphones: 1900, Laptops: 1200, Tablets: 400 },
+{ month: 'March', Smartphones: 400, Laptops: 1000, Tablets: 200 },
+{ month: 'April', Smartphones: 1000, Laptops: 200, Tablets: 800 },
+{ month: 'May', Smartphones: 800, Laptops: 1400, Tablets: 1200 },
+{ month: 'June', Smartphones: 750, Laptops: 600, Tablets: 1000 },
+];
+```",0.0150588768115942,6,1,0.8046875,6
+eval2_q012,How do I render a stacked BarChart in Mantine Charts with multiple data series?,2587962a-e3f7-4632-8775-59a302ff760f,"Topic: CompositeChart
+Section: Usage
+
+`CompositeChart` allows using `Line`, `Area` and `Bar` charts together in a single
+chart:  
+#### Example: usage  
+```tsx
+// Demo.tsx
+import { CompositeChart } from '@mantine/charts';
+import { data } from './data';
+
+
+function Demo() {
+return (
+<CompositeChart
+h={300}
+data={data}
+dataKey=""date""
+maxBarWidth={30}
+series={[
+{ name: 'Tomatoes', color: 'rgba(18, 120, 255, 0.2)', type: 'bar' },
+{ name: 'Apples', color: 'red.8', type: 'line' },
+{ name: 'Oranges', color: 'yellow.8', type: 'area' },
+]}
+
+/>
+);
+}
+
+// data.ts
+export const data = [
+{
+date: 'Mar 22',
+Apples: 2890,
+Oranges: 2338,
+Tomatoes: 2452,
+},
+{
+date: 'Mar 23',
+Apples: 2756,
+Oranges: 2103,
+Tomatoes: 2402,
+},
+{
+date: 'Mar 24',
+Apples: 3322,
+Oranges: 986,
+Tomatoes: 1821,
+},
+{
+date: 'Mar 25',
+Apples: 3470,
+Oranges: 2108,
+Tomatoes: 2809,
+},
+{
+date: 'Mar 26',
+Apples: 3129,
+Oranges: 1726,
+Tomatoes: 2290,
+},
+];
+```",0.0068493150684931,18,0,0.7265625,7
+eval2_q012,How do I render a stacked BarChart in Mantine Charts with multiple data series?,5b61f258-57f8-40d2-87b6-1bdc373eecdf,"Topic: BarChart
+Section: Bar overlays
+
+// data.ts
+export const data = [
+{ you: 5, average: 3, index: '1' },
+{ you: 7, average: 9, index: '2' },
+{ you: 8, average: 5, index: '3' },
+{ you: 3, average: 6, index: '4' },
+{ you: 2, average: 4, index: '5' },
+{ you: 6, average: 8, index: '6' },
+{ you: 4, average: 7, index: '7' },
+{ you: 9, average: 2, index: '8' },
+];
+```  
+#### Props  
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| barChartProps | Omit<CategoricalChartProps & RefAttributes<{ readonly eventEmitterSymbol: Symbol; clipPathId: string; accessibilityManager: AccessibilityManager; ... 65 more ...; UNSAFE_componentWillUpdate?(nextProps: Readonly<...>, nextState: Readonly<...>, nextContext: any): void; }>, ""ref""> | - | Props passed down to recharts <code>BarChart</code> component |
+| barLabelColor | MantineColor | - | Controls color of the bar label, by default the value is determined by the chart orientation |
+| barProps | ((series: BarChartSeries) => Partial<Omit<Props, ""ref"">>) | Partial<Omit<Props, ""ref"">> | - | Props passed down to recharts <code>Bar</code> component |
+| children | React.ReactNode | - | Additional components that are rendered inside recharts <code>BarChart</code> component |
+| cursorFill | MantineColor | - | Fill of hovered bar section, by default value is based on color scheme |
+| data | Record<string, any>[] | required | Data used to display chart. |
+| dataKey | string | required | Key of the <code>data</code> object for x-axis values |
+| fillOpacity | number | - | Controls fill opacity of all bars |
+| getBarColor | (value: number, series: BarChartSeries) => DefaultMantineColor | - | A function to assign dynamic bar color based on its value |
+| gridAxis | ""none"" | ""x"" | ""y"" | ""xy"" | - | Specifies which lines should be displayed in the grid, <code>'x'</code> by default |
+| gridColor | MantineColor | - | Color of the grid and cursor lines, by default depends on color scheme |
+| gridProps | RechartsProps | - | Props passed down to the",0.0066666666666666,22,0,0.7265625,8
+eval2_q012,How do I render a stacked BarChart in Mantine Charts with multiple data series?,13fa71e9-3acb-4aea-a395-0c096e0ccbda,"Topic: BarChart
+Section: Bar props
+
+You can pass props down to recharts [Bar](https://recharts.org/en-US/api/Bar)
+component with `barProps` prop. `barProps` accepts either an object with props
+or a function that receives series data as an argument and returns an object with
+props.  
+#### Example: barProps  
+```tsx
+// Demo.tsx
+import { BarChart } from '@mantine/charts';
+import { data } from './data';
+
+function Demo() {
+return (
+<BarChart
+h={200}
+data={data}
+dataKey=""month""
+orientation=""vertical""
+yAxisProps={{ width: 80 }}
+barProps={{ radius: 10 }}
+series={[{ name: 'Smartphones', color: 'blue.6' }]}
+/>
+);
+}
+
+// data.ts
+export const data = [
+{ month: 'January', Smartphones: 1200, Laptops: 900, Tablets: 200 },
+{ month: 'February', Smartphones: 1900, Laptops: 1200, Tablets: 400 },
+{ month: 'March', Smartphones: 400, Laptops: 1000, Tablets: 200 },
+{ month: 'April', Smartphones: 1000, Laptops: 200, Tablets: 800 },
+{ month: 'May', Smartphones: 800, Laptops: 1400, Tablets: 1200 },
+{ month: 'June', Smartphones: 750, Laptops: 600, Tablets: 1000 },
+];
+```",0.0066666666666666,21,0,0.7109375,9
+eval2_q012,How do I render a stacked BarChart in Mantine Charts with multiple data series?,82e04b83-0726-4653-87a5-c9ea9046e72f,"Topic: BarChart
+Section: Sync multiple BarCharts
+
+You can pass props down to recharts [BarChart](https://recharts.org/en-US/api/BarChart)
+component with `barChartProps` prop. For example, setting `barChartProps={{ syncId: 'any-id' }}`
+will sync tooltip of multiple `BarChart` components with the same `syncId` prop.  
+#### Example: sync  
+```tsx
+// Demo.tsx
+import { Text } from '@mantine/core';
+import { BarChart } from '@mantine/charts';
+import { data } from './data';
+
+function Demo() {
+return (
+<>
+<Text mb=""md"" pl=""md"">
+Smartphones sales:
+</Text>
+
+<BarChart
+h={180}
+data={data}
+dataKey=""month""
+series={[{ name: 'Smartphones', color: 'violet.6' }]}
+barChartProps={{ syncId: 'tech' }}
+/>
+
+<Text mb=""md"" pl=""md"" mt=""xl"">
+Laptops sales:
+</Text>
+
+<BarChart
+h={180}
+data={data}
+dataKey=""month""
+barChartProps={{ syncId: 'tech' }}
+series={[{ name: 'Laptops', color: 'teal.6' }]}
+/>
+</>
+);
+}
+
+// data.ts
+export const data = [
+{ month: 'January', Smartphones: 1200, Laptops: 900, Tablets: 200 },
+{ month: 'February', Smartphones: 1900, Laptops: 1200, Tablets: 400 },
+{ month: 'March', Smartphones: 400, Laptops: 1000, Tablets: 200 },
+{ month: 'April', Smartphones: 1000, Laptops: 200, Tablets: 800 },
+{ month: 'May', Smartphones: 800, Laptops: 1400, Tablets: 1200 },
+{ month: 'June', Smartphones: 750, Laptops: 600, Tablets: 1000 },
+];
+```",0.0074626865671641,11,0,0.6953125,10
+eval2_q014,"Does Mantine provide a built-in way to synchronize state across browser tabs (e.g., theme/color scheme), and how do I use it?",31d9d91f-10af-4732-81cd-5bcdcd57f1f3,"Topic: useLocalStorage
+Section: Browser tabs synchronization
+
+`use-local-storage` subscribes to [storage event](https://developer.mozilla.org/en-US/docs/Web/API/Window/storage_event).
+When state changes in one tab, it automatically updates the value in all other opened browser tabs.
+You can test this feature by opening 2 tabs with Mantine docs side by side and changing the color scheme
+(button on the top right or `⌘ + J` on MacOS and `Ctrl + J` on Windows and Linux).",0.0163934426229508,1,2,0.921875,1
+eval2_q014,"Does Mantine provide a built-in way to synchronize state across browser tabs (e.g., theme/color scheme), and how do I use it?",1f8d572a-ee0d-4501-9c75-98b2a38302d8,"Topic: ColorSchemes
+Section: Color scheme manager
+
+return {
+get: (defaultValue) => {
+if (typeof window === 'undefined') {
+return defaultValue;
+}
+
+try {
+return (
+(window.localStorage.getItem(key) as MantineColorScheme) ||
+defaultValue
+);
+} catch {
+return defaultValue;
+}
+},
+
+set: (value) => {
+try {
+window.localStorage.setItem(key, value);
+} catch (error) {
+// eslint-disable-next-line no-console
+console.warn(
+'[@mantine/core] Local storage color scheme manager was unable to save color scheme.',
+error
+);
+}
+},
+
+subscribe: (onUpdate) => {
+handleStorageEvent = (event) => {
+if (
+event.storageArea === window.localStorage &&
+event.key === key
+) {
+isMantineColorScheme(event.newValue) &&
+onUpdate(event.newValue);
+}
+};
+
+window.addEventListener('storage', handleStorageEvent);
+},
+
+unsubscribe: () => {
+window.removeEventListener('storage', handleStorageEvent);
+},
+
+clear: () => {
+window.localStorage.removeItem(key);
+},
+};
+}
+```  
+Then custom color scheme manager can be passed to [MantineProvider](https://mantine.dev/theming/mantine-provider):  
+```tsx
+import { MantineProvider } from '@mantine/core';
+import { localStorageColorSchemeManager } from './localStorageColorSchemeManager';
+
+const colorSchemeManager = localStorageColorSchemeManager({
+key: 'my-color-scheme',
+});
+
+function Demo() {
+return (
+<MantineProvider colorSchemeManager={colorSchemeManager}>
+{/* Your app here */}
+</MantineProvider>
+);
+}
+```",0.0080645161290322,5,3,0.75,2
+eval2_q014,"Does Mantine provide a built-in way to synchronize state across browser tabs (e.g., theme/color scheme), and how do I use it?",7f21a50c-d2d3-42db-8282-6a0e72eafc0b,"Topic: MantineProvider
+Section: colorSchemeManager
+
+`colorSchemeManager` is used to retrieve and set color scheme value in external storage. By default,
+`MantineProvider` uses `window.localStorage` to store color scheme value, but you can pass your own
+implementation to `colorSchemeManager` prop. You can learn more about color scheme management in the
+[color schemes guide](https://mantine.dev/theming/color-schemes).  
+```tsx
+import {
+localStorageColorSchemeManager,
+MantineProvider,
+} from '@mantine/core';
+
+const colorSchemeManager = localStorageColorSchemeManager({
+key: 'my-app-color-scheme',
+});
+
+function Demo() {
+return (
+<MantineProvider colorSchemeManager={colorSchemeManager}>
+{/* Your app here */}
+</MantineProvider>
+);
+}
+```",0.0078125,9,0,0.734375,3
+eval2_q014,"Does Mantine provide a built-in way to synchronize state across browser tabs (e.g., theme/color scheme), and how do I use it?",db4c26bb-ff2d-402e-9502-9cece1bbc931,"Topic: useLocalStorage
+Section: Example
+
+Example of a color scheme toggle button that uses `use-local-storage` hook
+to store current color scheme in the `localStorage`:  
+```tsx
+import { IconMoonStars, IconSun } from '@tabler/icons-react';
+import { ActionIcon } from '@mantine/core';
+import { useLocalStorage } from '@mantine/hooks';
+
+function ColorSchemeToggle() {
+const [colorScheme, setColorScheme] = useLocalStorage<
+'light' | 'dark'
+>({
+key: 'color-scheme',
+defaultValue: 'light',
+});
+
+const toggleColorScheme = () =>
+setColorScheme((current) =>
+current === 'dark' ? 'light' : 'dark'
+);
+
+return (
+<ActionIcon onClick={toggleColorScheme}>
+{colorScheme === 'dark' ? <IconSun /> : <IconMoonStars />}
+</ActionIcon>
+);
+}
+```",0.0073529411764705,16,1,0.71484375,4
+eval2_q014,"Does Mantine provide a built-in way to synchronize state across browser tabs (e.g., theme/color scheme), and how do I use it?",4acb898e-becb-40dc-95ac-1899087ffa1f,"Topic: ColorSchemes
+Section: Color scheme manager
+
+By default, color scheme value is stored in local storage, but you can implement your own
+color scheme manager to store the value in any other external storage.  
+Color scheme manager must have the following methods:  
+```tsx
+interface MantineColorSchemeManager {
+/** Function to retrieve color scheme value from external storage, for example window.localStorage */
+get: (defaultValue: MantineColorScheme) => MantineColorScheme;
+
+/** Function to set color scheme value in external storage, for example window.localStorage */
+set: (value: MantineColorScheme) => void;
+
+/** Function to subscribe to color scheme changes triggered by external events */
+subscribe: (
+onUpdate: (colorScheme: MantineColorScheme) => void
+) => void;
+
+/** Function to unsubscribe from color scheme changes triggered by external events */
+unsubscribe: () => void;
+
+/** Function to clear value from external storage */
+clear: () => void;
+}
+```  
+Usually, it is better to wrap color scheme manager in a creator function to provide a way to
+configure it. Default local storage based color scheme manager example:  
+```tsx
+import {
+isMantineColorScheme,
+MantineColorScheme,
+MantineColorSchemeManager,
+} from '@mantine/core';
+
+export interface LocalStorageColorSchemeManagerOptions {
+/** Local storage key used to retrieve value with `localStorage.getItem(key)`, `mantine-color-scheme` by default */
+key?: string;
+}
+
+export function localStorageColorSchemeManager({
+key = 'mantine-color-scheme',
+}: LocalStorageColorSchemeManagerOptions = {}): MantineColorSchemeManager {
+let handleStorageEvent: (event: StorageEvent) => void;
+
+return {
+get: (defaultValue) => {
+if (typeof window === 'undefined') {
+return defaultValue;
+}
+
+try {
+return (
+(window.localStorage.getItem(key) as MantineColorScheme) ||
+defaultValue
+);
+} catch {
+return defaultValue;
+}
+},",0.0079365079365079,7,1,0.70703125,5
+eval2_q014,"Does Mantine provide a built-in way to synchronize state across browser tabs (e.g., theme/color scheme), and how do I use it?",f15de2c4-0a90-4192-8b5a-52b7cae48a46,"Topic: useLocalStorage
+Section: Usage
+
+`use-local-storage` allows using value from the `localStorage` as react state.
+The hook works the same way as `useState`, but also writes the value to the `localStorage`:  
+```tsx
+import { useLocalStorage } from '@mantine/hooks';
+
+// The hook will read value from localStorage.getItem('color-scheme')
+// If localStorage is not available or value at a given key does not exist
+// 'dark' will be assigned to value variable
+const [value, setValue] = useLocalStorage({
+key: 'color-scheme',
+defaultValue: 'dark',
+});
+
+// Value is set both to state and localStorage at 'color-scheme'
+setValue('light');
+
+// You can also use callback like in useState hook to set value
+setValue((current) => (current === 'dark' ? 'light' : 'dark'));
+```",0.0143892339544513,2,1,0.703125,6
+eval2_q014,"Does Mantine provide a built-in way to synchronize state across browser tabs (e.g., theme/color scheme), and how do I use it?",50fd4fa7-4f7a-4be0-abdb-b3518de6faa3,"Topic: General
+Section: Get color scheme value in component
+
+To get color scheme value in component use `useMantineColorScheme` hook:  
+```tsx
+import { useMantineColorScheme } from '@mantine/core';
+
+function Demo() {
+// colorScheme is `'dark' | 'light' | 'auto'`
+const { colorScheme } = useMantineColorScheme();
+}
+```  
+If you want to get computed color scheme, use `useComputedColorScheme` hook instead.
+It will resolve `auto` value to `dark` or `light` based on user preferences:  
+```tsx
+import { useComputedColorScheme } from '@mantine/core';
+
+function Demo() {
+// colorScheme is `'dark' | 'light'`
+const colorScheme = useComputedColorScheme();
+}
+```  
+Note that both hooks are using `localStorage` to store color scheme value.
+It is not possible to get color scheme value on the server side – the value
+will always fallback to `light` during SSR.",0.0075757575757575,13,0,0.6640625,7
+eval2_q014,"Does Mantine provide a built-in way to synchronize state across browser tabs (e.g., theme/color scheme), and how do I use it?",0d6b8b9c-30b7-4848-b777-6346400f4930,"Topic: ColorSchemes
+Section: Color scheme value caveats
+
+By default, the color scheme value is stored in local storage, and its value is saved in state
+before the component is mounted to avoid flash of inaccurate color scheme. This means that
+color scheme value can be different on client and server, as server does not have access
+to local storage and always uses the default value.  
+If you have server side rendering in your application (for example, if you use [Next.js](https://mantine.dev/guides/next) or [React Router](https://mantine.dev/guides/react-router)), then you cannot use `colorScheme`
+value in your application to avoid hydration issues. Instead, you can use `dark` and `light`
+mixins from [postcss-preset-mantine](https://mantine.dev/styles/postcss-preset) to generate styles that will
+hide elements based on color scheme value:  
+#### Example: colorSchemeControl  
+```tsx
+import { ActionIcon, useMantineColorScheme, useComputedColorScheme } from '@mantine/core';
+import { IconSun, IconMoon } from '@tabler/icons-react';
+import cx from 'clsx';
+import classes from './Demo.module.css';
+
+function Demo() {
+const { setColorScheme } = useMantineColorScheme();
+const computedColorScheme = useComputedColorScheme('light', { getInitialValueInEffect: true });
+
+return (
+<ActionIcon
+onClick={() => setColorScheme(computedColorScheme === 'light' ? 'dark' : 'light')}
+variant=""default""
+size=""xl""
+aria-label=""Toggle color scheme""
+>
+<IconSun className={cx(classes.icon, classes.light)} stroke={1.5} />
+<IconMoon className={cx(classes.icon, classes.dark)} stroke={1.5} />
+</ActionIcon>
+);
+}
+```  
+> **colorScheme for client only applications**
+>
+> You can safely use `colorScheme` value in client only applications (for example, Vite or create-react-app applications).
+> In this case, there is no hydration, and thus hydration error cannot occur.",0.0076923076923076,11,0,0.62890625,8
+eval2_q014,"Does Mantine provide a built-in way to synchronize state across browser tabs (e.g., theme/color scheme), and how do I use it?",5cdf8b15-6457-43e0-9c22-1b7b75d8c081,"Topic: MantineProvider
+Section: Overview
+
+# MantineProvider  
+`MantineProvider` provides a [theme object](https://mantine.dev/theming/theme-object) context value, manages color scheme
+changes and injects [CSS variables](https://mantine.dev/styles/css-variables/). It must be rendered at the root of your
+application and should be used only once.",0.0071428571428571,18,0,0.625,9
+eval2_q014,"Does Mantine provide a built-in way to synchronize state across browser tabs (e.g., theme/color scheme), and how do I use it?",e86180bf-1d8c-428e-a45d-48eef2272940,"Topic: General
+Section: Get color scheme value outside of component
+
+To get color scheme value outside of component, create an utility function
+that will parse color scheme value from `data-mantine-color-scheme` attribute:  
+```tsx
+import { MantineColorScheme } from '@mantine/core';
+
+export function getColorScheme() {
+return document.documentElement.getAttribute(
+'data-mantine-color-scheme'
+) as MantineColorScheme;
+}
+```  
+Then use it in any place of your application:  
+```tsx
+import { getColorScheme } from './getColorScheme';
+
+const colorScheme = getColorScheme();
+```  
+Note that this approach will not work on the server side.",0.0070422535211267,20,0,0.6171875,10
+eval2_q016,How can I attach a custom validation rule to a single field using Mantine useForm?,c4e23ef0-77b3-43c4-95d6-4c270952a5ae,"Topic: use-form
+Section: Validation
+
+[Form validation guide](https://mantine.dev/form/validation/)  
+```tsx
+import { useForm } from '@mantine/form';
+
+const form = useForm({
+mode: 'uncontrolled',
+initialValues: {
+email: '',
+user: {
+firstName: '',
+lastName: '',
+},
+},
+validate: {
+email: (value) => (value.length < 2 ? 'Invalid email' : null),
+user: {
+firstName: (value) =>
+value.length < 2
+? 'First name must have at least 2 letters'
+: null,
+},
+},
+});
+
+// Validates all fields with specified `validate` function or schema, sets form.errors
+form.validate();
+
+// Validates single field at specified path, sets form.errors
+form.validateField('user.firstName');
+
+// Works the same way as form.validate but does not set form.errors
+form.isValid();
+form.isValid('user.firstName');
+```",0.0153991945036721,4,2,0.90625,1
+eval2_q016,How can I attach a custom validation rule to a single field using Mantine useForm?,5ba13c70-aa34-42f3-9fe7-6dd1bf71b6ed,"Topic: formValidation
+Section: Validation with rules object
+
+To validate form with rules object, provide an object of functions which take field value as an argument
+and return error message (any React node) or null if field is valid:  
+#### Example: rulesValidation  
+```tsx
+import { useForm } from '@mantine/form';
+import { NumberInput, TextInput, Button } from '@mantine/core';
+
+function Demo() {
+const form = useForm({
+mode: 'uncontrolled',
+initialValues: { name: '', email: '', age: 0 },
+
+// functions will be used to validate values at corresponding key
+validate: {
+name: (value) => (value.length < 2 ? 'Name must have at least 2 letters' : null),
+email: (value) => (/^\\S+@\\S+$/.test(value) ? null : 'Invalid email'),
+age: (value) => (value < 18 ? 'You must be at least 18 to register' : null),
+},
+});
+
+return (
+<form onSubmit={form.onSubmit(console.log)}>
+<TextInput
+label=""Name""
+placeholder=""Name""
+key={form.key('name')}
+{...form.getInputProps('name')}
+/>
+<TextInput
+mt=""sm""
+label=""Email""
+placeholder=""Email""
+key={form.key('email')}
+{...form.getInputProps('email')}
+/>
+<NumberInput
+mt=""sm""
+label=""Age""
+placeholder=""Age""
+min={0}
+max={99}
+key={form.key('age')}
+{...form.getInputProps('age')}
+/>
+<Button type=""submit"" mt=""sm"">
+Submit
+</Button>
+</form>
+);
+}
+```",0.0081967213114754,7,3,0.83984375,2
+eval2_q016,How can I attach a custom validation rule to a single field using Mantine useForm?,dbcfa01d-bf85-45f1-a696-38516043c0d1,"Topic: formValidation
+Section: Function based validation
+
+Another approach to handle validation is to provide a function to `validate`.
+Function takes form values as single argument and should return object that contains
+errors of corresponding fields. If field is valid or field validation is not required, you can either return null or simply omit it
+from the validation results.  
+#### Example: validateFunction  
+```tsx
+import { useForm } from '@mantine/form';
+import { Box, TextInput, NumberInput, Button, Group } from '@mantine/core';
+
+function Demo() {
+const form = useForm<{ name: string; age: number | undefined }>({
+mode: 'uncontrolled',
+initialValues: { name: '', age: undefined },
+validate: (values) => ({
+name: values.name.length < 2 ? 'Too short name' : null,
+age:
+values.age === undefined
+? 'Age is required'
+: values.age < 18
+? 'You must be at least 18'
+: null,
+}),
+});
+
+return (
+<Box maw={340} mx=""auto"">
+<form onSubmit={form.onSubmit((values) => console.log(values))}>
+<TextInput
+label=""Name""
+placeholder=""Name""
+key={form.key('name')}
+{...form.getInputProps('name')}
+/>
+<NumberInput
+mt=""sm""
+label=""Age""
+placeholder=""You age""
+key={form.key('age')}
+{...form.getInputProps('age')}
+/>
+
+<Group justify=""flex-end"" mt=""md"">
+<Button type=""submit"">Submit</Button>
+</Group>
+</form>
+</Box>
+);
+}
+```",0.0157568238213399,1,3,0.828125,3
+eval2_q016,How can I attach a custom validation rule to a single field using Mantine useForm?,bad2b183-ba7c-49cf-924e-14434e8c9f7d,"Topic: formValidation
+Section: Rule function arguments
+
+Each form rule receives the following arguments:  
+* `value` – value of field
+* `values` – all form values
+* `path` – field path, for example `user.email` or `cart.0.price`  
+`path` argument can be used to get information about field location relative to other fields,
+for example you can get index of array element:  
+```tsx
+import { useForm } from '@mantine/form';
+
+const form = useForm({
+mode: 'uncontrolled',
+initialValues: { a: [{ b: 1 }, { b: 2 }] },
+validate: {
+a: {
+b: (value, values, path) => (path === 'a.0.b' ? 'error' : null),
+},
+},
+});
+```",0.0156402737047898,2,0,0.80859375,4
+eval2_q016,How can I attach a custom validation rule to a single field using Mantine useForm?,6adc897b-619e-4cac-b6cc-031314186030,"Topic: formNested
+Section: List values validation
+
+```tsx
+import { useForm } from '@mantine/form';
+
+const form = useForm({
+mode: 'uncontrolled',
+initialValues: {
+users: [
+{ name: 'John', age: 12 },
+{ name: '', age: 22 },
+],
+},
+
+validate: {
+users: {
+name: (value) =>
+value.length < 2
+? 'Name should have at least 2 letters'
+: null,
+age: (value) =>
+value < 18 ? 'User must be 18 or older' : null,
+},
+},
+});
+
+// Validate list item field
+form.validateField('users.1.name');
+
+// Or with all other fields
+form.validate();
+console.log(form.errors);
+// {
+//  'users.0.age': 'User must be 18 or older',
+//  'users.1.name': 'Name should have at least 2 letters'
+// }
+```",0.0067567567567567,23,0,0.80859375,5
+eval2_q016,How can I attach a custom validation rule to a single field using Mantine useForm?,5577cd1e-4ea5-40fe-a7a8-0970d40afd74,"Topic: formValidation
+Section: Validation based on other form values
+
+You can get all form values as a second rule function argument to perform field validation based on other
+form values. For example, you can validate that password confirmation is the same as password:  
+#### Example: password  
+```tsx
+import { useForm } from '@mantine/form';
+import { PasswordInput, Group, Button, Box } from '@mantine/core';
+
+function Demo() {
+const form = useForm({
+mode: 'uncontrolled',
+initialValues: {
+password: 'secret',
+confirmPassword: 'sevret',
+},
+
+validate: {
+confirmPassword: (value, values) =>
+value !== values.password ? 'Passwords did not match' : null,
+},
+});
+
+return (
+<Box maw={340} mx=""auto"">
+<form onSubmit={form.onSubmit((values) => console.log(values))}>
+<PasswordInput
+label=""Password""
+placeholder=""Password""
+key={form.key('password')}
+{...form.getInputProps('password')}
+/>
+
+<PasswordInput
+mt=""sm""
+label=""Confirm password""
+placeholder=""Confirm password""
+key={form.key('confirmPassword')}
+{...form.getInputProps('confirmPassword')}
+/>
+
+<Group justify=""flex-end"" mt=""md"">
+<Button type=""submit"">Submit</Button>
+</Group>
+</form>
+</Box>
+);
+}
+```",0.0155048076923076,3,0,0.78515625,6
+eval2_q016,How can I attach a custom validation rule to a single field using Mantine useForm?,62c77b3f-b70c-40e4-a816-34ca7cb54a7a,"Topic: formValidation
+Section: formRootRule
+
+{fields}
+
+{form.errors.employees && (
+<Text c=""red"" size=""sm"" mt=""sm"">
+{form.errors.employees}
+</Text>
+)}
+
+<Group justify=""space-between"" mt=""md"">
+<Button
+variant=""default""
+onClick={() => {
+form.insertListItem('employees', { name: '', active: false, key: randomId() });
+form.clearFieldError('employees');
+}}
+>
+Add employee
+</Button>
+<Button type=""submit"">Submit</Button>
+</Group>
+</form>
+);
+}
+```  
+Another example is to validate an object fields combination:  
+#### Example: rootRuleObject  
+```tsx
+import { Button, Text, TextInput } from '@mantine/core';
+import { formRootRule, isNotEmpty, useForm } from '@mantine/form';
+
+function Demo() {
+const form = useForm({
+mode: 'uncontrolled',
+initialValues: {
+user: {
+firstName: '',
+lastName: '',
+},
+},
+
+validate: {
+user: {
+[formRootRule]: (value) =>
+value.firstName.trim().length > 0 && value.firstName === value.lastName
+? 'First name and last name cannot be the same'
+: null,
+firstName: isNotEmpty('First name is required'),
+lastName: isNotEmpty('Last name is required'),
+},
+},
+});
+
+return (
+<form onSubmit={form.onSubmit(() => {})}>
+<TextInput
+label=""First name""
+placeholder=""First name""
+{...form.getInputProps('user.firstName')}
+/>
+<TextInput
+label=""Last name""
+placeholder=""Last name""
+mt=""md""
+{...form.getInputProps('user.lastName')}
+/>
+{form.errors.user && (
+<Text c=""red"" mt={5} fz=""sm"">
+{form.errors.user}
+</Text>
+)}
+<Button type=""submit"" mt=""lg"">
+Submit
+</Button>
+</form>
+);
+}
+```",0.0078125,9,0,0.7734375,7
+eval2_q016,How can I attach a custom validation rule to a single field using Mantine useForm?,ada84152-5deb-4822-980f-f919ec356bb5,"Topic: formNested
+Section: Nested object values validation
+
+```tsx
+import { useForm } from '@mantine/form';
+
+const form = useForm({
+mode: 'uncontrolled',
+initialValues: {
+user: {
+name: '',
+occupation: '',
+},
+},
+
+validate: {
+user: {
+name: (value) =>
+value.length < 2 ? 'Name is too short' : null,
+occupation: (value) =>
+value.length < 2 ? 'Occupation is too short' : null,
+},
+},
+});
+
+form.validate();
+form.errors; // -> { 'user.name': 'Name is too short', 'user.occupation': 'Occupation is too short' }
+```",0.0073529411764705,12,0,0.76953125,8
+eval2_q016,How can I attach a custom validation rule to a single field using Mantine useForm?,7761cdd0-b8d4-4573-8228-ae72bdd22b32,"Topic: formSchemaValidation
+Section: valibot
+
+const listSchema = v.object({
+list: v.array(
+v.object({
+name: v.pipe(
+v.string(),
+v.minLength(2, 'Name should have at least 2 letters')
+),
+})
+),
+});
+
+const form = useForm({
+initialValues: {
+list: [{ name: '' }],
+},
+validate: valibotResolver(listSchema),
+});
+
+form.validate();
+form.errors;
+// -> {
+//  'list.0.name': 'Name should have at least 2 letters',
+// }
+```  
+With TypeScript:  
+You can use the `InferInput` type from the `valibot` library to get the type of the form data.  
+```tsx
+import { valibotResolver } from 'mantine-form-valibot-resolver';
+import * as v from 'valibot';
+import { useForm } from '@mantine/form';
+
+export const userSchema = v.object({
+email: v.pipe(v.string(), v.email()),
+});
+
+type FormData = v.InferInput<typeof userSchema>;
+
+const form = useForm<FormData>({
+initialValues: {
+email: '',
+},
+validate: valibotResolver(userSchema),
+});
+```",0.0068493150684931,21,0,0.765625,9
+eval2_q016,How can I attach a custom validation rule to a single field using Mantine useForm?,1cdad156-a6e5-4ba6-b1f1-7c59027ad4bc,"Topic: formValidators
+Section: Usage
+
+`@mantine/form` package exports several functions that can be used in [validation rules object](https://mantine.dev/form/validation/#validation-with-rules-object).
+Validation functions are tiny in size and provide basic validation, if you have complex validation requirements, use other types of [validation](https://mantine.dev/form/validation/).  
+#### Example: validators  
+```tsx
+import { useForm, isNotEmpty, isEmail, isInRange, hasLength, matches } from '@mantine/form';
+import { Button, Group, TextInput, NumberInput } from '@mantine/core';
+
+function Demo() {
+const form = useForm({
+mode: 'uncontrolled',
+initialValues: {
+name: '',
+job: '',
+email: '',
+favoriteColor: '',
+age: 18,
+},
+
+validate: {
+name: hasLength({ min: 2, max: 10 }, 'Name must be 2-10 characters long'),
+job: isNotEmpty('Enter your current job'),
+email: isEmail('Invalid email'),
+favoriteColor: matches(/^#([0-9a-f]{3}){1,2}$/, 'Enter a valid hex color'),
+age: isInRange({ min: 18, max: 99 }, 'You must be 18-99 years old to register'),
+},
+});
+
+return (
+<form onSubmit={form.onSubmit(() => {})}>
+<TextInput
+label=""Name""
+placeholder=""Name""
+withAsterisk
+key={form.key('name')}
+{...form.getInputProps('name')}
+/>
+<TextInput
+label=""Your job""
+placeholder=""Your job""
+withAsterisk
+mt=""md""
+key={form.key('job')}
+{...form.getInputProps('job')}
+/>
+<TextInput
+label=""Your email""
+placeholder=""Your email""
+withAsterisk
+mt=""md""
+key={form.key('email')}
+{...form.getInputProps('email')}
+/>
+<TextInput
+label=""Your favorite color""
+placeholder=""Your favorite color""
+withAsterisk
+mt=""md""
+key={form.key('favoriteColor')}
+{...form.getInputProps('favoriteColor')}
+/>
+<NumberInput
+label=""Your age""
+placeholder=""Your age""
+withAsterisk
+mt=""md""
+key={form.key('age')}
+{...form.getInputProps('age')}
+/>
+
+<Group justify=""flex-end"" mt=""md"">
+<Button type=""submit"">Submit</Button>
+</Group>
+</form>
+);
+}
+```",0.0071428571428571,16,0,0.75,10

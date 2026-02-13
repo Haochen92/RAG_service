@@ -57,7 +57,7 @@ return (
 </MantineProvider>
 );
 }
-```",2
+```",3
 eval2_q001,How do I apply a global theme override so it affects Mantine components across my app?,hnsw_ef50_k15,50,2,0.2425041600355432,a73b35a1-5e03-4501-819e-647c6ec354ff,"Topic: MantineProvider
 Section: theme
 
@@ -78,7 +78,7 @@ return (
 </MantineProvider>
 );
 }
-```",1
+```",2
 eval2_q001,How do I apply a global theme override so it affects Mantine components across my app?,hnsw_ef50_k15,50,3,0.2503577936947803,94658c3e-118f-4f05-a352-9edaec5611c7,"Topic: ThemeObject
 Section: Access theme outside of components
 
@@ -102,7 +102,7 @@ export const theme = mergeMantineTheme(DEFAULT_THEME, themeOverride);
 Then you will be able to import it anywhere in your application:  
 ```tsx
 import { theme } from './theme';
-```",0
+```",1
 eval2_q001,How do I apply a global theme override so it affects Mantine components across my app?,hnsw_ef50_k15,50,4,0.2560495925691735,f1657aa4-ce58-4252-ae82-6c26bfa8e1ef,"Topic: MantineProvider
 Section: Usage
 
@@ -120,7 +120,7 @@ return (
 </MantineProvider>
 );
 }
-```",1
+```",2
 eval2_q001,How do I apply a global theme override so it affects Mantine components across my app?,hnsw_ef50_k15,50,5,0.2673097403764827,efb6c05b-4345-4354-a145-871e5bb6bf6f,"Topic: GlobalStyles
 Section: Add global styles in your application
 
@@ -154,7 +154,7 @@ return (
 </MantineProvider>
 );
 }
-```",1
+```",2
 eval2_q001,How do I apply a global theme override so it affects Mantine components across my app?,hnsw_ef50_k15,50,7,0.2733403529709939,cae49f74-7c18-4f1d-9566-887a28b609d7,"Topic: Storybook
 Section: Theme object
 
@@ -220,7 +220,7 @@ getStyleNonce?: () => string;
 cssVariablesResolver?: CSSVariablesResolver;
 
 /** Determines whether components should have static classes, for example, `mantine-Button-root`. `true` by default */
-withStaticClasses?: boolean;",0
+withStaticClasses?: boolean;",1
 eval2_q001,How do I apply a global theme override so it affects Mantine components across my app?,hnsw_ef50_k15,50,9,0.2856001494904251,67f8b975-7f51-47f3-9497-3075ae311f24,"Topic: GettingStarted
 Section: Get started without framework
 
@@ -260,7 +260,7 @@ content=""width=device-width, initial-scale=1.0""
 );
 }
 ```  
-All set! You can now use Mantine components in your application.",1
+All set! You can now use Mantine components in your application.",2
 eval2_q001,How do I apply a global theme override so it affects Mantine components across my app?,hnsw_ef50_k15,50,10,0.2859555120089796,46580bac-7ff9-4ace-8cec-03b216e9e904,"Topic: DefaultProps
 Section: Default props with MantineThemeProvider
 
@@ -305,14 +305,14 @@ all theme properties with default values. When you pass theme override to
 the default theme.  
 ```tsx
 import { DEFAULT_THEME } from '@mantine/core';
-```",0
+```",1
 eval2_q001,How do I apply a global theme override so it affects Mantine components across my app?,hnsw_ef50_k15,50,12,0.2878878481020598,fa3dde3d-e5f5-4a1a-97d1-295b085a28a8,"Topic: MantineProvider
 Section: Overview
 
 # MantineProvider  
 `MantineProvider` provides a [theme object](https://mantine.dev/theming/theme-object) context value, manages color scheme
 changes and injects [CSS variables](https://mantine.dev/styles/css-variables/). It must be rendered at the root of your
-application and should be used only once.",0
+application and should be used only once.",1
 eval2_q001,How do I apply a global theme override so it affects Mantine components across my app?,hnsw_ef50_k15,50,13,0.2887177091623334,5bdf7d3f-7bf1-4a6b-9db6-f5a4140fcdd4,"Topic: General
 Section: How can I customize colors with theme?
 
@@ -423,7 +423,7 @@ return (
 </MantineProvider>
 );
 }
-```",2
+```",3
 eval2_q002,How can I set a global default border radius so most components use it automatically?,hnsw_ef50_k15,50,2,0.31637970796765247,77a63a0c-0156-4aaf-a96a-da88546dfc3d,"Topic: CssVariables
 Section: Border radius variables
 
@@ -469,7 +469,7 @@ lg: '2rem',
 xl: '3rem',
 },
 });
-```",1
+```",2
 eval2_q002,How can I set a global default border radius so most components use it automatically?,hnsw_ef50_k15,50,3,0.3624163041960523,19866a8f-031f-4a2d-b69b-9426c7903438,"Topic: DefaultProps
 Section: Overview
 
@@ -870,7 +870,7 @@ color: var(--mantine-color-white);
 border-width: 0;
 }
 }
-```",2
+```",3
 eval2_q004,How can I define and use a new Button style variant via theming?,hnsw_ef50_k15,50,2,0.3091384738199502,3a4953dc-922b-4de1-aec5-381e1e352a2a,"Topic: Button
 Section: Customize variants colors
 
@@ -946,7 +946,7 @@ Orange light button
 );
 }
 ```  
-<AutoContrast component=""Button"" />",0
+<AutoContrast component=""Button"" />",1
 eval2_q004,How can I define and use a new Button style variant via theming?,hnsw_ef50_k15,50,3,0.3152737431760446,437bbfcd-2c11-4ff9-9a21-293c4d31994d,"Topic: VariantsAndSizes
 Section: variantColorResolver
 
@@ -1023,7 +1023,7 @@ Orange light button
 </MantineProvider>
 );
 }
-```",0
+```",1
 eval2_q004,How can I define and use a new Button style variant via theming?,hnsw_ef50_k15,50,4,0.3224617095918192,d1990985-0088-4e1f-acc0-463c3d985ba9,"Topic: ActionIcon
 Section: Add custom variants
 
@@ -1072,7 +1072,7 @@ background: linear-gradient(45deg, #4b6cb7 10%, #253b67 90%);
 color: var(--mantine-color-white);
 }
 }
-```",0
+```",1
 eval2_q004,How can I define and use a new Button style variant via theming?,hnsw_ef50_k15,50,5,0.32271796597523217,daf4663f-fbe0-4d92-ae99-716842dc6a29,"Topic: VariantsAndSizes
 Section: Adding custom variants
 
@@ -1132,7 +1132,7 @@ even if there are no variants defined on the library side.
 > **Overriding existing variants styles**
 >
 > Apart from adding new variants, you can also override existing ones, for example, you can change the
-> `filled` variant of the [Input](https://mantine.dev/core/input) component with `.input[data-variant=""filled""]` selector.",0
+> `filled` variant of the [Input](https://mantine.dev/core/input) component with `.input[data-variant=""filled""]` selector.",2
 eval2_q004,How can I define and use a new Button style variant via theming?,hnsw_ef50_k15,50,6,0.32645080869798493,38f88514-a083-44f0-83c0-f516f82dae76,"Topic: Button
 Section: Get element ref
 
@@ -1279,7 +1279,7 @@ export interface ButtonProps {
 variant?: ExtendedButtonVariant;
 }
 }
-```",0
+```",1
 eval2_q004,How can I define and use a new Button style variant via theming?,hnsw_ef50_k15,50,9,0.3298948884007027,892de58c-af3b-4942-b8bf-f365e2ba70f0,"Topic: StylesApi
 Section: Components CSS variables
 
@@ -1551,7 +1551,7 @@ export interface ButtonProps {
 variant?: ExtendedButtonVariant;
 }
 }
-```",0
+```",1
 eval2_q005,How can I add a persistent top header area as part of the main application layout?,hnsw_ef50_k15,50,1,0.33595894769496304,0daabe20-e833-4d30-8251-60f2480611fc,"Topic: AppShell
 Section: Usage
 
@@ -1594,7 +1594,7 @@ size=""sm""
 </AppShell>
 );
 }
-```",2
+```",3
 eval2_q005,How can I add a persistent top header area as part of the main application layout?,hnsw_ef50_k15,50,2,0.35307937297215386,1d6b7392-efc6-4980-95f0-5e9929dbe3e9,"Topic: AppShell
 Section: Header offset configuration
 
@@ -1626,7 +1626,7 @@ pt={`calc(${rem(60)} + var(--mantine-spacing-md))`}
 </AppShell>
 );
 }
-```",0
+```",2
 eval2_q005,How can I add a persistent top header area as part of the main application layout?,hnsw_ef50_k15,50,3,0.3612739980872829,994314e8-203a-4bbf-96d4-4e2d623e91ee,"Topic: AppShell
 Section: AppShell components
 
@@ -1636,7 +1636,7 @@ Section: AppShell components
 * `AppShell.Aside` – fixed aside on the right, controlled by the `aside` prop.
 * `AppShell.Footer` – fixed footer at the bottom, controlled by the `footer` prop.
 * `AppShell.Main` – main content area, statically positioned and offset by the other sections.
-* `AppShell.Section` – utility for grouping content inside `AppShell.Navbar` or `AppShell.Aside`, useful for scrollable areas.",1
+* `AppShell.Section` – utility for grouping content inside `AppShell.Navbar` or `AppShell.Aside`, useful for scrollable areas.",2
 eval2_q005,How can I add a persistent top header area as part of the main application layout?,hnsw_ef50_k15,50,4,0.3644676657693393,4c87be11-bd1d-40cb-af1d-5be3deecc4c3,"Topic: Table
 Section: Sticky header
 
@@ -1691,7 +1691,7 @@ Section: Overview
 
 Package: @mantine/core
 Import: import { AppShell } from '@mantine/core';
-Description: Responsive shell for your application with header, navbar, aside and footer",0
+Description: Responsive shell for your application with header, navbar, aside and footer",1
 eval2_q005,How can I add a persistent top header area as part of the main application layout?,hnsw_ef50_k15,50,7,0.371939281028711,05b844fa-44e7-4985-a8f3-6f15436c222d,"Topic: AppShell
 Section: layout prop
 
@@ -1778,7 +1778,7 @@ return (
 </AppShell>
 );
 }
-```",0
+```",1
 eval2_q005,How can I add a persistent top header area as part of the main application layout?,hnsw_ef50_k15,50,13,0.38017376871287123,9f46b031-fd91-4df8-af8c-1b4c04b1fbd7,"Topic: Affix
 Section: Usage
 
@@ -1873,7 +1873,7 @@ Submit
 </form>
 );
 }
-```",2
+```",3
 eval2_q016,How can I attach a custom validation rule to a single field using Mantine useForm?,hnsw_ef50_k15,50,2,0.2628122261685055,05495b1c-cc7d-473a-8045-394ce3bc78d2,"Topic: formValidation
 Section: Function based validation
 
@@ -1925,7 +1925,7 @@ key={form.key('age')}
 </Box>
 );
 }
-```",2
+```",3
 eval2_q016,How can I attach a custom validation rule to a single field using Mantine useForm?,hnsw_ef50_k15,50,3,0.26844918502493964,45b96f58-7516-4f33-92c9-d4f5999590ae,"Topic: use-form
 Section: Validation
 
@@ -2596,7 +2596,7 @@ key={form.key('confirmPassword')}
 </Box>
 );
 }
-```",2
+```",3
 eval2_q007,How can I validate that two fields match in Mantine useForm while showing the error only on the second field?,hnsw_ef50_k15,50,2,0.22578098238892585,36b9836b-b8ba-43f6-abd3-72bb7dac671e,"Topic: formValidators
 Section: matchesField
 
@@ -2619,7 +2619,7 @@ confirmPassword: matchesField(
 ),
 },
 });
-```",2
+```",3
 eval2_q007,How can I validate that two fields match in Mantine useForm while showing the error only on the second field?,hnsw_ef50_k15,50,3,0.27850795771250625,05495b1c-cc7d-473a-8045-394ce3bc78d2,"Topic: formValidation
 Section: Function based validation
 
@@ -2671,7 +2671,7 @@ key={form.key('age')}
 </Box>
 );
 }
-```",0
+```",1
 eval2_q007,How can I validate that two fields match in Mantine useForm while showing the error only on the second field?,hnsw_ef50_k15,50,4,0.2855029781668019,93fde8bc-8120-424f-9572-bbe679e8c4b4,"Topic: formValidation
 Section: Validation with rules object
 
@@ -2725,7 +2725,7 @@ Submit
 </form>
 );
 }
-```",0
+```",1
 eval2_q007,How can I validate that two fields match in Mantine useForm while showing the error only on the second field?,hnsw_ef50_k15,50,5,0.2879412006128379,45b96f58-7516-4f33-92c9-d4f5999590ae,"Topic: use-form
 Section: Validation
 
@@ -3277,7 +3277,7 @@ return (
 All set! Start development server:  
 ```bash
 npm run dev
-```",2
+```",3
 eval2_q009,How do I set up MantineProvider in Next.js App Router (app/layout.tsx)?,hnsw_ef50_k15,50,2,0.22499433353509735,b864cd09-5dac-4b73-bb20-752863361e3e,"Topic: Emotion
 Section: Usage with Next.js app router
 
@@ -3369,7 +3369,7 @@ Box with emotion sx prop
 </Box>
 );
 }
-```",0
+```",2
 eval2_q009,How do I set up MantineProvider in Next.js App Router (app/layout.tsx)?,hnsw_ef50_k15,50,3,0.26135723275480516,7f9b0b31-21cd-4942-910a-30d4f92a1d05,"Topic: ReactRouter
 Section: Setup
 
@@ -3486,7 +3486,7 @@ __html: styles,
 }}
 />
 );
-});",0
+});",1
 eval2_q009,How do I set up MantineProvider in Next.js App Router (app/layout.tsx)?,hnsw_ef50_k15,50,5,0.26245126996087387,dbc0e3de-97a3-4511-87b1-87316f20f1f4,"Topic: NextJs
 Section: Setup with pages router
 
@@ -3588,7 +3588,7 @@ Box with emotion sx prop
 </Box>
 );
 }
-```",0
+```",1
 eval2_q009,How do I set up MantineProvider in Next.js App Router (app/layout.tsx)?,hnsw_ef50_k15,50,7,0.26986088284763454,cf893652-b60b-4819-80f8-4d8b9741f309,"Topic: MantineProvider
 Section: Usage
 
@@ -3606,7 +3606,7 @@ return (
 </MantineProvider>
 );
 }
-```",0
+```",1
 eval2_q009,How do I set up MantineProvider in Next.js App Router (app/layout.tsx)?,hnsw_ef50_k15,50,8,0.27272378853337964,c85a4519-723a-4ce9-afeb-c2c1fbf269c7,"Topic: NextJs
 Section: app + pages router together
 
@@ -3651,7 +3651,7 @@ content=""width=device-width, initial-scale=1.0""
 );
 }
 ```  
-All set! You can now use Mantine components in your application.",0
+All set! You can now use Mantine components in your application.",1
 eval2_q009,How do I set up MantineProvider in Next.js App Router (app/layout.tsx)?,hnsw_ef50_k15,50,10,0.27998630341377306,5b0dde77-a979-4e7a-9930-894cdd74db1a,"Topic: General
 Section: How to fix hydration warning?
 
@@ -3819,7 +3819,7 @@ onChange={(event) => setValue(event.currentTarget.value)}
 />
 );
 }
-```",2
+```",3
 eval2_q010,"In Mantine, which styling approach is most performant at runtime, and why?",hnsw_ef50_k15,50,2,0.230446298516919,da53ec77-756f-4ff5-995b-7724d6246c78,"Topic: StylesPerformance
 Section: Responsive style props
 
@@ -3857,7 +3857,7 @@ mt={{ base: 10, md: 20 }}
 
 return <>{inputs}</>;
 }
-```",0
+```",1
 eval2_q010,"In Mantine, which styling approach is most performant at runtime, and why?",hnsw_ef50_k15,50,3,0.23774147090755715,b1036083-7395-4b11-b5ed-f0b283ad1400,"Topic: StylesPerformance
 Section: Overview
 
@@ -3975,7 +3975,7 @@ Control
 </div>
 );
 }
-```",2
+```",3
 eval2_q010,"In Mantine, which styling approach is most performant at runtime, and why?",hnsw_ef50_k15,50,7,0.2535028173614835,1320042c-57af-4049-b850-09c729953813,"Topic: General
 Section: Why nested inline styles are not supported?
 
@@ -4283,7 +4283,7 @@ export const data = [
 { month: 'May', Smartphones: 800, Laptops: 1400, Tablets: 1200 },
 { month: 'June', Smartphones: 750, Laptops: 600, Tablets: 1000 },
 ];
-```",2
+```",3
 eval2_q012,How do I render a stacked BarChart in Mantine Charts with multiple data series?,hnsw_ef50_k15,50,2,0.23405003501003463,25a5740f-1e70-4566-8699-fd069992bc21,"Topic: BarChart
 Section: Mixed stacked bar chart
 
@@ -4318,7 +4318,7 @@ export const data = [
 { month: 'May', Smartphones: 800, Laptops: 200, Tablets: 700 },
 { month: 'June', Smartphones: 800, Laptops: 500, Tablets: 200 },
 ];
-```",1
+```",2
 eval2_q012,How do I render a stacked BarChart in Mantine Charts with multiple data series?,hnsw_ef50_k15,50,3,0.24758484331275488,b84e3f18-5aa9-4dfc-93d2-d6780855c536,"Topic: BarChart
 Section: Usage
 
@@ -4458,7 +4458,7 @@ export const data = [
 { month: 'May', Smartphones: 800, Laptops: 1400, Tablets: 1200 },
 { month: 'June', Smartphones: 750, Laptops: 600, Tablets: 1000 },
 ];
-```",2
+```",1
 eval2_q012,How do I render a stacked BarChart in Mantine Charts with multiple data series?,hnsw_ef50_k15,50,6,0.26180347297907236,4dbf268d-228b-4a83-9443-fa2b28448936,"Topic: BarChart
 Section: Waterfall bar chart
 
@@ -4681,7 +4681,7 @@ export const data = [
 { month: 'May', Smartphones: 800, Laptops: 1400, Tablets: 1200 },
 { month: 'June', Smartphones: 750, Laptops: 600, Tablets: 1000 },
 ];
-```",2
+```",1
 eval2_q012,How do I render a stacked BarChart in Mantine Charts with multiple data series?,hnsw_ef50_k15,50,10,0.27207622514964513,84093d98-4f09-4a97-88c4-8b9ad8ac013a,"Topic: BarChart
 Section: Percent bar chart
 
@@ -5060,7 +5060,7 @@ return (
 </MantineProvider>
 );
 }
-```",0
+```",3
 eval2_q014,"Does Mantine provide a built-in way to synchronize state across browser tabs (e.g., theme/color scheme), and how do I use it?",hnsw_ef50_k15,50,3,0.2867586937169416,675d4cba-344d-40fb-80d3-59c60b349380,"Topic: ColorSchemes
 Section: Color scheme manager
 
@@ -5120,7 +5120,7 @@ defaultValue
 } catch {
 return defaultValue;
 }
-},",0
+},",1
 eval2_q014,"Does Mantine provide a built-in way to synchronize state across browser tabs (e.g., theme/color scheme), and how do I use it?",hnsw_ef50_k15,50,4,0.29090021557529344,9de06d5c-d367-4e9a-86d6-8d607a2c84c4,"Topic: MantineProvider
 Section: colorSchemeManager
 
@@ -5259,7 +5259,7 @@ return (
 </ActionIcon>
 );
 }
-```",0
+```",1
 eval2_q014,"Does Mantine provide a built-in way to synchronize state across browser tabs (e.g., theme/color scheme), and how do I use it?",hnsw_ef50_k15,50,9,0.30113543210410554,cb6ca235-a88b-4fe3-9ea9-77082042b64d,"Topic: useLocalStorage
 Section: Usage
 
@@ -5281,7 +5281,7 @@ setValue('light');
 
 // You can also use callback like in useState hook to set value
 setValue((current) => (current === 'dark' ? 'light' : 'dark'));
-```",0
+```",1
 eval2_q014,"Does Mantine provide a built-in way to synchronize state across browser tabs (e.g., theme/color scheme), and how do I use it?",hnsw_ef50_k15,50,10,0.304537985440564,ddf687f1-ebf1-408d-bd5b-b38a466718ef,"Topic: MantineProvider
 Section: Overview
 

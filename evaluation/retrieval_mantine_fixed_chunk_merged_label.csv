@@ -64,7 +64,7 @@ function Demo() {
 ### autoContrast
 
 `autoContrast` controls whether text color should be changed based on the given `color` prop
-in the following components:",2
+in the following components:",3
 eval2_q001,How do I apply a global theme override so it affects Mantine components across my app?,hnsw_ef50_k15,50,2,0.24901481485993326,86d75f8e-f5c6-4094-be8c-61689b2dd733,"function Demo() {
   return (
     <MantineProvider theme={theme}>
@@ -150,7 +150,7 @@ the default theme.
 
 ```tsx
 import { DEFAULT_THEME } from '@mantine/core';
-```",1
+```",2
 eval2_q001,How do I apply a global theme override so it affects Mantine components across my app?,hnsw_ef50_k15,50,3,0.2515883823617856,d3413985-f030-49bc-b699-bef875ab536d,"<MantineThemeProvider theme={theme}>
         <CustomComponent>Provider color</CustomComponent>
         <CustomComponent color=""blue"">Prop color</CustomComponent>
@@ -235,7 +235,7 @@ function Demo() {
 ```tsx
 interface MantineProviderProps {
   /** Theme override object */
-  theme?: MantineThemeOverride;",1
+  theme?: MantineThemeOverride;",2
 eval2_q001,How do I apply a global theme override so it affects Mantine components across my app?,hnsw_ef50_k15,50,4,0.2565733185311998,f8677d03-b825-4653-b8f4-66eb935f4727,"In global `.css` files you can reference all Mantine [CSS variables](https://mantine.dev/styles/css-variables) and
 change styles of `<body />`, `:root` and other elements. For example, to change body background-color:
 
@@ -336,7 +336,7 @@ interface MantineProviderProps {
   cssVariablesResolver?: CSSVariablesResolver;
 
   /** Determines whether components should have static classes, for example, `mantine-Button-root`. `true` by default */
-  withStaticClasses?: boolean;",0
+  withStaticClasses?: boolean;",1
 eval2_q001,How do I apply a global theme override so it affects Mantine components across my app?,hnsw_ef50_k15,50,6,0.26627204063958254,cbf09b76-76fe-4615-becc-68ffed5acbed,"function Demo() {
   return (
     <MantineProvider theme={theme}>
@@ -466,7 +466,7 @@ to the `<head />` of your application and spread `mantineHtmlProps` on the `<htm
 to [avoid seeing a hydration warning](https://help.mantine.dev/q/color-scheme-hydration-warning):
 
 ```tsx
-import { ColorSchemeScript, mantineHtmlProps } from '@mantine/core';",1
+import { ColorSchemeScript, mantineHtmlProps } from '@mantine/core';",2
 eval2_q001,How do I apply a global theme override so it affects Mantine components across my app?,hnsw_ef50_k15,50,8,0.2719571752668659,40858af1-4cfd-47cd-8d25-3530291efc3b,"## Default theme
 
 You can import default theme object from `@mantine/core` package. It includes
@@ -523,7 +523,7 @@ You can change fonts and other text styles for headings, code and all other comp
 * `theme.fontFamilyMonospace` – controls font-family of components that require monospace font: [Code](https://mantine.dev/core/code/), [Kbd](https://mantine.dev/core/kbd/) and [CodeHighlight](https://mantine.dev/x/code-highlight/)
 * `theme.headings.fontFamily` – controls font-family of h1-h6 tags in [Title](https://mantine.dev/core/title/) and [Typography](https://mantine.dev/core/typography/) components, fallbacks to `theme.fontFamily` if not defined
 
-#### Example: fonts",0
+#### Example: fonts",1
 eval2_q001,How do I apply a global theme override so it affects Mantine components across my app?,hnsw_ef50_k15,50,9,0.2761476663860212,36e8da4e-d242-4895-8087-803e653dee9d,"export const theme = createTheme({
   components: {
     Button: Button.extend({}),
@@ -669,7 +669,7 @@ const theme = createTheme({
   components: {
     MenuItem: Menu.Item.extend({
       defaultProps: { color: 'red' },
-    }),",0
+    }),",1
 eval2_q001,How do I apply a global theme override so it affects Mantine components across my app?,hnsw_ef50_k15,50,11,0.28271150794683864,3d746d18-6a69-49cd-bbc1-f66efb6e010d,"/** Function to generate CSS variables based on theme object */
   cssVariablesResolver?: CSSVariablesResolver;
 
@@ -1080,7 +1080,7 @@ function Demo() {
 ```
 
 
-### defaultGradient",2
+### defaultGradient",3
 eval2_q002,How can I set a global default border radius so most components use it automatically?,hnsw_ef50_k15,50,2,0.3559994095913571,9d1c6472-3a35-4306-b6de-8b3328bc61ed,"-webkit-font-smoothing: var(--mantine-webkit-font-smoothing);
   -moz-osx-font-smoothing: var(--mantine-moz-font-smoothing);
 }
@@ -1200,7 +1200,7 @@ const theme = createTheme({
 ## Shadow variables
 
 Shadow variables are used in all Mantine components that support `shadow` prop. The following CSS
-variables are defined based on `theme.shadows`:",1
+variables are defined based on `theme.shadows`:",2
 eval2_q002,How can I set a global default border radius so most components use it automatically?,hnsw_ef50_k15,50,4,0.3601833034860793,86dc68fa-3d55-4f4a-a16c-e2aec813d571,"--------------------------------------------------------------------------------
 
 ### DefaultProps
@@ -2029,7 +2029,7 @@ const variantColorResolver: VariantColorsResolver = (input) => {
       color: 'var(--mantine-color-black)',
       hoverColor: 'var(--mantine-color-black)',
     };
-  }",1
+  }",2
 eval2_q004,How can I define and use a new Button style variant via theming?,hnsw_ef50_k15,50,2,0.29639644903856843,37e365a0-e336-4506-89a5-02989197e7d7,"// Inline.tsx
 import { Button, PartialVarsResolver, ButtonFactory, Group } from '@mantine/core';
 
@@ -2471,7 +2471,7 @@ Note that autoContrast feature works only if you use color prop to change backgr
 #### Example: autoContrast
 
 ```tsx
-import { Button, Group } from '@mantine/core';",w
+import { Button, Group } from '@mantine/core';",0
 eval2_q004,How can I define and use a new Button style variant via theming?,hnsw_ef50_k15,50,8,0.3181213364875859,b0c4df26-282a-4505-b4bb-f61266451523,"@mixin light {
       border-color: var(--mantine-color-gray-3);
     }
@@ -2534,7 +2534,7 @@ import {
   parseThemeColor,
   rgba,
   darken,
-} from '@mantine/core';",0
+} from '@mantine/core';",1
 eval2_q004,How can I define and use a new Button style variant via theming?,hnsw_ef50_k15,50,9,0.3190105627698723,29395bb1-f762-416d-b5db-0579659a284f,"return (
     <Button
       radius=""md""
@@ -2851,7 +2851,7 @@ function Demo() {
 
 ## Add custom colors types
 
-TypeScript will only autocomplete Mantine's default colors when accessing the theme. To add your custom colors to the MantineColor type, you can use TypeScript module declaration.",0
+TypeScript will only autocomplete Mantine's default colors when accessing the theme. To add your custom colors to the MantineColor type, you can use TypeScript module declaration.",1
 eval2_q004,How can I define and use a new Button style variant via theming?,hnsw_ef50_k15,50,14,0.32552658021208236,36e8da4e-d242-4895-8087-803e653dee9d,"export const theme = createTheme({
   components: {
     Button: Button.extend({}),
@@ -3040,7 +3040,7 @@ The `AppShell` component accepts `header`, `footer`, `navbar`, and `aside` props
 You must set these props if you want to use the associated components.
 For example, to use the `AppShell.Header` component, you need to set the `header` prop on the `AppShell` component.
 
-`header` and `footer` configuration objects share the same type:",2
+`header` and `footer` configuration objects share the same type:",3
 eval2_q005,How can I add a persistent top header area as part of the main application layout?,hnsw_ef50_k15,50,2,0.35919226884862177,0091cf82-40d7-4a94-a6f8-35a6e97d2f07,"In the following example:
 
 * The first and last sections (header and footer) take only the space needed for their content
@@ -3083,7 +3083,7 @@ Example of using CSS variables in styles:
 ```
 
 
-#### Props",0
+#### Props",1
 eval2_q005,How can I add a persistent top header area as part of the main application layout?,hnsw_ef50_k15,50,3,0.36329806809080545,15f73900-6c85-4a95-a6fb-c3832b1a721c,"/** Determines whether the section should be collapsed */
   collapsed?: { desktop?: boolean; mobile?: boolean };
 }
@@ -3121,7 +3121,7 @@ function Demo() {
 }
 ```
 
-Example with height as an object with breakpoints:",0
+Example with height as an object with breakpoints:",2
 eval2_q005,How can I add a persistent top header area as part of the main application layout?,hnsw_ef50_k15,50,4,0.3671637373756621,ee59df43-a02a-4879-be45-bb891a72f225,"Example with static `padding` prop:
 
 ```tsx
@@ -3183,7 +3183,7 @@ function Demo() {
 }
 ```
 
-## Collapsed navbar/aside configuration",0
+## Collapsed navbar/aside configuration",1
 eval2_q005,How can I add a persistent top header area as part of the main application layout?,hnsw_ef50_k15,50,5,0.37090885051609046,9dd7ae90-c60d-4308-801c-2772a60c4b5e,"<AppShell.Main
         pt={`calc(${rem(60)} + var(--mantine-spacing-md))`}
       >
@@ -3235,7 +3235,7 @@ export function CollapseDesktop() {
 }
 ```
 
-## withBorder prop",0
+## withBorder prop",1
 eval2_q005,How can I add a persistent top header area as part of the main application layout?,hnsw_ef50_k15,50,6,0.3748239427738721,708957d5-0ef5-43ad-8450-01fdd1cb7778,"## withBorder prop
 
 The `withBorder` prop is available on `AppShell` and associated sections: `AppShell.Header`, `AppShell.Navbar`, `AppShell.Aside` and `AppShell.Footer`.
@@ -3948,7 +3948,7 @@ function Demo() {
       confirmPassword: (value, values) =>
         value !== values.password ? 'Passwords did not match' : null,
     },
-  });",1
+  });",2
 eval2_q016,How can I attach a custom validation rule to a single field using Mantine useForm?,hnsw_ef50_k15,50,2,0.2588907561429521,b5d7c7a6-afd4-43e9-b12b-9bd96da3b260,"#### Example: rulesValidation
 
 ```tsx
@@ -4013,7 +4013,7 @@ Each form rule receives the following arguments:
 for example you can get index of array element:
 
 ```tsx
-import { useForm } from '@mantine/form';",2
+import { useForm } from '@mantine/form';",3
 eval2_q016,How can I attach a custom validation rule to a single field using Mantine useForm?,hnsw_ef50_k15,50,3,0.26913646182756235,d6e9cde9-254a-47fd-a1ad-caf72be0cd37,"function Demo() {
   const form = useForm({
     mode: 'uncontrolled',
@@ -4082,7 +4082,7 @@ function Demo() {
             ? 'You must be at least 18'
             : null,
     }),
-  });",1
+  });",3
 eval2_q016,How can I attach a custom validation rule to a single field using Mantine useForm?,hnsw_ef50_k15,50,4,0.270741890678055,82dec0f2-91ef-4a50-9c19-f3d47aaee332,"## UseFormReturnType
 
 `UseFormReturnType` can be used when you want to pass `form` as a prop to another component:
@@ -6165,7 +6165,7 @@ All set! Start development server:
 
 ```bash
 npm run dev
-```",2
+```",3
 eval2_q009,How do I set up MantineProvider in Next.js App Router (app/layout.tsx)?,hnsw_ef50_k15,50,2,0.2599667881479225,d24c1b5f-97f6-432f-8f2b-3386543dba1c,"useServerInsertedHTML(() => {
     const names = flush();
     if (names.length === 0) return null;
@@ -6236,7 +6236,7 @@ Note that `'use client'` is required in most components that use `sx`, `styles` 
 ```tsx
 'use client';
 
-import { Box } from '@mantine/core';",0
+import { Box } from '@mantine/core';",2
 eval2_q009,How do I set up MantineProvider in Next.js App Router (app/layout.tsx)?,hnsw_ef50_k15,50,3,0.26160807814489906,c4d23335-2c7b-4833-b3c6-0c8bb96065f7,"function Demo() {
   return (
     <MantineProvider theme={theme}>
@@ -7202,7 +7202,7 @@ import classes from './Demo.module.css';
 function Demo() {
   const [value, setValue] = useState('');
   const [focused, setFocused] = useState(false);
-  const floating = focused || value.length > 0 || undefined;",2
+  const floating = focused || value.length > 0 || undefined;",3
 eval2_q010,"In Mantine, which styling approach is most performant at runtime, and why?",hnsw_ef50_k15,50,2,0.21803994459893117,ea042a13-646a-4ed2-8ffa-1aee377048f3,"* You want to apply a single CSS property to a component:
 
 ```tsx
@@ -7272,7 +7272,7 @@ CSS modules are the most performant and flexible way of styling components.
     );
   }
 }
-```",0
+```",2
 eval2_q010,"In Mantine, which styling approach is most performant at runtime, and why?",hnsw_ef50_k15,50,3,0.21819004789184748,ab273b5b-6c3b-4b3c-9c2d-79458e7c1b3c,"#### Example: classNames
 
 ```tsx
@@ -8215,7 +8215,7 @@ You can control how series are stacked by setting `stackId` property in series o
 ```tsx
 // Demo.tsx
 import { BarChart } from '@mantine/charts';
-import { data } from './data';",2
+import { data } from './data';",3
 eval2_q012,How do I render a stacked BarChart in Mantine Charts with multiple data series?,hnsw_ef50_k15,50,2,0.23950443652128728,34fb401e-e817-40ab-a727-88753dda9b1b,"## Mixed stacked bar chart
 
 You can control how series are stacked by setting `stackId` property in series object:
@@ -8265,7 +8265,7 @@ contribution of each series in terms of percentages.
 ```tsx
 // Demo.tsx
 import { BarChart } from '@mantine/charts';
-import { data } from './data';",1
+import { data } from './data';",2
 eval2_q012,How do I render a stacked BarChart in Mantine Charts with multiple data series?,hnsw_ef50_k15,50,3,0.25102963929831146,dc42fd63-ac81-413d-87e1-96763b121c4b,"// data.ts
 export const data = [
   { month: 'January', Smartphones: 1200, Laptops: 900, Tablets: 200 },
@@ -8314,7 +8314,7 @@ prop to a number of milliseconds to animate the tooltip position change.
 ```tsx
 // Demo.tsx
 import { BarChart } from '@mantine/charts';
-import { data } from './data';",2
+import { data } from './data';",1
 eval2_q012,How do I render a stacked BarChart in Mantine Charts with multiple data series?,hnsw_ef50_k15,50,4,0.2546087688460257,7ac383be-acc2-471f-9510-e9691472fbe3,"#### Example: percent
 
 ```tsx
@@ -9035,7 +9035,7 @@ You can test this feature by opening 2 tabs with Mantine docs side by side and c
 
 By default, the hook will serialize/deserialize data with `JSON.stringify`/`JSON.parse`.
 If you need to store data in local storage that cannot be serialized with `JSON.stringify`
-– provide your own serialization handlers:",2
+– provide your own serialization handlers:",3
 eval2_q014,"Does Mantine provide a built-in way to synchronize state across browser tabs (e.g., theme/color scheme), and how do I use it?",hnsw_ef50_k15,50,2,0.28005212674294677,63665f99-513e-481e-8bad-df28d12be294,"Usually, it is better to wrap color scheme manager in a creator function to provide a way to
 configure it. Default local storage based color scheme manager example:
 
@@ -9113,7 +9113,7 @@ Then custom color scheme manager can be passed to [MantineProvider](https://mant
 
 ```tsx
 import { MantineProvider } from '@mantine/core';
-import { localStorageColorSchemeManager } from './localStorageColorSchemeManager';",0
+import { localStorageColorSchemeManager } from './localStorageColorSchemeManager';",1
 eval2_q014,"Does Mantine provide a built-in way to synchronize state across browser tabs (e.g., theme/color scheme), and how do I use it?",hnsw_ef50_k15,50,3,0.2827725093784129,e3343a60-4ce4-4520-a590-6cc3ffd20050,"```tsx
 import { useLocalStorage } from '@mantine/hooks';
 
@@ -9161,7 +9161,7 @@ Learn how to resolve MantineProvider issues
 
 <ErrorMessage error=""@mantine/core: MantineProvider was not found in component tree, make sure you have it in your app."" />
 
-The error above occurs in the following cases:",0
+The error above occurs in the following cases:",1
 eval2_q014,"Does Mantine provide a built-in way to synchronize state across browser tabs (e.g., theme/color scheme), and how do I use it?",hnsw_ef50_k15,50,4,0.29067820155068613,516358fd-b2dc-4615-8436-e49efd420149,"```tsx
 import { ColorSchemeScript } from '@mantine/core';
 
@@ -9538,7 +9538,7 @@ function Demo() {
 }
 ```
 
-## lightHidden and darkHidden props",0
+## lightHidden and darkHidden props",1
 eval2_q014,"Does Mantine provide a built-in way to synchronize state across browser tabs (e.g., theme/color scheme), and how do I use it?",hnsw_ef50_k15,50,10,0.3011668366521808,2581ecee-f73a-4be4-9e30-a18e597d0c00,"/** Clears color scheme value from storage and sets it to `defaultColorScheme` */
   clearColorScheme: () => void;
 };
@@ -9862,7 +9862,7 @@ function Demo() {
 `withCssVariables` determines whether theme CSS variables should be added to given `cssVariablesSelector`.
 By default, it is set to `true`, you should not change it unless you want to manage CSS variables
 via `.css` file (Note that in this case you will need to generate all theme tokens
-that are not a part of the default theme on your side).",0
+that are not a part of the default theme on your side).",1
 eval2_q014,"Does Mantine provide a built-in way to synchronize state across browser tabs (e.g., theme/color scheme), and how do I use it?",hnsw_ef50_k15,50,15,0.30730873616364796,ab84a690-ef32-4c6d-ba2c-8a7261f1454c,"// Correct color scheme toggle implementation
   // computedColorScheme is always either 'light' or 'dark'
   const toggleColorScheme = () => {

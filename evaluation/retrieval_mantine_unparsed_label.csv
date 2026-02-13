@@ -1,0 +1,2347 @@
+query_id,query_text,run_name,param_value,rank,dist,chunk_id,chunk_text,relevance
+parse_eval2_q001_01,How can I add my own styles to be used across the whole app?,hnsw_ef50_k15,50,1,0.294949918700973,abe16395-6325-49d4-a307-132341bb45ab,"Topic: GlobalStyles
+Section: Add global styles in your application
+
+It is recommended to use [CSS modules](https://mantine.dev/styles/css-modules) to apply styles to Mantine components
+with `className` prop or with [Styles API](https://mantine.dev/styles/styles-api). CSS modules files names usually
+end with `.module.css`, if you want to add global styles to your application, create a file with
+`.css` extension but without `.module` part, for example `global.css`.  
+In global `.css` files you can reference all Mantine [CSS variables](https://mantine.dev/styles/css-variables) and
+change styles of `<body />`, `:root` and other elements. For example, to change body background-color:  
+```css
+body {
+background-color: var(--mantine-color-red-filled);
+}
+```",
+parse_eval2_q001_01,How can I add my own styles to be used across the whole app?,hnsw_ef50_k15,50,2,0.3076824855713167,e3b48d31-7906-43a5-80ca-00ca524932a1,"Topic: Emotion
+Section: styles prop
+
+`styles` prop works similar to `sx` prop, but it allows adding styles to all
+nested elements of the components that are specified in the Styles API table.
+`styles` prop accepts either an object of styles objects or a function that
+receives theme, component props, utilities and returns styles object:  
+```tsx
+import { Button } from '@mantine/core';
+
+function Demo() {
+return (
+<Button
+color=""red""
+styles={(theme, { color }, u) => ({
+root: {
+padding: 10,
+backgroundColor: theme.colors[color || 'blue'][7],
+color: theme.white,
+
+'&:hover': {
+backgroundColor: theme.colors[color || 'blue'][8],
+},
+},
+
+label: {
+[u.light]: {
+border: `1px solid ${theme.black}`,
+},
+[u.dark]: {
+border: `1px solid ${theme.white}`,
+},
+},
+})}
+>
+Button with styles prop
+</Button>
+);
+}
+```",
+parse_eval2_q001_01,How can I add my own styles to be used across the whole app?,hnsw_ef50_k15,50,3,0.30915499878593533,52324c0a-312a-4395-954e-a4ab7e7a8c8c,"Topic: Emotion
+Section: styles in theme
+
+You can add styles to Mantine components with [Styles API](https://mantine.dev/styles/styles-api/) using
+Emotion with `styles` prop. Note that to avoid types collisions, you should not use
+`Component.extend` method and just pass component configuration object directly.  
+```tsx
+import { createTheme, MantineTheme, TextProps } from '@mantine/core';
+import { EmotionHelpers } from '@mantine/emotion';
+
+export const theme = createTheme({
+components: {
+Text: {
+styles: (
+theme: MantineTheme,
+_props: TextProps,
+u: EmotionHelpers
+) => ({
+root: {
+[u.light]: {
+color: theme.colors.blue[7],
+},
+},
+}),
+},
+},
+});
+```",
+parse_eval2_q001_01,How can I add my own styles to be used across the whole app?,hnsw_ef50_k15,50,4,0.3099546382836855,0c1b3056-616a-4197-be68-5bd91cea9d5c,"Topic: General
+Section: I prefer a third-party styles solution, can I use Mantine with it?
+
+All Mantine components are fully compatible with any third-party styling solution and native CSS.
+There are two main strategies to apply styles with a third-party library:  
+* `className`, `classNames`, `style` and `styles` props
+* with static selectors, for example `.mantine-Text-root`  
+Example of applying styles with a utility CSS library:  
+```tsx
+import { TextInput } from '@mantine/core';
+
+function Demo() {
+return (
+<TextInput
+classNames={{
+root: 'mt-4',
+input: 'bg-red-500 text-white',
+}}
+/>
+);
+}
+```  
+Example of applying styles with global CSS:  
+```css
+/* styles.css */
+
+/* Note that these styles are not scoped and
+will be applied to all TextInput components */
+.mantine-TextInput-root {
+margin-top: 0.8rem;
+}
+
+.mantine-TextInput-input {
+background-color: var(--mantine-color-red-filled);
+color: var(--mantine-color-white);
+}
+```  
+You can combine both approaches to achieve desired results, for example,
+`@emotion/styled` and `styled-components` packages will pass `className` prop to
+a given component, and you can use static selectors to style inner elements:  
+```tsx
+import styled from '@emotion/styled';
+import { Slider } from '@mantine/core';
+
+const StyledSlider = styled(Slider)`
+& .mantine-Slider-bar {
+background-color: var(--mantine-color-pink-5);
+}
+
+& .mantine-Slider-thumb {
+border-color: var(--mantine-color-pink-5);
+background-color: white;
+width: 1.5rem;
+height: 1.5rem;
+}
+`;
+
+function Demo() {
+return <StyledSlider defaultValue={40} />;
+}
+```",
+parse_eval2_q001_01,How can I add my own styles to be used across the whole app?,hnsw_ef50_k15,50,5,0.31376014266509933,0c3e5f2b-7fe3-4012-acad-cd2ce8a4e27f,"Topic: MantineStyles
+Section: Mantine components styles
+
+All Mantine components are built with CSS modules, but all styles are bundled before publishing to npm.
+To include these styles, you need to import `@mantine/{package}/styles.css` file in your application.
+Example with `@mantine/core` package:  
+```tsx
+import '@mantine/core/styles.css';
+```  
+By adding this import, you will have all styles of `@mantine/core` components in your application.",
+parse_eval2_q001_01,How can I add my own styles to be used across the whole app?,hnsw_ef50_k15,50,6,0.31628494531865226,5b76a555-ef34-49dc-9e81-02c272d0c6dd,"Topic: Input
+Section: Styles on theme
+
+Same as with default props, you can use `Input` and `Input.Wrapper` [Styles API](https://mantine.dev/styles/styles-api/)
+on [theme](https://mantine.dev/theming/theme-object/) to add styles to all inputs:  
+#### Example: sharedStyles  
+```tsx
+// Demo.tsx
+import { TextInput, NativeSelect, MantineProvider, createTheme, Input } from '@mantine/core';
+import classes from './Demo.module.css';
+
+const theme = createTheme({
+components: {
+Input: Input.extend({
+classNames: {
+input: classes.input,
+},
+}),
+
+InputWrapper: Input.Wrapper.extend({
+classNames: {
+label: classes.label,
+},
+}),
+},
+});
+
+function Demo() {
+return (
+<MantineProvider theme={theme}>
+<TextInput label=""Text input"" placeholder=""Text input"" />
+
+<NativeSelect
+mt=""md""
+label=""Native select""
+data={['React', 'Angular', 'Vue', 'Svelte']}
+/>
+</MantineProvider>
+);
+}
+
+// Demo.module.css
+.label {
+background-color: var(--mantine-color-blue-light);
+}
+
+.input {
+border: 1px solid var(--mantine-color-violet-filled);
+}
+```",
+parse_eval2_q001_01,How can I add my own styles to be used across the whole app?,hnsw_ef50_k15,50,7,0.3168621533499618,5d6d8375-bc91-44cc-a34b-00414bd75517,"Topic: SixToSeven
+Section: Global styles
+
+`Global` component and global styles on theme are not available in 7.0. Instead,
+create a global stylesheet (`.css` file) and import it in your application entry point.  
+```tsx
+// 6.x
+import { Global } from '@mantine/core';
+
+function Demo() {
+return (
+<Global
+styles={(theme) => ({
+'*, *::before, *::after': {
+boxSizing: 'border-box',
+},
+
+body: {
+backgroundColor:
+theme.colorScheme === 'dark'
+? theme.colors.dark[7]
+: theme.white,
+color:
+theme.colorScheme === 'dark'
+? theme.colors.dark[0]
+: theme.black,
+lineHeight: theme.lineHeight,
+},
+
+'.your-class': {
+backgroundColor: 'red',
+},
+
+'#your-id > [data-active]': {
+backgroundColor: 'pink',
+},
+})}
+/>
+);
+}
+```  
+```scss
+/* 7.0 */
+/* src/index.css */
+*,
+*::before,
+*::after {
+box-sizing: border-box;
+}
+
+body {
+background-color: light-dark(
+var(--mantine-color-white),
+var(--mantine-color-dark-7)
+);
+color: light-dark(
+var(--mantine-color-black),
+var(--mantine-color-white)
+);
+line-height: var(--mantine-line-height);
+}
+
+.your-class {
+background-color: red;
+}
+
+#your-id > [data-active] {
+background-color: pink;
+}
+```",
+parse_eval2_q001_01,How can I add my own styles to be used across the whole app?,hnsw_ef50_k15,50,8,0.31878899400073024,f57d97ef-6fa4-4c3f-a9db-a878fcd563bb,"Topic: General
+Section: How Mantine styles work
+
+All `@mantine/*` packages that include styles export `@mantine/*/styles.css`
+file which includes all the styles for the package.
+These files are handled by your framework/build tool (Next.js, Vite, React Router, etc.)
+and included in the final bundle.  
+Most of Mantine styles (99%+) have low specificity (class selectors) to allow
+easy customization and overrides.",
+parse_eval2_q001_01,How can I add my own styles to be used across the whole app?,hnsw_ef50_k15,50,9,0.3187960559821702,e7c2fab6-b9bf-4ad6-b28d-0b467ca41b8c,"Topic: CSSModules
+Section: Styling Mantine components without CSS modules
+
+All Mantine components are fully compatible with any third-party styling solution and native CSS.
+There are two main strategies to apply styles with a third-party library:  
+* `className`, `classNames`, `style` and `styles` props
+* with static selectors, for example `.mantine-Text-root`  
+Example of applying styles with a utility CSS library:  
+```tsx
+import { TextInput } from '@mantine/core';
+
+function Demo() {
+return (
+<TextInput
+classNames={{
+root: 'mt-4',
+input: 'bg-red-500 text-white',
+}}
+/>
+);
+}
+```  
+Example of applying styles with global CSS:  
+```css
+/* styles.css */
+
+/* Note that these styles are not scoped and
+will be applied to all TextInput components */
+.mantine-TextInput-root {
+margin-top: 0.8rem;
+}
+
+.mantine-TextInput-input {
+background-color: var(--mantine-color-red-filled);
+color: var(--mantine-color-white);
+}
+```  
+You can combine both approaches to achieve desired results, for example,
+`@emotion/styled` and `styled-components` packages will pass `className` prop to
+a given component, and you can use static selectors to style inner elements:  
+```tsx
+import styled from '@emotion/styled';
+import { Slider } from '@mantine/core';
+
+const StyledSlider = styled(Slider)`
+& .mantine-Slider-bar {
+background-color: var(--mantine-color-pink-5);
+}
+
+& .mantine-Slider-thumb {
+border-color: var(--mantine-color-pink-5);
+background-color: white;
+width: 1.5rem;
+height: 1.5rem;
+}
+`;",
+parse_eval2_q001_01,How can I add my own styles to be used across the whole app?,hnsw_ef50_k15,50,10,0.3220800775122489,331c6399-0fc0-4ed6-b5d9-63baaa240432,"Topic: CSSModules
+Section: Adding styles to Mantine components
+
+You can add styles to most of Mantine components using `className` prop
+– the same way as you would do with a regular HTML element.
+To set properties to your [theme](https://mantine.dev/theming/theme-object) values, you can use [Mantine CSS variables](https://mantine.dev/styles/css-variables):  
+#### Example: className  
+```tsx
+import { Box } from '@mantine/core';
+import classes from './Demo.module.css';
+
+function Demo() {
+return (
+<Box className={classes.box}>
+Box component with <span className={classes.highlight}>some styles</span>
+</Box>
+);
+}
+```  
+To apply styles to inner elements of Mantine components with CSS modules, you can use `classNames` prop
+(see [Styles API](https://mantine.dev/styles/styles-api) for more information):  
+#### Example: classNames  
+```tsx
+import { useState } from 'react';
+import { TextInput } from '@mantine/core';
+import classes from './Demo.module.css';
+
+function Demo() {
+const [value, setValue] = useState('');
+const [focused, setFocused] = useState(false);
+const floating = focused || value.length > 0 || undefined;
+
+return (
+<TextInput
+label=""Floating label input""
+labelProps={{ 'data-floating': floating }}
+classNames={{
+root: classes.root,
+input: classes.input,
+label: classes.label,
+}}
+onFocus={() => setFocused(true)}
+onBlur={() => setFocused(false)}
+value={value}
+onChange={(event) => setValue(event.currentTarget.value)}
+/>
+);
+}
+```",
+parse_eval2_q001_01,How can I add my own styles to be used across the whole app?,hnsw_ef50_k15,50,11,0.3231718735443625,38fdbb99-a6a6-47ec-9d3a-a43c31e4099f,"Topic: StylesOverview
+Section: Theme tokens
+
+You can reference Mantine [theme](https://mantine.dev/theming/theme-object/) values in any styles with
+[CSS variables](https://mantine.dev/styles/css-variables/):  
+* In [CSS modules](https://mantine.dev/styles/css-modules/):  
+```scss
+.root {
+// references theme.colors.red[5]
+background: var(--mantine-color-red-5);
+
+// references theme.spacing.md
+margin-top: var(--mantine-spacing-md);
+
+// references theme.headings.fontFamily
+font-family: var(--mantine-font-family-headings);
+}
+```  
+* In [style props](https://mantine.dev/styles/style-props/):  
+```tsx
+import { Box } from '@mantine/core';
+
+function Demo() {
+// bg=""red.5"" references theme.colors.red[5]
+// ""red.5"" is a shorthand for var(--mantine-color-red-5)
+
+// mt=""xl"" references theme.spacing.xl
+// ""xl"" is a shorthand for var(--mantine-spacing-xl)
+return (
+<Box bg=""red.5"" mt=""xl"">
+My box
+</Box>
+);
+}
+```  
+* In [style prop](https://mantine.dev/styles/style/):  
+```tsx
+import { Box } from '@mantine/core';
+
+function Demo() {
+return (
+<>
+<Box
+style={{
+margin: 'var(--mantine-spacing-xl)',
+color: 'var(--mantine-color-orange-5)',
+}}
+>
+With CSS variables
+</Box>
+
+<Box
+style={(theme) => ({
+margin: theme.spacing.xl,
+color: theme.colors.orange[5],
+})}
+>
+With theme object
+</Box>
+</>
+);
+}
+```",
+parse_eval2_q001_01,How can I add my own styles to be used across the whole app?,hnsw_ef50_k15,50,12,0.32376200000358357,89f2d1ed-dc31-40ce-a078-cb5cc6a2108c,"Topic: StylesOverview
+Section: CSS modules
+
+[CSS modules](https://mantine.dev/styles/css-modules/) is the recommended way of applying most of the styles to Mantine components.
+CSS modules are the most performant and flexible way of styling components.  
+```scss
+// Demo.module.css
+
+.root {
+padding-right: 100px;
+
+&[data-collapsed] {
+padding-right: 40px;
+
+& .control {
+max-width: 200px;
+}
+}
+}
+
+.control {
+background-color: var(--mantine-color-blue-1);
+color: var(--mantine-color-blue-filled);
+padding: var(--mantine-spacing-xl);
+margin-left: 40px;
+
+@media (max-width: $mantine-breakpoint-sm) {
+margin-left: 0;
+margin-top: var(--mantine-spacing-md);
+}
+
+@mixin hover {
+background-color: light-dark(
+var(--mantine-color-blue-1),
+var(--mantine-color-blue-9)
+);
+}
+}
+```  
+```tsx
+// Demo.tsx
+import classes from './Demo.module.css';
+
+function Demo({ collapsed }: { collapsed: boolean }) {
+return (
+<div
+className={classes.root}
+data-collapsed={collapsed || undefined}
+>
+<button type=""button"" className={classes.control}>
+Control
+</button>
+</div>
+);
+}
+```",
+parse_eval2_q001_01,How can I add my own styles to be used across the whole app?,hnsw_ef50_k15,50,13,0.32480397612624323,602080b0-ef3d-493d-8a43-e29a4d5c1a51,"Topic: General
+Section: Change body background with CSS
+
+To change `body` background color you can use CSS. To do that, create `styles.css`
+file in your project and import it at the root of your application:  
+```css
+body {
+background-color: #f9f9f9;
+}
+```",
+parse_eval2_q001_01,How can I add my own styles to be used across the whole app?,hnsw_ef50_k15,50,14,0.32507139024132514,bed4dcb3-fb72-44c2-98c2-c6efe732c529,"Topic: StylesOverview
+Section: Style prop
+
+[Style prop](https://mantine.dev/styles/style/) is supported by all Mantine components and allows setting
+CSS properties as well as CSS variables. It is useful in the following cases:  
+* You want to apply a single CSS property to a component:  
+```tsx
+import { Button, Flex } from '@mantine/core';
+
+function Demo() {
+return (
+<Flex>
+<Button style={{ flex: 1 }}>Large button</Button>
+<Button>Small button</Button>
+</Flex>
+);
+}
+```  
+* You want to set a CSS variable based on component prop:  
+```tsx
+import { Box } from '@mantine/core';
+
+function Demo({ color }: { color: string }) {
+// Later you will be able to use var(--my-color) in any nested element
+return <Box style={{ '--my-color': color }}>My box</Box>;
+}
+```  
+[Style prop](https://mantine.dev/styles/style/) works the same way as React `style` prop. It is not
+recommended to use it as a primary way of styling components. In most cases, it is
+better to create a separate file with styles – it will be easier to maintain and
+will be more [performant](https://mantine.dev/styles/styles-performance/).",
+parse_eval2_q001_01,How can I add my own styles to be used across the whole app?,hnsw_ef50_k15,50,15,0.325128777787813,fcb570ab-59a0-4f8d-9620-5850f5546d8b,"Topic: StylesOverview
+Section: Overview
+
+# Styles overview  
+This guide will help you understand how to apply styles to Mantine and custom components.",
+parse_eval2_q007_01,form validate 2 inputs same — error only on 2nd,hnsw_ef50_k15,50,1,0.292839618887336,35265d2f-8fbd-42d4-9ff5-6acc230b9cda,"Topic: formValidators
+Section: matchesField
+
+`matchesField` checks whether form value is the same as value in other form field.
+Note that `matchesField` can only work with primitive values (arrays and objects cannot be compared).  
+```tsx
+import { matchesField, useForm } from '@mantine/form';
+
+const form = useForm({
+mode: 'uncontrolled',
+initialValues: {
+password: '',
+confirmPassword: '',
+},
+
+validate: {
+confirmPassword: matchesField(
+'password',
+'Passwords are not the same'
+),
+},
+});
+```",
+parse_eval2_q007_01,form validate 2 inputs same — error only on 2nd,hnsw_ef50_k15,50,2,0.300336882894355,5577cd1e-4ea5-40fe-a7a8-0970d40afd74,"Topic: formValidation
+Section: Validation based on other form values
+
+You can get all form values as a second rule function argument to perform field validation based on other
+form values. For example, you can validate that password confirmation is the same as password:  
+#### Example: password  
+```tsx
+import { useForm } from '@mantine/form';
+import { PasswordInput, Group, Button, Box } from '@mantine/core';
+
+function Demo() {
+const form = useForm({
+mode: 'uncontrolled',
+initialValues: {
+password: 'secret',
+confirmPassword: 'sevret',
+},
+
+validate: {
+confirmPassword: (value, values) =>
+value !== values.password ? 'Passwords did not match' : null,
+},
+});
+
+return (
+<Box maw={340} mx=""auto"">
+<form onSubmit={form.onSubmit((values) => console.log(values))}>
+<PasswordInput
+label=""Password""
+placeholder=""Password""
+key={form.key('password')}
+{...form.getInputProps('password')}
+/>
+
+<PasswordInput
+mt=""sm""
+label=""Confirm password""
+placeholder=""Confirm password""
+key={form.key('confirmPassword')}
+{...form.getInputProps('confirmPassword')}
+/>
+
+<Group justify=""flex-end"" mt=""md"">
+<Button type=""submit"">Submit</Button>
+</Group>
+</form>
+</Box>
+);
+}
+```",
+parse_eval2_q007_01,form validate 2 inputs same — error only on 2nd,hnsw_ef50_k15,50,3,0.3355380422381552,e1e2f91d-155c-4950-af91-9eb6d003f74e,"Topic: formValidation
+Section: Validate fields on change
+
+function Demo() {
+const form = useForm({
+mode: 'uncontrolled',
+validateInputOnChange: [
+'email',
+'name',
+// use FORM_INDEX to reference fields indices
+`jobs.${FORM_INDEX}.title`,
+],
+initialValues: { name: '', email: '', age: 0, jobs: [{ title: '' }, { title: '' }] },
+
+// functions will be used to validate values at corresponding key
+validate: {
+name: (value) => (value.length < 2 ? 'Name must have at least 2 letters' : null),
+email: (value) => (/^\\S+@\\S+$/.test(value) ? null : 'Invalid email'),
+age: (value) => (value < 18 ? 'You must be at least 18 to register' : null),
+jobs: {
+title: (value) => (value.length < 2 ? 'Job must have at least 2 letters' : null),
+},
+},
+});
+
+return (
+<form onSubmit={form.onSubmit(console.log)}>
+<TextInput
+label=""Name""
+placeholder=""Name""
+key={form.key('name')}
+{...form.getInputProps('name')}
+/>
+<TextInput
+mt=""sm""
+label=""Email""
+placeholder=""Email""
+key={form.key('email')}
+{...form.getInputProps('email')}
+/>
+<NumberInput
+mt=""sm""
+label=""Age""
+placeholder=""Age""
+min={0}
+max={99}
+key={form.key('age')}
+{...form.getInputProps('age')}
+/>
+<TextInput
+mt=""sm""
+label=""Job 1""
+placeholder=""Job 1""
+key={form.key('jobs.0.title')}
+{...form.getInputProps('jobs.0.title')}
+/>
+<TextInput
+mt=""sm""
+label=""Job 2""
+placeholder=""Job 2""
+key={form.key('jobs.1.title')}
+{...form.getInputProps('jobs.1.title')}
+/>
+<Button type=""submit"" mt=""sm"">
+Submit
+</Button>
+</form>
+);
+}
+```",
+parse_eval2_q007_01,form validate 2 inputs same — error only on 2nd,hnsw_ef50_k15,50,4,0.3364010431333839,34397b2e-8e33-4062-b376-57cfaf5b1d46,"Topic: formValidators
+Section: Optional error
+
+Last argument of all validator functions below is optional. If error is not set, then fields with failed validation will
+only have invalid styles without error message:  
+#### Example: validatorsEmpty  
+```tsx
+import { useForm, isNotEmpty, isEmail, isInRange, hasLength, matches } from '@mantine/form';
+import { Button, Group, TextInput, NumberInput } from '@mantine/core';
+
+function Demo() {
+const form = useForm({
+mode: 'uncontrolled',
+initialValues: {
+name: '',
+job: '',
+email: '',
+favoriteColor: '',
+age: 18,
+},
+
+validate: {
+name: hasLength({ min: 2, max: 10 }),
+job: isNotEmpty(),
+email: isEmail(),
+favoriteColor: matches(/^#([0-9a-f]{3}){1,2}$/),
+age: isInRange({ min: 18, max: 99 }),
+},
+});
+
+return (
+<form onSubmit={form.onSubmit(() => {})}>
+<TextInput
+label=""Name""
+placeholder=""Name""
+withAsterisk
+key={form.key('name')}
+{...form.getInputProps('name')}
+/>
+<TextInput
+label=""Your job""
+placeholder=""Your job""
+withAsterisk
+mt=""md""
+key={form.key('job')}
+{...form.getInputProps('job')}
+/>
+<TextInput
+label=""Your email""
+placeholder=""Your email""
+withAsterisk
+mt=""md""
+key={form.key('email')}
+{...form.getInputProps('email')}
+/>
+<TextInput
+label=""Your favorite color""
+placeholder=""Your favorite color""
+withAsterisk
+mt=""md""
+key={form.key('favoriteColor')}
+{...form.getInputProps('favoriteColor')}
+/>
+<NumberInput
+label=""Your age""
+placeholder=""Your age""
+withAsterisk
+mt=""md""
+key={form.key('age')}
+{...form.getInputProps('age')}
+/>
+
+<Group justify=""flex-end"" mt=""md"">
+<Button type=""submit"">Submit</Button>
+</Group>
+</form>
+);
+}
+```",
+parse_eval2_q007_01,form validate 2 inputs same — error only on 2nd,hnsw_ef50_k15,50,5,0.33708753542731273,62c77b3f-b70c-40e4-a816-34ca7cb54a7a,"Topic: formValidation
+Section: formRootRule
+
+{fields}
+
+{form.errors.employees && (
+<Text c=""red"" size=""sm"" mt=""sm"">
+{form.errors.employees}
+</Text>
+)}
+
+<Group justify=""space-between"" mt=""md"">
+<Button
+variant=""default""
+onClick={() => {
+form.insertListItem('employees', { name: '', active: false, key: randomId() });
+form.clearFieldError('employees');
+}}
+>
+Add employee
+</Button>
+<Button type=""submit"">Submit</Button>
+</Group>
+</form>
+);
+}
+```  
+Another example is to validate an object fields combination:  
+#### Example: rootRuleObject  
+```tsx
+import { Button, Text, TextInput } from '@mantine/core';
+import { formRootRule, isNotEmpty, useForm } from '@mantine/form';
+
+function Demo() {
+const form = useForm({
+mode: 'uncontrolled',
+initialValues: {
+user: {
+firstName: '',
+lastName: '',
+},
+},
+
+validate: {
+user: {
+[formRootRule]: (value) =>
+value.firstName.trim().length > 0 && value.firstName === value.lastName
+? 'First name and last name cannot be the same'
+: null,
+firstName: isNotEmpty('First name is required'),
+lastName: isNotEmpty('Last name is required'),
+},
+},
+});
+
+return (
+<form onSubmit={form.onSubmit(() => {})}>
+<TextInput
+label=""First name""
+placeholder=""First name""
+{...form.getInputProps('user.firstName')}
+/>
+<TextInput
+label=""Last name""
+placeholder=""Last name""
+mt=""md""
+{...form.getInputProps('user.lastName')}
+/>
+{form.errors.user && (
+<Text c=""red"" mt={5} fz=""sm"">
+{form.errors.user}
+</Text>
+)}
+<Button type=""submit"" mt=""lg"">
+Submit
+</Button>
+</form>
+);
+}
+```",
+parse_eval2_q007_01,form validate 2 inputs same — error only on 2nd,hnsw_ef50_k15,50,6,0.3445137575323186,94a47c32-2dea-4563-9b9b-1421d3925958,"Topic: formValidation
+Section: Validate fields on blur
+
+function Demo() {
+const form = useForm({
+mode: 'uncontrolled',
+validateInputOnBlur: [
+'email',
+'name',
+// use FORM_INDEX to reference fields indices
+`jobs.${FORM_INDEX}.title`,
+],
+initialValues: { name: '', email: '', age: 0, jobs: [{ title: '' }, { title: '' }] },
+
+// functions will be used to validate values at corresponding key
+validate: {
+name: (value) => (value.length < 2 ? 'Name must have at least 2 letters' : null),
+email: (value) => (/^\\S+@\\S+$/.test(value) ? null : 'Invalid email'),
+age: (value) => (value < 18 ? 'You must be at least 18 to register' : null),
+jobs: {
+title: (value) => (value.length < 2 ? 'Job must have at least 2 letters' : null),
+},
+},
+});
+
+return (
+<form onSubmit={form.onSubmit(console.log)}>
+<TextInput
+label=""Name""
+placeholder=""Name""
+key={form.key('name')}
+{...form.getInputProps('name')}
+/>
+<TextInput
+mt=""sm""
+label=""Email""
+placeholder=""Email""
+key={form.key('email')}
+{...form.getInputProps('email')}
+/>
+<NumberInput
+mt=""sm""
+label=""Age""
+placeholder=""Age""
+min={0}
+max={99}
+key={form.key('age')}
+{...form.getInputProps('age')}
+/>
+<TextInput
+mt=""sm""
+label=""Job 1""
+placeholder=""Job 1""
+key={form.key('jobs.0.title')}
+{...form.getInputProps('jobs.0.title')}
+/>
+<TextInput
+mt=""sm""
+label=""Job 2""
+placeholder=""Job 2""
+key={form.key('jobs.1.title')}
+{...form.getInputProps('jobs.1.title')}
+/>
+<Button type=""submit"" mt=""sm"">
+Submit
+</Button>
+</form>
+);
+}
+```",
+parse_eval2_q007_01,form validate 2 inputs same — error only on 2nd,hnsw_ef50_k15,50,7,0.34465491195506004,3305166d-58db-4e4f-a251-6a4215a66aa6,"Topic: formValidation
+Section: Clear field error on change
+
+By default, field error is cleared when value changes. To change this, set `clearInputErrorOnChange` to `false`:  
+```tsx
+import { useForm } from '@mantine/form';
+
+const form = useForm({
+mode: 'uncontrolled',
+clearInputErrorOnChange: false,
+});
+```  
+#### Example: clearErrorOnChange  
+```tsx
+import { TextInput, Checkbox, Button, Group } from '@mantine/core';
+import { useForm } from '@mantine/form';
+
+function Demo() {
+const form = useForm({
+mode: 'uncontrolled',
+clearInputErrorOnChange: false,
+initialValues: {
+email: '',
+termsOfService: false,
+},
+
+validate: {
+email: (value) => (/^\\S+@\\S+$/.test(value) ? null : 'Invalid email'),
+},
+});
+
+return (
+<form onSubmit={form.onSubmit((values) => console.log(values))}>
+<TextInput
+withAsterisk
+label=""Email""
+placeholder=""your@email.com""
+key={form.key('email')}
+{...form.getInputProps('email')}
+/>
+
+<Checkbox
+mt=""md""
+label=""I agree to sell my privacy""
+key={form.key('termsOfService')}
+{...form.getInputProps('termsOfService', { type: 'checkbox' })}
+/>
+
+<Group justify=""flex-end"" mt=""md"">
+<Button type=""submit"">Submit</Button>
+</Group>
+</form>
+);
+}
+```",
+parse_eval2_q007_01,form validate 2 inputs same — error only on 2nd,hnsw_ef50_k15,50,8,0.3462712717109039,dbcfa01d-bf85-45f1-a696-38516043c0d1,"Topic: formValidation
+Section: Function based validation
+
+Another approach to handle validation is to provide a function to `validate`.
+Function takes form values as single argument and should return object that contains
+errors of corresponding fields. If field is valid or field validation is not required, you can either return null or simply omit it
+from the validation results.  
+#### Example: validateFunction  
+```tsx
+import { useForm } from '@mantine/form';
+import { Box, TextInput, NumberInput, Button, Group } from '@mantine/core';
+
+function Demo() {
+const form = useForm<{ name: string; age: number | undefined }>({
+mode: 'uncontrolled',
+initialValues: { name: '', age: undefined },
+validate: (values) => ({
+name: values.name.length < 2 ? 'Too short name' : null,
+age:
+values.age === undefined
+? 'Age is required'
+: values.age < 18
+? 'You must be at least 18'
+: null,
+}),
+});
+
+return (
+<Box maw={340} mx=""auto"">
+<form onSubmit={form.onSubmit((values) => console.log(values))}>
+<TextInput
+label=""Name""
+placeholder=""Name""
+key={form.key('name')}
+{...form.getInputProps('name')}
+/>
+<NumberInput
+mt=""sm""
+label=""Age""
+placeholder=""You age""
+key={form.key('age')}
+{...form.getInputProps('age')}
+/>
+
+<Group justify=""flex-end"" mt=""md"">
+<Button type=""submit"">Submit</Button>
+</Group>
+</form>
+</Box>
+);
+}
+```",
+parse_eval2_q007_01,form validate 2 inputs same — error only on 2nd,hnsw_ef50_k15,50,9,0.3463434654389712,39f6d7bb-7ee0-4b68-aa2f-976215edf629,"Topic: formValidators
+Section: matches
+
+`matches` checks whether form value matches given regexp. If form value is not a string, validation will be failed.  
+```tsx
+import { matches, useForm } from '@mantine/form';
+
+const form = useForm({
+mode: 'uncontrolled',
+initialValues: {
+color: '',
+},
+
+validate: {
+color: matches(/^#([0-9a-f]{3}){1,2}$/, 'Invalid color'),
+},
+});
+```",
+parse_eval2_q007_01,form validate 2 inputs same — error only on 2nd,hnsw_ef50_k15,50,10,0.3507950136121082,5ba13c70-aa34-42f3-9fe7-6dd1bf71b6ed,"Topic: formValidation
+Section: Validation with rules object
+
+To validate form with rules object, provide an object of functions which take field value as an argument
+and return error message (any React node) or null if field is valid:  
+#### Example: rulesValidation  
+```tsx
+import { useForm } from '@mantine/form';
+import { NumberInput, TextInput, Button } from '@mantine/core';
+
+function Demo() {
+const form = useForm({
+mode: 'uncontrolled',
+initialValues: { name: '', email: '', age: 0 },
+
+// functions will be used to validate values at corresponding key
+validate: {
+name: (value) => (value.length < 2 ? 'Name must have at least 2 letters' : null),
+email: (value) => (/^\\S+@\\S+$/.test(value) ? null : 'Invalid email'),
+age: (value) => (value < 18 ? 'You must be at least 18 to register' : null),
+},
+});
+
+return (
+<form onSubmit={form.onSubmit(console.log)}>
+<TextInput
+label=""Name""
+placeholder=""Name""
+key={form.key('name')}
+{...form.getInputProps('name')}
+/>
+<TextInput
+mt=""sm""
+label=""Email""
+placeholder=""Email""
+key={form.key('email')}
+{...form.getInputProps('email')}
+/>
+<NumberInput
+mt=""sm""
+label=""Age""
+placeholder=""Age""
+min={0}
+max={99}
+key={form.key('age')}
+{...form.getInputProps('age')}
+/>
+<Button type=""submit"" mt=""sm"">
+Submit
+</Button>
+</form>
+);
+}
+```",
+parse_eval2_q007_01,form validate 2 inputs same — error only on 2nd,hnsw_ef50_k15,50,11,0.3516821383032759,14ca02ed-07aa-4da1-b5b9-52156b0ca147,"Topic: General
+Section: What should I do instead?
+
+If you are building a form that requires usage of Mantine inputs
+with custom UI, you should validate form data after it has been
+submitted. You can use [@mantine/form](https://mantine.dev/form/use-form) package
+to perform form validation on submit.",
+parse_eval2_q007_01,form validate 2 inputs same — error only on 2nd,hnsw_ef50_k15,50,12,0.35242282420682935,ada84152-5deb-4822-980f-f919ec356bb5,"Topic: formNested
+Section: Nested object values validation
+
+```tsx
+import { useForm } from '@mantine/form';
+
+const form = useForm({
+mode: 'uncontrolled',
+initialValues: {
+user: {
+name: '',
+occupation: '',
+},
+},
+
+validate: {
+user: {
+name: (value) =>
+value.length < 2 ? 'Name is too short' : null,
+occupation: (value) =>
+value.length < 2 ? 'Occupation is too short' : null,
+},
+},
+});
+
+form.validate();
+form.errors; // -> { 'user.name': 'Name is too short', 'user.occupation': 'Occupation is too short' }
+```",
+parse_eval2_q007_01,form validate 2 inputs same — error only on 2nd,hnsw_ef50_k15,50,13,0.3549701272882011,7fa6efc3-aa08-4fe2-8f07-e356f822e3fc,"Topic: formValidation
+Section: Focus first invalid field
+
+The second argument of the `form.onSubmit` function is a callback function that is called
+with the [errors object](https://mantine.dev/form/errors) when form validation fails.
+You can use this callback to focus the first invalid field or perform any other action.  
+To get the DOM node of any input, use `form.getInputNode('path-to-field')`. Note that
+in order for this feature to work, you need to spread `form.getInputProps('path-to-field')` to
+the input element.  
+#### Example: focusError  
+```tsx
+import { Button, Group, TextInput } from '@mantine/core';
+import { isEmail, isNotEmpty, useForm } from '@mantine/form';
+
+function Demo() {
+const form = useForm({
+mode: 'uncontrolled',
+name: 'register-form',
+initialValues: {
+name: '',
+email: '',
+},
+
+validate: {
+name: isNotEmpty('Name is required'),
+email: isEmail('Invalid email'),
+},
+});
+
+return (
+<form
+onSubmit={form.onSubmit(
+(values) => console.log(values),
+(errors) => {
+const firstErrorPath = Object.keys(errors)[0];
+form.getInputNode(firstErrorPath)?.focus();
+}
+)}
+>
+<TextInput
+withAsterisk
+label=""Your name""
+placeholder=""Your name""
+key={form.key('name')}
+{...form.getInputProps('name')}
+/>
+
+<TextInput
+withAsterisk
+label=""Your email""
+placeholder=""your@email.com""
+mt=""md""
+key={form.key('email')}
+{...form.getInputProps('email')}
+/>
+
+<Group justify=""flex-end"" mt=""md"">
+<Button type=""submit"">Submit</Button>
+</Group>
+</form>
+);
+}
+```",
+parse_eval2_q007_01,form validate 2 inputs same — error only on 2nd,hnsw_ef50_k15,50,14,0.35729666220036005,6adc897b-619e-4cac-b6cc-031314186030,"Topic: formNested
+Section: List values validation
+
+```tsx
+import { useForm } from '@mantine/form';
+
+const form = useForm({
+mode: 'uncontrolled',
+initialValues: {
+users: [
+{ name: 'John', age: 12 },
+{ name: '', age: 22 },
+],
+},
+
+validate: {
+users: {
+name: (value) =>
+value.length < 2
+? 'Name should have at least 2 letters'
+: null,
+age: (value) =>
+value < 18 ? 'User must be 18 or older' : null,
+},
+},
+});
+
+// Validate list item field
+form.validateField('users.1.name');
+
+// Or with all other fields
+form.validate();
+console.log(form.errors);
+// {
+//  'users.0.age': 'User must be 18 or older',
+//  'users.1.name': 'Name should have at least 2 letters'
+// }
+```",
+parse_eval2_q007_01,form validate 2 inputs same — error only on 2nd,hnsw_ef50_k15,50,15,0.3587180485082041,8ceff6dd-40f7-4794-8cfa-3b0fc8691992,"Topic: formValidation
+Section: Validate fields on change
+
+To validate all fields on change set `validateInputOnChange` option to `true`:  
+```tsx
+import { useForm } from '@mantine/form';
+
+const form = useForm({
+mode: 'uncontrolled',
+validateInputOnChange: true,
+});
+```  
+#### Example: liveValidation  
+```tsx
+import { useForm } from '@mantine/form';
+import { NumberInput, TextInput, Button, } from '@mantine/core';
+
+function Demo() {
+const form = useForm({
+mode: 'uncontrolled',
+validateInputOnChange: true,
+initialValues: { name: '', email: '', age: 0 },
+
+// functions will be used to validate values at corresponding key
+validate: {
+name: (value) => (value.length < 2 ? 'Name must have at least 2 letters' : null),
+email: (value) => (/^\\S+@\\S+$/.test(value) ? null : 'Invalid email'),
+age: (value) => (value < 18 ? 'You must be at least 18 to register' : null),
+},
+});
+
+return (
+<form onSubmit={form.onSubmit(console.log)}>
+<TextInput
+label=""Name""
+placeholder=""Name""
+key={form.key('name')}
+{...form.getInputProps('name')}
+/>
+<TextInput
+mt=""sm""
+label=""Email""
+placeholder=""Email""
+key={form.key('email')}
+{...form.getInputProps('email')}
+/>
+<NumberInput
+mt=""sm""
+label=""Age""
+placeholder=""Age""
+min={0}
+max={99}
+key={form.key('age')}
+{...form.getInputProps('age')}
+/>
+<Button type=""submit"" mt=""sm"">
+Submit
+</Button>
+</form>
+);
+}
+```  
+You can also provide an array of fields paths to validate only those values:  
+```tsx
+import { FORM_INDEX, useForm } from '@mantine/form';
+
+const form = useForm({
+mode: 'uncontrolled',
+validateInputOnChange: [
+'name',
+'email',
+`jobs.${FORM_INDEX}.title`,
+],
+});
+```  
+#### Example: liveFieldValidation  
+```tsx
+import { useForm, FORM_INDEX } from '@mantine/form';
+import { NumberInput, TextInput, Button } from '@mantine/core';
+
+function Demo() {
+const form = useForm({
+mode: 'uncontrolled',
+validateInputOnChange: [
+'email',
+'name',
+// use FORM_INDEX to reference fields indices
+`jobs.${FORM_INDEX}.title`,
+],
+initialValues: { name: '', email: '', age: 0, jobs: [{ title: '' }, { title: '' }] },",
+parse_eval2_q005_01,I don't want my top header or navbar to scroll with page.,hnsw_ef50_k15,50,1,0.3522476091781743,753daa4d-a7ad-450d-9073-adc08690a547,"Topic: Table
+Section: Sticky header
+
+Set `stickyHeader` to make table header sticky. To customize top position of the header use `stickyHeaderOffset` prop:
+it is useful when you have a fixed header in your application. For example, Mantine documentation website has a fixed
+header with 60px height:  
+#### Example: stickyHeader  
+```tsx
+import { Table } from '@mantine/core';
+
+const elements = [
+{ position: 6, mass: 12.011, symbol: 'C', name: 'Carbon' },
+{ position: 7, mass: 14.007, symbol: 'N', name: 'Nitrogen' },
+{ position: 39, mass: 88.906, symbol: 'Y', name: 'Yttrium' },
+{ position: 56, mass: 137.33, symbol: 'Ba', name: 'Barium' },
+{ position: 58, mass: 140.12, symbol: 'Ce', name: 'Cerium' },
+];
+
+function Demo() {
+const rows = elements.map((element) => (
+<Table.Tr key={element.name}>
+<Table.Td>{element.position}</Table.Td>
+<Table.Td>{element.name}</Table.Td>
+<Table.Td>{element.symbol}</Table.Td>
+<Table.Td>{element.mass}</Table.Td>
+</Table.Tr>
+));
+
+return (
+<Table stickyHeader stickyHeaderOffset={60}>
+<Table.Thead>
+<Table.Tr>
+<Table.Th>Element position</Table.Th>
+<Table.Th>Element name</Table.Th>
+<Table.Th>Symbol</Table.Th>
+<Table.Th>Atomic mass</Table.Th>
+</Table.Tr>
+</Table.Thead>
+<Table.Tbody>{rows}</Table.Tbody>
+<Table.Caption>Scroll page to see sticky thead</Table.Caption>
+</Table>
+);
+}
+```",
+parse_eval2_q005_01,I don't want my top header or navbar to scroll with page.,hnsw_ef50_k15,50,2,0.3590470171068647,462eca27-f91f-4aee-913a-947307855e0c,"Topic: AppShell
+Section: Usage
+
+`AppShell` is a layout component that can be used to implement a common Header / Navbar / Footer / Aside
+layout pattern. All `AppShell` components have `position: fixed` style, so they do not scroll with
+the page.  
+[Basic AppShell example](https://mantine.dev/app-shell?e=BasicAppShell) with header and navbar.
+The navbar is hidden on mobile by default and toggled with the burger button.  
+```tsx
+import { AppShell, Burger } from '@mantine/core';
+import { useDisclosure } from '@mantine/hooks';
+
+function Demo() {
+const [opened, { toggle }] = useDisclosure();
+
+return (
+<AppShell
+padding=""md""
+header={{ height: 60 }}
+navbar={{
+width: 300,
+breakpoint: 'sm',
+collapsed: { mobile: !opened },
+}}
+>
+<AppShell.Header>
+<Burger
+opened={opened}
+onClick={toggle}
+hiddenFrom=""sm""
+size=""sm""
+/>
+
+<div>Logo</div>
+</AppShell.Header>
+
+<AppShell.Navbar>Navbar</AppShell.Navbar>
+
+<AppShell.Main>Main</AppShell.Main>
+</AppShell>
+);
+}
+```",
+parse_eval2_q005_01,I don't want my top header or navbar to scroll with page.,hnsw_ef50_k15,50,3,0.3658870083963298,7dab88ae-e103-4521-9714-e87ae9441f5d,"Topic: General
+Section: Overview
+
+# How can I lock scroll in my application?
+Use react-remove-scroll library to lock scroll in your application  
+Mantine components use [react-remove-scroll](https://github.com/theKashey/react-remove-scroll)
+library to lock scroll. You can use it in your application to lock scroll. For your
+convenience, `@mantine/core` package exports `RemoveScroll` component:  
+```tsx
+import { RemoveScroll } from '@mantine/core';
+
+function App() {
+return (
+<RemoveScroll>
+<div>Content</div>
+</RemoveScroll>
+);
+}
+```  
+The component supports all props that are supported by `react-remove-scroll` library,
+you can find the full list of props in the [official documentation](https://github.com/theKashey/react-remove-scroll).",
+parse_eval2_q005_01,I don't want my top header or navbar to scroll with page.,hnsw_ef50_k15,50,4,0.3716669015426579,3881ed01-4b12-4586-ad67-8a0c10b9410f,"Topic: useHeadroom
+Section: Overview
+
+Package: @mantine/hooks
+Import: import { UseHeadroom } from '@mantine/hooks';",
+parse_eval2_q005_01,I don't want my top header or navbar to scroll with page.,hnsw_ef50_k15,50,5,0.37286612866098956,8b917cec-89ab-447f-825c-eb7eb07ba88a,"Topic: Affix
+Section: Usage
+
+function Demo() {
+const [scroll, scrollTo] = useWindowScroll();
+
+return (
+<>
+<Text ta=""center"">Affix is located at the bottom of the screen, scroll to see it</Text>
+<Affix position={{ bottom: 20, right: 20 }}>
+<Transition transition=""slide-up"" mounted={scroll.y > 0}>
+{(transitionStyles) => (
+<Button
+leftSection={<IconArrowUp size={16} />}
+style={transitionStyles}
+onClick={() => scrollTo({ y: 0 })}
+>
+Scroll to top
+</Button>
+)}
+</Transition>
+</Affix>
+</>
+);
+}
+```  
+#### Props  
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| portalProps | BasePortalProps | - | Props passed down to the <code>Portal</code> component. Ignored when <code>withinPortal</code> is <code>false</code>. |
+| position | AffixPosition | - | Affix position on screen |
+| withinPortal | boolean | - | Determines whether the component is rendered within <code>Portal</code> |
+| zIndex | React.CSSProperties[""zIndex""] | - | Root element <code>z-index</code> property |  
+#### Styles API  
+Affix component supports Styles API. With Styles API, you can customize styles of any inner element. Follow the documentation to learn how to use CSS modules, CSS variables and inline styles to get full control over component styles.  
+**Affix selectors**  
+| Selector | Static selector | Description |
+|----------|----------------|-------------|
+| root | .mantine-Affix-root | Root element |  
+**Affix CSS variables**  
+| Selector | Variable | Description |
+|----------|----------|-------------|
+| root | --affix-z-index | Controls `z-index` property |
+| root | --affix-top | Controls `top` property |
+| root | --affix-bottom | Controls `bottom` property |
+| root | --affix-left | Controls `left` property |
+| root | --affix-right | Controls `right` property |",
+parse_eval2_q005_01,I don't want my top header or navbar to scroll with page.,hnsw_ef50_k15,50,6,0.37494976067067465,1f9f1c26-870c-4f7a-bc6e-5c7f1305fc11,"Topic: AppShell
+Section: Header offset configuration
+
+The `header` prop includes an `offset` property that allows you to control
+whether the `AppShell.Main` component is offset by the header's height.
+This is particularly useful when you want to collapse the `AppShell.Header`
+based on scroll position. For example, you can use the [use-headroom](https://mantine.dev/hooks/use-headroom)
+hook to hide the header when the user scrolls down and show it when
+scrolling up ([example](https://mantine.dev/app-shell?e=Headroom)).  
+```tsx
+import { AppShell, rem } from '@mantine/core';
+import { useHeadroom } from '@mantine/hooks';
+
+function Demo() {
+const pinned = useHeadroom({ fixedAt: 120 });
+
+return (
+<AppShell
+header={{ height: 60, collapsed: !pinned, offset: false }}
+padding=""md""
+>
+<AppShell.Header>Header</AppShell.Header>
+
+<AppShell.Main
+pt={`calc(${rem(60)} + var(--mantine-spacing-md))`}
+>
+{/* Content */}
+</AppShell.Main>
+</AppShell>
+);
+}
+```",
+parse_eval2_q005_01,I don't want my top header or navbar to scroll with page.,hnsw_ef50_k15,50,7,0.3766550073605358,769eedbb-a0ae-4965-ab9e-fb3bda5f71dc,"Topic: useHeadroom
+Section: Usage
+
+Use `use-headroom` hook to create headers that are hidden after user scrolls past the given distance in px.
+The hook returns a boolean value that determines whether the element should be pinned or hidden.
+Hook returns `true` when the current scroll position is less than the specified `fixedAt` value and
+after user scrolled up.",
+parse_eval2_q005_01,I don't want my top header or navbar to scroll with page.,hnsw_ef50_k15,50,8,0.3795534544576662,368569a0-95a9-47a1-828c-e4872d1eadd7,"Topic: Affix
+Section: Usage
+
+`Affix` renders a div element with a fixed position inside the [Portal](https://mantine.dev/core/portal) component.
+Use it to display elements fixed at any position on the screen, for example, scroll to top button:  
+#### Example: usage  
+```tsx
+import { IconArrowUp } from '@tabler/icons-react';
+import { useWindowScroll } from '@mantine/hooks';
+import { Affix, Button, Text, Transition } from '@mantine/core';
+
+function Demo() {
+const [scroll, scrollTo] = useWindowScroll();",
+parse_eval2_q005_01,I don't want my top header or navbar to scroll with page.,hnsw_ef50_k15,50,9,0.3810182095150928,981a7130-dff1-408c-82f8-59315159090b,"Topic: Drawer
+Section: Fixed elements offset
+
+`Drawer` component uses [react-remove-scroll](https://github.com/theKashey/react-remove-scroll)
+package to lock scroll. To properly size these `elements` add a `className` to them ([documentation](https://github.com/theKashey/react-remove-scroll#positionfixed-elements)):  
+```tsx
+import { RemoveScroll } from '@mantine/core';
+
+function Demo() {
+return (
+<>
+<div className={RemoveScroll.classNames.fullWidth}>
+width: 100%
+</div>
+<div className={RemoveScroll.classNames.zeroRight}>
+right: 0
+</div>
+</>
+);
+}
+```",
+parse_eval2_q005_01,I don't want my top header or navbar to scroll with page.,hnsw_ef50_k15,50,10,0.3821021520768849,8a3122f4-8d6d-4994-90b2-52f9cb30afbd,"Topic: Spotlight
+Section: Fixed elements offset
+
+`Spotlight` component uses [react-remove-scroll](https://github.com/theKashey/react-remove-scroll)
+package to lock scroll. To properly size these `elements` add a `className` to them ([documentation](https://github.com/theKashey/react-remove-scroll#positionfixed-elements)):  
+```tsx
+import { RemoveScroll } from '@mantine/core';",
+parse_eval2_q005_01,I don't want my top header or navbar to scroll with page.,hnsw_ef50_k15,50,11,0.3848981381902472,0d89301e-985c-4476-a1b8-20e5392495a8,"Topic: Modal
+Section: Fixed elements offset
+
+`Modal` component uses [react-remove-scroll](https://github.com/theKashey/react-remove-scroll)
+package to lock scroll. To properly size these `elements` add a `className` to them ([documentation](https://github.com/theKashey/react-remove-scroll#positionfixed-elements)):  
+```tsx
+import { RemoveScroll } from '@mantine/core';
+
+function Demo() {
+return (
+<>
+<div className={RemoveScroll.classNames.fullWidth}>
+width: 100%
+</div>
+<div className={RemoveScroll.classNames.zeroRight}>
+right: 0
+</div>
+</>
+);
+}
+```",
+parse_eval2_q005_01,I don't want my top header or navbar to scroll with page.,hnsw_ef50_k15,50,12,0.38589281210544335,037a5313-a5f1-4c84-ab9c-c1bcfac45c03,"Topic: Affix
+Section: Overview
+
+Package: @mantine/core
+Import: import { Affix } from '@mantine/core';
+Description: Renders children inside portal at fixed position",
+parse_eval2_q005_01,I don't want my top header or navbar to scroll with page.,hnsw_ef50_k15,50,13,0.3882740834095769,7bc85b6a-c0eb-422f-8955-2ed49baa5b10,"Topic: Rich text editor
+Section: Sticky toolbar
+
+Set `sticky` prop on `RichTextEditor.Toolbar` component to make toolbar sticky,
+control `top` property with `stickyOffset`. For example, on mantine.dev documentation
+website there is a header with `var(--docs-header-height)` height, in this case we will need to
+set `stickyOffset=""var(--docs-header-height)""` to make sticky position correctly with fixed positioned element.",
+parse_eval2_q005_01,I don't want my top header or navbar to scroll with page.,hnsw_ef50_k15,50,14,0.38956959653165835,0a9f2e52-7ccc-4d85-9815-0c10bbb34a0c,"Topic: Table
+Section: Scroll container
+
+To prevent viewport overflow wrap `Table` with `Table.ScrollContainer`.
+The component accepts `minWidth` prop which sets minimum width below which table will be scrollable.  
+#### Example: scrollContainer  
+```tsx
+import { Table } from '@mantine/core';
+
+function Demo() {
+const rows = elements.map((element) => (
+<Table.Tr key={element.name}>
+<Table.Td>{element.position}</Table.Td>
+<Table.Td>{element.name}</Table.Td>
+<Table.Td>{element.symbol}</Table.Td>
+<Table.Td>{element.mass}</Table.Td>
+</Table.Tr>
+));
+
+return (
+<Table.ScrollContainer minWidth={500}>
+<Table>
+<Table.Thead>
+<Table.Tr>
+<Table.Th>Element position</Table.Th>
+<Table.Th>Element name</Table.Th>
+<Table.Th>Symbol</Table.Th>
+<Table.Th>Atomic mass</Table.Th>
+</Table.Tr>
+</Table.Thead>
+<Table.Tbody>{rows}</Table.Tbody>
+</Table>
+</Table.ScrollContainer>
+);
+}
+```  
+By default, `Table.ScrollContainer` uses [ScrollArea](https://mantine.dev/core/scroll-area), you can change it
+to native scrollbars by setting `type=""native""`:  
+#### Example: scrollContainerNative  
+```tsx
+import { Table } from '@mantine/core';
+
+function Demo() {
+const rows = elements.map((element) => (
+<Table.Tr key={element.name}>
+<Table.Td>{element.position}</Table.Td>
+<Table.Td>{element.name}</Table.Td>
+<Table.Td>{element.symbol}</Table.Td>
+<Table.Td>{element.mass}</Table.Td>
+</Table.Tr>
+));
+
+return (
+<Table.ScrollContainer minWidth={500} type=""native"">
+<Table>
+<Table.Thead>
+<Table.Tr>
+<Table.Th>Element position</Table.Th>
+<Table.Th>Element name</Table.Th>
+<Table.Th>Symbol</Table.Th>
+<Table.Th>Atomic mass</Table.Th>
+</Table.Tr>
+</Table.Thead>
+<Table.Tbody>{rows}</Table.Tbody>
+</Table>
+</Table.ScrollContainer>
+);
+}
+```  
+You can also set `maxHeight` prop on `Table.ScrollContainer` to limit table height:  
+#### Example: scrollContainerMaxHeight  
+```tsx
+import { Table } from '@mantine/core';",
+parse_eval2_q005_01,I don't want my top header or navbar to scroll with page.,hnsw_ef50_k15,50,15,0.3922560022944789,f022f400-57be-4fbc-86fe-6ad9333afbb1,"Topic: General
+Section: Scroll to the top of the form on submit
+
+Using the second callback of `form.onSubmit` you can scroll to the top of the form.
+If your application includes a fixed header (like Mantine Help Center website), use
+[scroll-margin](https://developer.mozilla.org/en-US/docs/Web/CSS/scroll-margin) CSS property
+to ensure that the form is not hidden behind the header. Note that `scroll-margin` does not
+work if the form has `overflow: hidden;` styles or is inside other element that has
+`overflow: hidden;` styles.  
+#### Example: ScrollToTopOfForm  
+```tsx
+function Demo() {
+const form = useForm({
+mode: 'uncontrolled',
+initialValues: {
+name: '',
+email: '',
+},
+
+validate: {
+name: isNotEmpty('Name is required'),
+email: isEmail('Invalid email'),
+},
+});
+
+return (
+<form
+id=""my-form""
+style={{ scrollMargin: '100px' }}
+onSubmit={form.onSubmit(
+() => {},
+() => {
+document
+.getElementById('my-form')
+?.scrollIntoView({ block: 'start', behavior: 'smooth' });
+}
+)}
+>
+<TextInput
+withAsterisk
+label=""Your name""
+placeholder=""Your name""
+key={form.key('name')}
+{...form.getInputProps('name')}
+/>
+
+<TextInput
+withAsterisk
+label=""Your email""
+placeholder=""your@email.com""
+mt=""md""
+key={form.key('email')}
+{...form.getInputProps('email')}
+/>
+
+<Group justify=""flex-end"" mt=""md"">
+<Button type=""submit"">Submit</Button>
+</Group>
+</form>
+);
+}
+```",
+parse_eval2_q014_01,"When I make a change on one tab, I want the other tab to be updated too.",hnsw_ef50_k15,50,1,0.33528088144171597,dd1e2dd8-05c9-4e4f-b545-10f280999a82,"Topic: Tabs
+Section: Controlled Tabs
+
+To control Tabs state, use `value` and `onChange` props:  
+```tsx
+import { useState } from 'react';
+import { Tabs } from '@mantine/core';
+
+function Demo() {
+const [activeTab, setActiveTab] = useState<string | null>('first');
+
+return (
+<Tabs value={activeTab} onChange={setActiveTab}>
+<Tabs.List>
+<Tabs.Tab value=""first"">First tab</Tabs.Tab>
+<Tabs.Tab value=""second"">Second tab</Tabs.Tab>
+</Tabs.List>
+
+<Tabs.Panel value=""first"">First panel</Tabs.Panel>
+<Tabs.Panel value=""second"">Second panel</Tabs.Panel>
+</Tabs>
+);
+}
+```",
+parse_eval2_q014_01,"When I make a change on one tab, I want the other tab to be updated too.",hnsw_ef50_k15,50,2,0.34109718379698784,27e381a4-3796-4d50-8ea2-988d9efa1950,"Topic: Tabs
+Section: Usage with react-router
+
+```tsx
+<Route path=""/tabs/:tabValue"" element={<Demo />} />
+```  
+```tsx
+import { useNavigate, useParams } from 'react-router-dom';
+import { Tabs } from '@mantine/core';
+
+function Demo() {
+const navigate = useNavigate();
+const { tabValue } = useParams();
+
+return (
+<Tabs
+value={tabValue}
+onChange={(value) => navigate(`/tabs/${value}`)}
+>
+<Tabs.List>
+<Tabs.Tab value=""first"">First tab</Tabs.Tab>
+<Tabs.Tab value=""second"">Second tab</Tabs.Tab>
+</Tabs.List>
+</Tabs>
+);
+}
+```",
+parse_eval2_q014_01,"When I make a change on one tab, I want the other tab to be updated too.",hnsw_ef50_k15,50,3,0.34419979876099216,31d9d91f-10af-4732-81cd-5bcdcd57f1f3,"Topic: useLocalStorage
+Section: Browser tabs synchronization
+
+`use-local-storage` subscribes to [storage event](https://developer.mozilla.org/en-US/docs/Web/API/Window/storage_event).
+When state changes in one tab, it automatically updates the value in all other opened browser tabs.
+You can test this feature by opening 2 tabs with Mantine docs side by side and changing the color scheme
+(button on the top right or `⌘ + J` on MacOS and `Ctrl + J` on Windows and Linux).",
+parse_eval2_q014_01,"When I make a change on one tab, I want the other tab to be updated too.",hnsw_ef50_k15,50,4,0.3471506629799508,3d7b996a-b376-44ff-8466-ea769de9546a,"Topic: Tabs
+Section: Change colors
+
+To change colors of all tabs, set `color` on `Tabs` component, to change color of the individual tab,
+set `color` on `Tabs.Tab`.  
+#### Example: colors  
+```tsx
+import { Tabs } from '@mantine/core';
+
+function Demo() {
+return (
+<Tabs color=""teal"" defaultValue=""first"">
+<Tabs.List>
+<Tabs.Tab value=""first"">Teal tab</Tabs.Tab>
+<Tabs.Tab value=""second"" color=""blue"">
+Blue tab
+</Tabs.Tab>
+</Tabs.List>
+
+<Tabs.Panel value=""first"" pt=""xs"">
+First tab color is teal, it gets this value from context
+</Tabs.Panel>
+
+<Tabs.Panel value=""second"" pt=""xs"">
+Second tab color is blue, it gets this value from props, props have the priority and will
+override context value
+</Tabs.Panel>
+</Tabs>
+);
+}
+```",
+parse_eval2_q014_01,"When I make a change on one tab, I want the other tab to be updated too.",hnsw_ef50_k15,50,5,0.3525143162983979,af04e459-6e24-426c-b3e2-2dafc94825f2,"Topic: Tabs
+Section: Usage with Next.js router
+
+```tsx
+// For file /tabs/[activeTab].tsx
+import { useRouter } from 'next/router';
+import { Tabs } from '@mantine/core';
+
+function Demo() {
+const router = useRouter();
+
+return (
+<Tabs
+value={router.query.activeTab as string}
+onChange={(value) => router.push(`/tabs/${value}`)}
+>
+<Tabs.List>
+<Tabs.Tab value=""first"">First tab</Tabs.Tab>
+<Tabs.Tab value=""second"">Second tab</Tabs.Tab>
+</Tabs.List>
+</Tabs>
+);
+}
+```  
+#### Example: stylesApi  
+```tsx
+import { Tabs } from '@mantine/core';
+
+function Demo() {
+return (
+<Tabs defaultValue=""gallery"">
+<Tabs.List>
+<Tabs.Tab value=""gallery"" leftSection={<IconPhoto size={12} />}>
+Gallery
+</Tabs.Tab>
+<Tabs.Tab value=""messages"" leftSection={<IconMessageCircle size={12} />}>
+Messages
+</Tabs.Tab>
+<Tabs.Tab value=""settings"" rightSection={<IconSettings size={12} />}>
+Settings
+</Tabs.Tab>
+</Tabs.List>
+
+<Tabs.Panel value=""gallery"" pt=""xs"">
+Gallery tab content
+</Tabs.Panel>
+
+<Tabs.Panel value=""messages"" pt=""xs"">
+Messages tab content
+</Tabs.Panel>
+
+<Tabs.Panel value=""settings"" pt=""xs"">
+Settings tab content
+</Tabs.Panel>
+</Tabs>
+);
+}
+```  
+Example of Styles API usage to customize tab styles:  
+#### Example: customize  
+```tsx
+// Demo.module.css
+.tab {
+position: relative;
+border: 1px solid light-dark(var(--mantine-color-gray-2), var(--mantine-color-dark-4));
+background-color: light-dark(var(--mantine-color-white), var(--mantine-color-dark-6));
+
+&:first-of-type {
+border-radius: 4px 0 0 4px;
+
+@mixin rtl {
+border-radius: 0 4px 4px 0;
+}
+}
+
+&:last-of-type {
+border-radius: 0 4px 4px 0;
+
+@mixin rtl {
+border-radius: 4px 0 0 4px;
+}
+}
+
+& + & {
+border-left-width: 0;
+
+@mixin rtl {
+border-right-width: 0;
+border-left-width: 1px;
+}
+}
+
+@mixin hover {
+background-color: light-dark(var(--mantine-color-gray-0), var(--mantine-color-dark-5));
+}
+
+&[data-active] {
+z-index: 1;
+background-color: var(--mantine-color-blue-filled);
+border-color: var(--mantine-color-blue-filled);
+color: var(--mantine-color-white);",
+parse_eval2_q014_01,"When I make a change on one tab, I want the other tab to be updated too.",hnsw_ef50_k15,50,6,0.3558712093375461,7a3d941a-7776-4562-a7eb-e0d58cf9374b,"Topic: Tabs
+Section: Usage with Next.js router
+
+@mixin hover {
+background-color: light-dark(var(--mantine-color-gray-0), var(--mantine-color-dark-5));
+}
+
+&[data-active] {
+z-index: 1;
+background-color: var(--mantine-color-blue-filled);
+border-color: var(--mantine-color-blue-filled);
+color: var(--mantine-color-white);
+
+@mixin hover {
+background-color: var(--mantine-color-blue-filled-hover);
+}
+}
+}
+
+// Demo.tsx
+import { Tabs } from '@mantine/core';
+import { IconPhoto, IconMessageCircle, IconSettings } from '@tabler/icons-react';
+import classes from './Demo.module.css';
+
+function Demo() {
+return (
+<Tabs variant=""unstyled"" defaultValue=""settings"" classNames={classes}>
+<Tabs.List grow>
+<Tabs.Tab
+value=""settings""
+leftSection={<IconSettings size={16} />}
+>
+Settings
+</Tabs.Tab>
+<Tabs.Tab
+value=""messages""
+leftSection={<IconMessageCircle size={16} />}
+>
+Messages
+</Tabs.Tab>
+<Tabs.Tab
+value=""gallery""
+leftSection={<IconPhoto size={16} />}
+>
+Gallery
+</Tabs.Tab>
+</Tabs.List>
+</Tabs>
+);
+}
+```",
+parse_eval2_q014_01,"When I make a change on one tab, I want the other tab to be updated too.",hnsw_ef50_k15,50,7,0.35596958250468314,3af53c5b-c2f3-466f-97ec-a68e32064be6,"Topic: Tabs
+Section: Unmount inactive tabs
+
+By default, inactive `Tabs.Panel` will stay mounted, to unmount inactive tabs, set `keepMounted={false}` on Tabs.
+This is useful when you want to render components that impact performance inside `Tabs.Panel`. Note that
+components that are rendered inside `Tabs.Panel` will reset their state on each mount (tab change).  
+```tsx
+import { Tabs } from '@mantine/core';
+
+// Second tab panel will be mounted only when user activates second tab
+function Demo() {
+return (
+<Tabs keepMounted={false} defaultValue=""first"">
+<Tabs.List>
+<Tabs.Tab value=""first"">First tab</Tabs.Tab>
+<Tabs.Tab value=""second"">Second tab</Tabs.Tab>
+</Tabs.List>
+
+<Tabs.Panel value=""first"">First panel</Tabs.Panel>
+<Tabs.Panel value=""second"">Second panel</Tabs.Panel>
+</Tabs>
+);
+}
+```",
+parse_eval2_q014_01,"When I make a change on one tab, I want the other tab to be updated too.",hnsw_ef50_k15,50,8,0.3570158963655433,dbacf491-9f09-4c1d-9df2-ad4d7b0c8772,"Topic: Tabs
+Section: Overview
+
+Package: @mantine/core
+Import: import { Tabs } from '@mantine/core';
+Description: Switch between different views",
+parse_eval2_q014_01,"When I make a change on one tab, I want the other tab to be updated too.",hnsw_ef50_k15,50,9,0.3571742168264297,d79e3eb5-f9cb-4fe7-8e91-b49e7d0d0deb,"Topic: Tabs
+Section: Uncontrolled Tabs
+
+If you do not need to subscribe to Tabs state changes, use `defaultValue`:  
+```tsx
+import { Tabs } from '@mantine/core';
+
+function Demo() {
+return (
+<Tabs defaultValue=""first"">
+<Tabs.List>
+<Tabs.Tab value=""first"">First tab</Tabs.Tab>
+<Tabs.Tab value=""second"">Second tab</Tabs.Tab>
+</Tabs.List>
+
+<Tabs.Panel value=""first"">First panel</Tabs.Panel>
+<Tabs.Panel value=""second"">Second panel</Tabs.Panel>
+</Tabs>
+);
+}
+```",
+parse_eval2_q014_01,"When I make a change on one tab, I want the other tab to be updated too.",hnsw_ef50_k15,50,10,0.362356762236838,dce774a4-4359-4706-83f2-58f542c4117f,"Topic: Tabs
+Section: Tabs position
+
+#### Example: position  
+```tsx
+import { Tabs } from '@mantine/core';
+
+function Demo() {
+return (
+<Tabs defaultValue=""first"">
+<Tabs.List>
+<Tabs.Tab value=""first"">First tab</Tabs.Tab>
+<Tabs.Tab value=""second"">Second tab</Tabs.Tab>
+<Tabs.Tab value=""third"">Third tab</Tabs.Tab>
+</Tabs.List>
+</Tabs>
+);
+}
+```  
+To display tab on the opposite side, set `margin-left: auto` with `ml=""auto""` prop or with `className`:  
+#### Example: pull  
+```tsx
+import { Tabs } from '@mantine/core';
+
+function Demo() {
+return (
+<Tabs defaultValue=""chat"">
+<Tabs.List>
+<Tabs.Tab value=""chat"">Chat</Tabs.Tab>
+<Tabs.Tab value=""gallery"">Gallery</Tabs.Tab>
+<Tabs.Tab value=""settings"">Settings</Tabs.Tab>
+<Tabs.Tab value=""account"" ml=""auto"">
+Account
+</Tabs.Tab>
+</Tabs.List>
+</Tabs>
+);
+}
+```",
+parse_eval2_q014_01,"When I make a change on one tab, I want the other tab to be updated too.",hnsw_ef50_k15,50,11,0.36288953891560394,a47d969a-9096-4591-b4b5-0bbfbc4f6040,"Topic: Tabs
+Section: Custom variants
+
+Example of custom variant with [FloatingIndicator](https://mantine.dev/core/floating-indicator):  
+#### Example: tabs  
+```tsx
+// Demo.tsx
+import { useState } from 'react';
+import { FloatingIndicator, Tabs } from '@mantine/core';
+import classes from './Demo.module.css';
+
+function Demo() {
+const [rootRef, setRootRef] = useState<HTMLDivElement | null>(null);
+const [value, setValue] = useState<string | null>('1');
+const [controlsRefs, setControlsRefs] = useState<Record<string, HTMLButtonElement | null>>({});
+const setControlRef = (val: string) => (node: HTMLButtonElement) => {
+controlsRefs[val] = node;
+setControlsRefs(controlsRefs);
+};
+
+return (
+<Tabs variant=""none"" value={value} onChange={setValue}>
+<Tabs.List ref={setRootRef} className={classes.list}>
+<Tabs.Tab value=""1"" ref={setControlRef('1')} className={classes.tab}>
+First tab
+</Tabs.Tab>
+<Tabs.Tab value=""2"" ref={setControlRef('2')} className={classes.tab}>
+Second tab
+</Tabs.Tab>
+<Tabs.Tab value=""3"" ref={setControlRef('3')} className={classes.tab}>
+Third tab
+</Tabs.Tab>
+
+<FloatingIndicator
+target={value ? controlsRefs[value] : null}
+parent={rootRef}
+className={classes.indicator}
+/>
+</Tabs.List>
+
+<Tabs.Panel value=""1"">First tab content</Tabs.Panel>
+<Tabs.Panel value=""2"">Second tab content</Tabs.Panel>
+<Tabs.Panel value=""3"">Third tab content</Tabs.Panel>
+</Tabs>
+);
+}
+
+// Demo.module.css
+.list {
+position: relative;
+margin-bottom: var(--mantine-spacing-md);
+}
+
+.indicator {
+background-color: var(--mantine-color-white);
+border-radius: var(--mantine-radius-md);
+border: 1px solid var(--mantine-color-gray-2);
+box-shadow: var(--mantine-shadow-sm);
+
+@mixin dark {
+background-color: var(--mantine-color-dark-6);
+border-color: var(--mantine-color-dark-4);
+}
+}
+
+.tab {
+z-index: 1;
+font-weight: 500;
+transition: color 100ms ease;
+color: var(--mantine-color-gray-7);
+
+&[data-active] {
+color: var(--mantine-color-black);
+}
+
+@mixin dark {
+color: var(--mantine-color-dark-1);
+
+&[data-active] {
+color: var(--mantine-color-white);
+}
+}
+}
+```",
+parse_eval2_q014_01,"When I make a change on one tab, I want the other tab to be updated too.",hnsw_ef50_k15,50,12,0.36584780996210053,19834281-eb43-4a5f-98da-f1fd4d7c6ad5,"Topic: formValues
+Section: form.watch cascade
+
+To loosely subscribe to changes, you can set `cascadeUpdates: true`.
+This allows for parent objects to be written to directly, while still having
+subscribers to nested keys updated. Additionally, writes to nested keys
+will bubble up triggering parent key subscriptions as well.  
+#### Example: cascadeUpdates  
+```tsx
+import { Button, Code, Stack, TextInput } from '@mantine/core';
+import { createFormContext } from '@mantine/form';
+import { useState } from 'react';
+
+const [Provider, usePersonFormContext, usePersonForm] = createFormContext<{ person: { name: string } }>();
+
+function Demo() {
+const form = usePersonForm({
+mode: 'uncontrolled',
+cascadeUpdates: true,
+initialValues: {
+person: { name: """" }
+}
+})
+
+return (
+<Provider form={form}>
+<Stack>
+<TextInput
+label=""Name""
+placeholder=""Name""
+key={form.key('person.name')}
+{...form.getInputProps('person.name')}
+/>
+<Button onClick={() => form.setFieldValue(""person"", { name: ""Jane Doe"" })}>Set 'person' object to `{'{ name: ""Jane Doe"" }'}`</Button>
+<Watcher />
+</Stack>
+</Provider>
+);
+}
+
+function Watcher() {
+const form = usePersonFormContext();
+
+const [person, setPerson] = useState<{ name: string }>();
+const [name, setName] = useState<string>();
+
+form.watch('person', ({ value }) => setPerson(value));
+form.watch(""person.name"", ({ value }) => setName(value));
+
+return <Code block>{JSON.stringify({ person, name }, null, 2)}</Code>
+}
+```",
+parse_eval2_q014_01,"When I make a change on one tab, I want the other tab to be updated too.",hnsw_ef50_k15,50,13,0.3660273892831506,4d1b4659-58ee-4638-9874-037b88a0162a,"Topic: FloatingIndicator
+Section: Example: Tabs
+
+#### Example: tabs  
+```tsx
+// Demo.tsx
+import { useState } from 'react';
+import { FloatingIndicator, Tabs } from '@mantine/core';
+import classes from './Demo.module.css';
+
+function Demo() {
+const [rootRef, setRootRef] = useState<HTMLDivElement | null>(null);
+const [value, setValue] = useState<string | null>('1');
+const [controlsRefs, setControlsRefs] = useState<Record<string, HTMLButtonElement | null>>({});
+const setControlRef = (val: string) => (node: HTMLButtonElement) => {
+controlsRefs[val] = node;
+setControlsRefs(controlsRefs);
+};
+
+return (
+<Tabs variant=""none"" value={value} onChange={setValue}>
+<Tabs.List ref={setRootRef} className={classes.list}>
+<Tabs.Tab value=""1"" ref={setControlRef('1')} className={classes.tab}>
+First tab
+</Tabs.Tab>
+<Tabs.Tab value=""2"" ref={setControlRef('2')} className={classes.tab}>
+Second tab
+</Tabs.Tab>
+<Tabs.Tab value=""3"" ref={setControlRef('3')} className={classes.tab}>
+Third tab
+</Tabs.Tab>
+
+<FloatingIndicator
+target={value ? controlsRefs[value] : null}
+parent={rootRef}
+className={classes.indicator}
+/>
+</Tabs.List>
+
+<Tabs.Panel value=""1"">First tab content</Tabs.Panel>
+<Tabs.Panel value=""2"">Second tab content</Tabs.Panel>
+<Tabs.Panel value=""3"">Third tab content</Tabs.Panel>
+</Tabs>
+);
+}
+
+// Demo.module.css
+.list {
+position: relative;
+margin-bottom: var(--mantine-spacing-md);
+}
+
+.indicator {
+background-color: var(--mantine-color-white);
+border-radius: var(--mantine-radius-md);
+border: 1px solid var(--mantine-color-gray-2);
+box-shadow: var(--mantine-shadow-sm);
+
+@mixin dark {
+background-color: var(--mantine-color-dark-6);
+border-color: var(--mantine-color-dark-4);
+}
+}
+
+.tab {
+z-index: 1;
+font-weight: 500;
+transition: color 100ms ease;
+color: var(--mantine-color-gray-7);
+
+&[data-active] {
+color: var(--mantine-color-black);
+}
+
+@mixin dark {
+color: var(--mantine-color-dark-1);",
+parse_eval2_q014_01,"When I make a change on one tab, I want the other tab to be updated too.",hnsw_ef50_k15,50,14,0.3686698112989051,7493fbd8-4635-453b-84d9-b4fb38e851f9,"Topic: formValues
+Section: onValuesChange
+
+`onValuesChange` function is called every time form values change, use it
+instead of `useEffect` to subscribe to form values changes:  
+#### Example: onValuesChange  
+```tsx
+import { TextInput } from '@mantine/core';
+import { useForm } from '@mantine/form';
+
+function Demo() {
+const form = useForm({
+mode: 'uncontrolled',
+initialValues: {
+name: '',
+email: '',
+},
+onValuesChange: (values) => {
+console.log(values);
+},
+});
+
+return (
+<div>
+<TextInput
+label=""Name""
+placeholder=""Name""
+key={form.key('name')}
+{...form.getInputProps('name')}
+/>
+<TextInput
+mt=""md""
+label=""Email""
+placeholder=""Email""
+key={form.key('email')}
+{...form.getInputProps('email')}
+/>
+</div>
+);
+}
+```",
+parse_eval2_q014_01,"When I make a change on one tab, I want the other tab to be updated too.",hnsw_ef50_k15,50,15,0.370440873302603,29ec910a-5803-4faf-acb2-7ae6731e0480,"Topic: Tabs
+Section: Vertical tabs placement
+
+To change placement of `Tabs.List` in vertical orientation set `placement` prop:  
+#### Example: placement  
+```tsx
+import { Tabs } from '@mantine/core';
+
+function Demo() {
+return (
+<Tabs defaultValue=""gallery"" orientation=""vertical"">
+<Tabs.List>
+<Tabs.Tab value=""gallery"">Gallery</Tabs.Tab>
+<Tabs.Tab value=""messages"">Messages</Tabs.Tab>
+<Tabs.Tab value=""settings"">Settings</Tabs.Tab>
+</Tabs.List>
+
+<Tabs.Panel value=""gallery"">Gallery tab content</Tabs.Panel>
+<Tabs.Panel value=""messages"">Messages tab content</Tabs.Panel>
+<Tabs.Panel value=""settings"">Settings tab content</Tabs.Panel>
+</Tabs>
+);
+}
+```",
